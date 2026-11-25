@@ -95,7 +95,7 @@ abstract final class AppConfig {
     'OPENROUTER_API_KEY',
     defaultValue: String.fromEnvironment(
       'OXION_API_KEY',
-      defaultValue: '***REMOVED***',
+      defaultValue: '',
     ),
   );
   static const String _envAssistantKeyName = String.fromEnvironment(

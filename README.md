@@ -4,12 +4,12 @@
 
 The app checks the latest **published, non-prerelease** GitHub Release at startup and from **Settings → আপডেট খুঁজুন**. When an update is newer than the installed version, Android downloads the release APK and opens Android's package installer. Android still asks the user to confirm installation. On other platforms, the update prompt links to the release page. The mandatory startup check requires an internet connection so GitHub can confirm there is no newer build.
 
-Set the public GitHub repository in the release build; these are compile-time values and must be the repository that will publish the APK:
+The production GitHub repository is `shahinrezasifat/pharmapath-app`. The automated release workflow sets its owner and name. Local builds can set these values explicitly:
 
 ```powershell
 flutter build apk --release `
-  --dart-define=GITHUB_REPOSITORY_OWNER=YOUR_GITHUB_USERNAME `
-  --dart-define=GITHUB_REPOSITORY_NAME=YOUR_REPOSITORY
+  --dart-define=GITHUB_REPOSITORY_OWNER=shahinrezasifat `
+  --dart-define=GITHUB_REPOSITORY_NAME=pharmapath-app
 ```
 
 The generated universal APK is `build/app/outputs/flutter-apk/app-release.apk`. Publish it as an asset on a GitHub Release whose tag matches the app version (for example `v2.0.0`). Every future release must increment `version:` in `pubspec.yaml`, use the same Android application ID and signing key, attach an `.apk` asset, and use a version tag greater than the installed version. Android will reject an APK signed with a different key or with a non-incremented version code. Do not publish the debug APK.

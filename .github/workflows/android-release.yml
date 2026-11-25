@@ -45,18 +45,11 @@ jobs:
             git log -5 --pretty=format:'- %s' "$(git describe --tags --abbrev=0 "${GITHUB_REF_NAME}^" 2>/dev/null || git rev-list --max-parents=0 HEAD)".."${GITHUB_REF_NAME}" > dist/release/RELEASE_NOTES.md
           fi
           printf '\n\n## Installation\nDownload the APK and install it on Android. The same application ID and signing key are required to update an existing installation.\n' >> dist/release/RELEASE_NOTES.md
-      - name: Capture app screenshots
-        uses: reactivecircus/android-emulator-runner@v2
-        with:
-          api-level: 35
-          arch: x86_64
-          script: |
-            adb install build/app/outputs/flutter-apk/app-release.apk
-            adb shell monkey -p com.pharmapath.pharmapath_app 1
-            sleep 15
-            mkdir -p dist/release/screenshots
-            adb exec-out screencap -p > dist/release/screenshots/home.png
-      - name: Publish GitHub Release
+      - name: Prepare screenshots and publish release
+        shell: bash
         env:
           GH_TOKEN: ${{ github.token }}
-        run: gh release create "${GITHUB_REF_NAME}" dist/release/PharmaPath-${GITHUB_REF_NAME}.apk dist/release/screenshots/home.png --title "PharmaPath ${GITHUB_REF_NAME}" --notes-file dist/release/RELEASE_NOTES.md --target "${GITHUB_SHA}"
+        run: |
+          mkdir -p dist/release/screenshots
+          cp docs/app/screenshots/*.png dist/release/screenshots/
+          gh release create "${GITHUB_REF_NAME}" dist/release/PharmaPath-${GITHUB_REF_NAME}.apk dist/release/screenshots/*.png --title "PharmaPath ${GITHUB_REF_NAME}" --notes-file dist/release/RELEASE_NOTES.md --target "${GITHUB_SHA}"

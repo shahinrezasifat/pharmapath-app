@@ -1,24 +1,64 @@
-# PharmaPath — Flutter medicine catalogue client
+# PharmaPath — ওষুধ জানুন। ভালো বুঝুন।
 
-## GitHub releases and in-app Android updates
+<p align="center">
+  <img src="assets/LOGO.jpg" alt="PharmaPath logo" width="150" />
+</p>
 
-The app checks the latest **published, non-prerelease** GitHub Release at startup and from **Settings → আপডেট খুঁজুন**. When an update is newer than the installed version, Android downloads the release APK and opens Android's package installer. Android still asks the user to confirm installation. On other platforms, the update prompt links to the release page. The mandatory startup check requires an internet connection so GitHub can confirm there is no newer build.
+<p align="center"><strong>বাংলাদেশি ওষুধের তথ্য ও শেখার অফলাইন-ফার্স্ট অ্যাপ</strong></p>
 
-The production GitHub repository is `shahinrezasifat/pharmapath-app`. The automated release workflow sets its owner and name. Local builds can set these values explicitly:
+PharmaPath is a Bangla-first Android app for browsing a locally stored medicine catalogue and learning foundational pharmacy and health topics. Search and saved data are available offline. When connected, users can refresh medicine data and access optional AI assistance. No login or subscription is required.
+
+> **Health information:** Catalogue and learning content may contain errors or omissions and is not clinically verified. Use it for education only; it does not diagnose, prescribe, or replace advice from a licensed clinician. Seek professional advice before acting on medicine information.
+
+## Screenshots
+
+### Home
+![PharmaPath home screen](docs/app/screenshots/home.png)
+
+### Learning
+![PharmaPath learning screen](docs/app/screenshots/learning.png)
+
+### Settings
+![PharmaPath settings screen](docs/app/screenshots/settings.png)
+
+## App details
+
+- **Medicine catalogue:** bundled SQLite data, full-text search, detailed medicine records, favourites, and history.
+- **Learning:** Bangla courses and lessons, body-system references, medical terms, quizzes, and learning progress.
+- **Patient tools:** locally stored patient profiles, medication lists, and consultation support.
+- **AI assistance:** optional Bangla and English learning and health assistance; generated responses can be wrong.
+- **Privacy and offline use:** no app account; saved records, favourites, history, and learning progress remain on the device. Network access is used for medicine sync, optional AI services, and checking GitHub releases.
+- **Backup:** export and restore local app data.
+- **Platform:** Android APK; minimum Android version follows the Flutter project configuration.
+- **Package ID:** `com.pharmapath.pharmapath_app`.
+- **Current version:** 2.0.0.
+
+## Download
+
+Get the latest Android installer from [GitHub Releases](https://github.com/shahinrezasifat/pharmapath-app/releases/latest). Android will ask you to confirm installation. In-app update checks require an internet connection. Keep the release signing key and Android package ID unchanged for future in-place updates.
+
+## Source and data
+
+PharmaPath includes independently developed UI, learning materials, and locally bundled medicine reference data. It is not affiliated with MedEx or a medicine manufacturer. Data source and license details are shown in the app under Settings → Privacy and data sources. Do not use the catalogue as clinical guidance.
+
+## Build from source
 
 ```powershell
+flutter pub get
 flutter build apk --release `
   --dart-define=GITHUB_REPOSITORY_OWNER=shahinrezasifat `
   --dart-define=GITHUB_REPOSITORY_NAME=pharmapath-app
 ```
 
-The generated universal APK is `build/app/outputs/flutter-apk/app-release.apk`. Publish it as an asset on a GitHub Release whose tag matches the app version (for example `v2.0.0`). Every future release must increment `version:` in `pubspec.yaml`, use the same Android application ID and signing key, attach an `.apk` asset, and use a version tag greater than the installed version. Android will reject an APK signed with a different key or with a non-incremented version code. Do not publish the debug APK.
+The APK is written to `build/app/outputs/flutter-apk/app-release.apk`. Release signing configuration is kept outside the public repository; see below before creating a new release.
+
+## GitHub releases and in-app Android updates
+
+The app checks the latest **published, non-prerelease** GitHub Release at startup and from **Settings → আপডেট খুঁজুন**. When an update is newer than the installed version, Android downloads the release APK and opens Android's package installer. Android still asks the user to confirm installation. On other platforms, the update prompt links to the release page. The mandatory startup check requires an internet connection so GitHub can confirm there is no newer build.
+
+Publish each APK as an asset on a GitHub Release whose tag matches the app version (for example `v2.0.0`). Every future release must increment `version:` in `pubspec.yaml`, use the same Android application ID and signing key, attach an `.apk` asset, and use a version tag greater than the installed version. Android will reject an APK signed with a different key or with a non-incremented version code. Do not publish the debug APK.
 
 To publish tagged builds automatically, push `.github/workflows/android-release.yml` to the repository, then push a version tag such as `v2.0.0`. The workflow builds the APK using the actual GitHub owner/repository values and attaches it to a GitHub Release. For upgrade compatibility, add `ANDROID_KEYSTORE_BASE64` (the base64 encoded signing keystore) and `ANDROID_KEY_PROPERTIES` (the four `key.properties` lines, with `storeFile=android/pharmapath-release.keystore`) as repository Actions secrets before publishing. Existing local key files are intentionally excluded from Git. Keep the signing key and package ID stable across upgrades; without these secrets, the workflow creates a debug-signed APK for first installs, which cannot update an APK signed with a different key.
-
-### Screenshots
-
-GitHub Actions captures real home, learning, and settings screens on an Android emulator and attaches them to each GitHub Release.
 
 PharmaPath is a Flutter client for the medicine-catalogue HTTP API that was
 documented during the static reverse-engineering study of the shipped MedEx

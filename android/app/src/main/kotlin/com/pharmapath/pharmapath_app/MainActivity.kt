@@ -8,6 +8,7 @@ import androidx.core.content.FileProvider
 import io.flutter.embedding.android.FlutterActivity
 import io.flutter.embedding.engine.FlutterEngine
 import io.flutter.plugin.common.MethodChannel
+import io.flutter.plugins.pathprovider.PathProviderPlugin
 import java.io.File
 
 class MainActivity : FlutterActivity() {
@@ -15,6 +16,12 @@ class MainActivity : FlutterActivity() {
 
     override fun configureFlutterEngine(flutterEngine: FlutterEngine) {
         super.configureFlutterEngine(flutterEngine)
+        // Recent Flutter tooling may omit this legacy plugin from automatic
+        // registration when building with the AGP 9 plugin loader. GetStorage
+        // depends on it to resolve its app documents directory.
+        if (!flutterEngine.plugins.has(PathProviderPlugin::class.java)) {
+            flutterEngine.plugins.add(PathProviderPlugin())
+        }
         MethodChannel(flutterEngine.dartExecutor.binaryMessenger, updateChannel)
             .setMethodCallHandler { call, result ->
                 when (call.method) {

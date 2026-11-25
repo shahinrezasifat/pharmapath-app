@@ -1,0 +1,1383 @@
+{
+  "version": 1,
+  "body_systems": [
+    {
+      "id": "shoulder-arm",
+      "name_bn": "কাঁধ, বাহু ও কনুই",
+      "name_en": "Shoulder, Arm & Elbow",
+      "description_bn": "কাঁধের জমট, বাহুর পেশি ও কনুইয়ের ব্যথা-আঘাতের অঞ্চল—নড়াচড়া ও উঠোনে কাজের রোগ বেশি।",
+      "description_en": "Shoulder joint, upper arm and elbow: pain, stiffness and overuse injuries.",
+      "icon_key": "accessibility_new",
+      "group": "organ",
+      "body_parts": [
+        {
+          "id": "shoulder-arm-part1",
+          "body_system_id": "shoulder-arm",
+          "name_bn": "কাঁধের জমট ও রোটেশন কাফ",
+          "name_en": "Shoulder joint & rotator cuff",
+          "description": "হাত ঘোরানো, উপরে তোলা ও ভারি বহনের পেশি-আঘাত।"
+        },
+        {
+          "id": "shoulder-arm-part2",
+          "body_system_id": "shoulder-arm",
+          "name_bn": "বাহুর পেশি ও কনুই",
+          "name_en": "Upper arm & elbow",
+          "description": "টেন্ডন, পেশি টান ও কনুইয়ের বার বার ব্যথা।"
+        }
+      ],
+      "related_course_ids": [
+        "shoulder-elbow-pain"
+      ]
+    },
+    {
+      "id": "wrist-hand",
+      "name_bn": "হাত, কব্জি ও আঙুল",
+      "name_en": "Wrist, Hand & Fingers",
+      "description_bn": "লিখতে-টাইপ করতে, কাপড় ধুতে বা যন্ত্র চালাতে কব্জি-আঙুলের ব্যথা, ঝিমঝিম ও মোটা হওয়া।",
+      "description_en": "Hand, wrist and finger pain, numbness and swelling from work and daily use.",
+      "icon_key": "accessibility_new",
+      "group": "organ",
+      "body_parts": [
+        {
+          "id": "wrist-hand-part1",
+          "body_system_id": "wrist-hand",
+          "name_bn": "কব্জি ও টানেল",
+          "name_en": "Wrist & carpal tunnel",
+          "description": "নাড়ির উপর দিয়ে স্নায়ু চাপা পড়ার জায়গা।"
+        },
+        {
+          "id": "wrist-hand-part2",
+          "body_system_id": "wrist-hand",
+          "name_bn": "আঙুলের জমট ও নখ",
+          "name_en": "Finger joints & nails",
+          "description": "ক্ষুদ্র জমট, গাঁট ও নখের রোগ।"
+        }
+      ],
+      "related_course_ids": [
+        "gout-arthritis",
+        "hand-wrist-numb"
+      ]
+    },
+    {
+      "id": "hip-thigh",
+      "name_bn": "কুচি, উরু ও হাঁটু",
+      "name_en": "Hip, Thigh & Groin",
+      "description_bn": "হাঁটায় কুচি ব্যথা, উরুর পেশি টান ও হাঁটুর ফোলা-আঘাতের অঞ্চল।",
+      "description_en": "Hip, thigh and groin region: pain, muscle strain and swelling.",
+      "icon_key": "accessibility_new",
+      "group": "organ",
+      "body_parts": [
+        {
+          "id": "hip-thigh-part1",
+          "body_system_id": "hip-thigh",
+          "name_bn": "কুচির জমট",
+          "name_en": "Hip joint",
+          "description": "দেহবহন বহন করা বড় জমট ও তার বগল।"
+        },
+        {
+          "id": "hip-thigh-part2",
+          "body_system_id": "hip-thigh",
+          "name_bn": "উরুর পেশি ও হাঁটুর বগল",
+          "name_en": "Thigh muscles & groin",
+          "description": "পেশি টান, হার্নিয়া-প্রবণ অঞ্চল।"
+        }
+      ],
+      "related_course_ids": [
+        "hip-knee-thigh-pain"
+      ]
+    },
+    {
+      "id": "leg-feet",
+      "name_bn": "পায়ের নিচের অংশ ও পা",
+      "name_en": "Lower Leg, Ankle & Foot",
+      "description_bn": "হাঁটুতে ব্যথা, গোড়ালি মোচড়, এড়া-পা ব্যথা, নখ-ত্বকের সমস্যা ও ফোলা।",
+      "description_en": "Lower leg, ankle and foot: strain, sprain, heel pain, nail and skin problems.",
+      "icon_key": "accessibility_new",
+      "group": "organ",
+      "body_parts": [
+        {
+          "id": "leg-feet-part1",
+          "body_system_id": "leg-feet",
+          "name_bn": "গোড়ালি ও পায়ের হাড়",
+          "name_en": "Ankle & foot bones",
+          "description": "মোচড়, হাড়ের গাঁট ও তলা।"
+        },
+        {
+          "id": "leg-feet-part2",
+          "body_system_id": "leg-feet",
+          "name_bn": "পায়ের ত্বক ও নখ",
+          "name_en": "Foot skin & nails",
+          "description": "ফোলা, খসখসে ত্বক ও নখে ছোঁয়াচ।"
+        }
+      ],
+      "related_course_ids": [
+        "gout-arthritis",
+        "leg-swelling"
+      ]
+    },
+    {
+      "id": "spine-back",
+      "name_bn": "পৃষ্ঠদেশ ও কশেরুকা",
+      "name_en": "Spine & Back",
+      "description_bn": "ঘাড়, পিঠ ও কোমরের কশেরুকা—বসা-উঠা, ভার তোলা ও শলাকা টানার ব্যথার কেন্দ্র।",
+      "description_en": "Cervical, thoracic and lumbar spine: posture, lifting and nerve-root pain.",
+      "icon_key": "accessibility_new",
+      "group": "organ",
+      "body_parts": [
+        {
+          "id": "spine-back-part1",
+          "body_system_id": "spine-back",
+          "name_bn": "কোমরের কশেরুকা ও ডিস্ক",
+          "name_en": "Lumbar spine & discs",
+          "description": "তলা-ফসার ডিস্ক ও শলাকা নির্গমন।"
+        },
+        {
+          "id": "spine-back-part2",
+          "body_system_id": "spine-back",
+          "name_bn": "ঘাড় ও পিঠের উপরের অংশ",
+          "name_en": "Neck & upper back",
+          "description": "বসা-ভুল, পেশি টান ও ঘাড়-শিরা।"
+        }
+      ],
+      "related_course_ids": [
+        "back-spine-pain"
+      ]
+    },
+    {
+      "id": "breast",
+      "name_bn": "স্তন",
+      "name_en": "Breast",
+      "description_bn": "স্তনের ব্যথা, পিণ্ড, দুধ-সংক্রমণ ও পর্যায়ক্রমিক পরীক্ষা—গর্ভাবস্থা থেকে মেনোপজ পর্যন্ত।",
+      "description_en": "Breast pain, lumps, infection, feeding problems and screening.",
+      "icon_key": "female",
+      "group": "organ",
+      "body_parts": [
+        {
+          "id": "breast-part1",
+          "body_system_id": "breast",
+          "name_bn": "স্তন গ্রন্থি ও দুধের নালী",
+          "name_en": "Gland & ducts",
+          "description": "দুধ তৈরি ও বহনের পথ।"
+        },
+        {
+          "id": "breast-part2",
+          "body_system_id": "breast",
+          "name_bn": "স্তনের গ্রন্থি (লসিকা)",
+          "name_en": "Axillary nodes",
+          "description": "বগলের লসিকা-গ্রন্থি।"
+        }
+      ],
+      "related_course_ids": [
+        "breast-lump-care"
+      ]
+    },
+    {
+      "id": "male-reproductive",
+      "name_bn": "পুরুষ প্রজনন অঙ্গ",
+      "name_en": "Male Reproductive Organs",
+      "description_bn": "অন্ডকোষ, শুক্রনালী, প্রোস্টেট ও পুরুষের হরমোন—ব্যথা, ফোলা ও প্রস্রাব-সমস্যার অঙ্গ।",
+      "description_en": "Testes, epididymis, prostate and male hormones: pain, swelling and urinary trouble.",
+      "icon_key": "male",
+      "group": "organ",
+      "body_parts": [
+        {
+          "id": "male-reproductive-part1",
+          "body_system_id": "male-reproductive",
+          "name_bn": "অন্ডকোষ ও শুক্রনালী",
+          "name_en": "Testis & spermatic cord",
+          "description": "শুক্রাণু তৈরি, বহন ও ঝিল্লি।"
+        },
+        {
+          "id": "male-reproductive-part2",
+          "body_system_id": "male-reproductive",
+          "name_bn": "প্রোস্টেট ও শুক্রনালীর মুখ",
+          "name_en": "Prostate & seminal ducts",
+          "description": "প্রস্রাবের পথ ঘিরে গ্রন্থি।"
+        }
+      ],
+      "related_course_ids": [
+        "prostate-urinary"
+      ]
+    },
+    {
+      "id": "female-internal",
+      "name_bn": "জরায়ু, ডিম্বাশয় ও যোনিপথ",
+      "name_en": "Uterus, Ovaries & Vagina",
+      "description_bn": "মাসিক, গর্ভধারণ, যোনিপথের সংক্রমণ ও ডিম্বাশয়ের পিণ্ডর অঙ্গসমূহ।",
+      "description_en": "Uterus, ovaries and vagina: cycles, pregnancy, infection and cysts.",
+      "icon_key": "female",
+      "group": "organ",
+      "body_parts": [
+        {
+          "id": "female-internal-part1",
+          "body_system_id": "female-internal",
+          "name_bn": "জরায়ু ও তার আস্তর",
+          "name_en": "Uterus & endometrium",
+          "description": "মাসিকের আস্তর ও গর্ভধারণ-স্থান।"
+        },
+        {
+          "id": "female-internal-part2",
+          "body_system_id": "female-internal",
+          "name_bn": "ডিম্বাশয় ও শুক্রনালী",
+          "name_en": "Ovary & fallopian tube",
+          "description": "ডিম্বসঞ্চার ও হরমোন।"
+        }
+      ],
+      "related_course_ids": [
+        "menstrual-problems",
+        "vaginal-infection"
+      ]
+    },
+    {
+      "id": "thyroid-parathyroid",
+      "name_bn": "থাইরয়েড ও পারথাইরয়েড",
+      "name_en": "Thyroid & Parathyroid",
+      "description_bn": "ঘাড়ের সামনের এই গ্রন্থি শরীরের জ্বলন-হার (মেটাবলিজম) নিয়ন্ত্রণ করে; ফোলা, কম-বেশি কাজ ও ক্যালসিয়াম সমস্যা।",
+      "description_en": "Neck glands controlling metabolism and calcium: goitre, over/under activity.",
+      "icon_key": "tune",
+      "group": "organ",
+      "body_parts": [
+        {
+          "id": "thyroid-parathyroid-part1",
+          "body_system_id": "thyroid-parathyroid",
+          "name_bn": "থাইরয়েড গ্রন্থি",
+          "name_en": "Thyroid gland",
+          "description": "T3 ও T4 হরমোন তৈরির দ্বি-লোব গ্রন্থি।"
+        },
+        {
+          "id": "thyroid-parathyroid-part2",
+          "body_system_id": "thyroid-parathyroid",
+          "name_bn": "পারথাইরয়েড ও ক্যালসিয়াম",
+          "name_en": "Parathyroid & calcium",
+          "description": "ক্যালসিয়াম-হাড় নিয়ন্ত্রণের গ্রন্থি।"
+        }
+      ],
+      "related_course_ids": [
+        "thyroid-disorder"
+      ]
+    },
+    {
+      "id": "adrenal-pituitary",
+      "name_bn": "অধিবৃক্ক ও পিটুইটারি",
+      "name_en": "Adrenal & Pituitary Glands",
+      "description_bn": "স্ট্রেস-হরমোন ও সব গ্রন্থির \"নিয়ন্ত্রক\" গ্রন্থি—ওজন, চাপ, লোম ও শক্তির অনিয়ম এখান থেকে আসে।",
+      "description_en": "Stress hormones and the master glands behind weight, pressure and energy.",
+      "icon_key": "tune",
+      "group": "organ",
+      "body_parts": [
+        {
+          "id": "adrenal-pituitary-part1",
+          "body_system_id": "adrenal-pituitary",
+          "name_bn": "অধিবৃক্ক গ্রন্থি",
+          "name_en": "Adrenal gland",
+          "description": "কর্টিসোল-অ্যাড্রিনালিনের উৎস।"
+        },
+        {
+          "id": "adrenal-pituitary-part2",
+          "body_system_id": "adrenal-pituitary",
+          "name_bn": "পিটুইটারি গ্রন্থি",
+          "name_en": "Pituitary gland",
+          "description": "মাথার ভেতরের নিয়ন্ত্রক গ্রন্থি।"
+        }
+      ],
+      "related_course_ids": [
+        "pituitary-adrenal"
+      ]
+    },
+    {
+      "id": "pancreas-spleen",
+      "name_bn": "অগ্ন্যাশয় ও প্লীহা",
+      "name_en": "Pancreas & Spleen",
+      "description_bn": "ইনসুলিন-পরিপাক এনজাইম তৈরির অঙ্গ এবং রক্ত-ছাঁকনির প্লীহা—ব্যথা, ফোলা ও রোগের ঝুঁকি।",
+      "description_en": "Insulin and digestive enzymes (pancreas) plus the blood filter (spleen).",
+      "icon_key": "science",
+      "group": "organ",
+      "body_parts": [
+        {
+          "id": "pancreas-spleen-part1",
+          "body_system_id": "pancreas-spleen",
+          "name_bn": "অগ্ন্যাশয়",
+          "name_en": "Pancreas",
+          "description": "ইনসুলিন ও পরিপাক-এনজাইমের উৎস।"
+        },
+        {
+          "id": "pancreas-spleen-part2",
+          "body_system_id": "pancreas-spleen",
+          "name_bn": "প্লীহা",
+          "name_en": "Spleen",
+          "description": "রক্তের ফিল্টার ও প্রতিরোধের অংশ।"
+        }
+      ],
+      "related_course_ids": [
+        "pancreas-spleen-disorder"
+      ]
+    },
+    {
+      "id": "gall-biliary",
+      "name_bn": "পিত্তথলি ও পিত্তনালী",
+      "name_en": "Gallbladder & Biliary Tract",
+      "description_bn": "চর্বি-হজমের পিত্ত সংরক্ষণের থলি ও নালী—পাথর, ফোলা ও হঠাৎ পেট ব্যথার কারণ।",
+      "description_en": "Bile storage and ducts: stones, inflammation and sudden upper-belly pain.",
+      "icon_key": "science",
+      "group": "organ",
+      "body_parts": [
+        {
+          "id": "gall-biliary-part1",
+          "body_system_id": "gall-biliary",
+          "name_bn": "পিত্তথলি",
+          "name_en": "Gallbladder",
+          "description": "পিত্ত জমা থাকা থলি।"
+        },
+        {
+          "id": "gall-biliary-part2",
+          "body_system_id": "gall-biliary",
+          "name_bn": "পিত্তনালী ও যকৃৎ-মুখ",
+          "name_en": "Bile ducts",
+          "description": "যকৃৎ-অন্ত্রের সংযোগপথ।"
+        }
+      ],
+      "related_course_ids": [
+        "gallbladder-stones"
+      ]
+    },
+    {
+      "id": "anal-rectum",
+      "name_bn": "গুদদ্বার ও নিচের অন্ত্র",
+      "name_en": "Anorectal Region",
+      "description_bn": "অর্শ, ফিশার, ফিস্টুল ও রক্তপাত—সবচেয়ে বেশি গোপন করা, অথচ সহজে ধরা পড়ে।",
+      "description_en": "Haemorrhoids, fissure, fistula and bleeding: common, often hidden complaints.",
+      "icon_key": "restaurant",
+      "group": "organ",
+      "body_parts": [
+        {
+          "id": "anal-rectum-part1",
+          "body_system_id": "anal-rectum",
+          "name_bn": "গুদদ্বারের পেশি ও শিরা",
+          "name_en": "Anal canal & veins",
+          "description": "নিয়ন্ত্রণ-পেশি ও অর্শ-প্রবণ শিরা।"
+        },
+        {
+          "id": "anal-rectum-part2",
+          "body_system_id": "anal-rectum",
+          "name_bn": "নিচের অন্ত্রের শেষাংশ",
+          "name_en": "Rectum",
+          "description": "মল-সঞ্চয়ের থলি।"
+        }
+      ],
+      "related_course_ids": [
+        "anorectal-problems"
+      ]
+    },
+    {
+      "id": "conjunctiva-lids",
+      "name_bn": "চোখের পাতা ও শ্বেতাক্ষ",
+      "name_en": "Eyelids & Conjunctiva",
+      "description_bn": "পাতার ফোলা-চুলকানি, ভেতরের পর্দার লালভাব ও শুষ্ক ভাব—সবচেয়ে সাধারণ চোখের অভিযোগ।",
+      "description_en": "Lid swelling, stye, red inner lining and dry-eye surface problems.",
+      "icon_key": "visibility",
+      "group": "organ",
+      "body_parts": [
+        {
+          "id": "conjunctiva-lids-part1",
+          "body_system_id": "conjunctiva-lids",
+          "name_bn": "চোখের পাতা ও ভ্রু-গ্রন্থি",
+          "name_en": "Eyelids & glands",
+          "description": "তেল-গ্রনথি ও পাতার ঢাল।"
+        },
+        {
+          "id": "conjunctiva-lids-part2",
+          "body_system_id": "conjunctiva-lids",
+          "name_bn": "শ্বেতাক্ষের পর্দা",
+          "name_en": "Conjunctiva",
+          "description": "চোখের বাহ্যিক পর্দা।"
+        }
+      ],
+      "related_course_ids": [
+        "red-eye-infection"
+      ]
+    },
+    {
+      "id": "retina-nerve",
+      "name_bn": "রেটিনা ও অপটিক স্নায়ু",
+      "name_en": "Retina & Optic Nerve",
+      "description_bn": "চিত্র-গ্রাহক পর্দা ও তার তার—ডায়াবেটিস, উচ্চ চাপ ও বয়স-জনিত দৃষ্টি-ক্ষতির জায়গা।",
+      "description_en": "Light-sensing layer and its nerve: diabetic, pressure and age-related damage.",
+      "icon_key": "visibility",
+      "group": "organ",
+      "body_parts": [
+        {
+          "id": "retina-nerve-part1",
+          "body_system_id": "retina-nerve",
+          "name_bn": "রেটিনা ও ফোভা",
+          "name_en": "Retina & macula",
+          "description": "কেন্দ্রীয় দেখার স্তর।"
+        },
+        {
+          "id": "retina-nerve-part2",
+          "body_system_id": "retina-nerve",
+          "name_bn": "অপটিক স্নায়ু",
+          "name_en": "Optic nerve",
+          "description": "মাথুর সাথে সংযোগকারী তার।"
+        }
+      ],
+      "related_course_ids": [
+        "cataract-glaucoma"
+      ]
+    },
+    {
+      "id": "ear-balance",
+      "name_bn": "কান ও ভারসাম্য অঙ্গ",
+      "name_en": "Ear & Balance Organs",
+      "description_bn": "বহিঃকর্ণ, মধ্যকর্ণ ও ভেতরের শ্রবণ-ভারসাম্য অঙ্গ—কান ব্যথা, পানি-গড়ানো ও ঘূর্ণির উৎস।",
+      "description_en": "Outer, middle and inner ear: infection, fluid, hearing loss and vertigo.",
+      "icon_key": "hearing",
+      "group": "organ",
+      "body_parts": [
+        {
+          "id": "ear-balance-part1",
+          "body_system_id": "ear-balance",
+          "name_bn": "মধ্যকর্ণ ও চাপ-সমানতার নালী",
+          "name_en": "Middle ear & eustachian tube",
+          "description": "নালী ও কানের ছোট হাড়।"
+        },
+        {
+          "id": "ear-balance-part2",
+          "body_system_id": "ear-balance",
+          "name_bn": "অন্তঃকর্ণ",
+          "name_en": "Inner ear",
+          "description": "শ্রবণ-কণা ও ভারসাম্য অঙ্গ।"
+        }
+      ],
+      "related_course_ids": [
+        "dizziness-fainting",
+        "ear-infection-hearing"
+      ]
+    },
+    {
+      "id": "nasal-sinus",
+      "name_bn": "নাক ও সাইনাস গহ্বর",
+      "name_en": "Nose & Paranasal Sinuses",
+      "description_bn": "নাকের পর্দা, ঘ্রাণ-অঙ্গ ও চারপাশের গহ্বর—ভিড়, সাইনাস, নাক-রক্ত ও নাক ডাকা।",
+      "description_en": "Nasal lining, smell area and surrounding cavities: block, sinusitis, snoring.",
+      "icon_key": "air",
+      "group": "organ",
+      "body_parts": [
+        {
+          "id": "nasal-sinus-part1",
+          "body_system_id": "nasal-sinus",
+          "name_bn": "নাকের পর্দা ও ঘ্রাণ-অঙ্গ",
+          "name_en": "Nasal mucosa & smell",
+          "description": "শ্বাস-ছাঁকনি ও ঘ্রাণের জায়গা।"
+        },
+        {
+          "id": "nasal-sinus-part2",
+          "body_system_id": "nasal-sinus",
+          "name_bn": "সাইনাস গহ্বর",
+          "name_en": "Paranasal sinuses",
+          "description": "হাড়ের ভেতরের খোপ।"
+        }
+      ],
+      "related_course_ids": [
+        "sinus-snoring"
+      ]
+    },
+    {
+      "id": "saliva-jaw",
+      "name_bn": "লালা-গ্রন্থি ও চোয়াল",
+      "name_en": "Salivary Glands & Temporomandibular Joint",
+      "description_bn": "কানের সামনে-নিচে খাবার-চিবানোর জমট ও লালা-গ্রন্থি: আটকানো, ফোলা ও শব্দ।",
+      "description_en": "Chewing joint and saliva glands: locking, swelling, clicking and dry mouth.",
+      "icon_key": "restaurant",
+      "group": "organ",
+      "body_parts": [
+        {
+          "id": "saliva-jaw-part1",
+          "body_system_id": "saliva-jaw",
+          "name_bn": "চিবানোর জমট (TMJ)",
+          "name_en": "Temporomandibular joint",
+          "description": "চোয়াল-হাড়ের জমট ও কুশন।"
+        },
+        {
+          "id": "saliva-jaw-part2",
+          "body_system_id": "saliva-jaw",
+          "name_bn": "লালা-গ্রন্থি",
+          "name_en": "Salivary glands",
+          "description": "মুখের ভেজা ও হজম-শুরু।"
+        }
+      ],
+      "related_course_ids": [
+        "gum-tooth-care"
+      ]
+    },
+    {
+      "id": "throat-neck",
+      "name_bn": "গলবিল, স্বরযন্ত্র ও ঘাড়",
+      "name_en": "Pharynx, Larynx & Neck",
+      "description_bn": "গিলন, স্বর, থাইরয়েডের আশপাশের গ্রন্থি ও ঘাড়ের ফোলা—স্বর বসে যাওয়ায় বিপদ সংকেত আছে।",
+      "description_en": "Swallowing, voice box, neck glands and neck swelling with red flags.",
+      "icon_key": "hearing",
+      "group": "organ",
+      "body_parts": [
+        {
+          "id": "throat-neck-part1",
+          "body_system_id": "throat-neck",
+          "name_bn": "স্বরযন্ত্র ও গলবিল",
+          "name_en": "Larynx & pharynx",
+          "description": "স্বর-তন্ত্রী ও গিলনের পথ।"
+        },
+        {
+          "id": "throat-neck-part2",
+          "body_system_id": "throat-neck",
+          "name_bn": "ঘাড়ের লসিকা-গ্রন্থি",
+          "name_en": "Neck lymph nodes",
+          "description": "সংক্রমণ-রোগে ফোলা গ্রন্থি।"
+        }
+      ],
+      "related_course_ids": [
+        "sore_throat_master"
+      ]
+    },
+    {
+      "id": "lymph-nodes",
+      "name_bn": "লসিকা-গ্রন্থি ও প্রতিরোধ-পথ",
+      "name_en": "Lymph Nodes & Immune Pathway",
+      "description_bn": "গলা, বগল, হাঁটু ও পেটের গ্রন্থি—কখন সংক্রমণে সাময়িক ফোলে, কখন বিপদের সংকেত।",
+      "description_en": "Nodes in neck, armpit, groin and abdomen: reactive swelling versus danger.",
+      "icon_key": "bloodtype",
+      "group": "organ",
+      "body_parts": [
+        {
+          "id": "lymph-nodes-part1",
+          "body_system_id": "lymph-nodes",
+          "name_bn": "পরিধের গ্রন্থি",
+          "name_en": "Peripheral nodes",
+          "description": "গলা-বগল-হাঁটুর ছোঁয়া পাওয়া গ্রন্থি।"
+        },
+        {
+          "id": "lymph-nodes-part2",
+          "body_system_id": "lymph-nodes",
+          "name_bn": "অন্তঃগ্রন্থি বগল",
+          "name_en": "Deep/abdominal nodes",
+          "description": "পেট-বুকের ভেতরের শৃঙ্খল।"
+        }
+      ],
+      "related_course_ids": [
+        "dengue-malaria-fever",
+        "swollen-lymph-nodes"
+      ]
+    },
+    {
+      "id": "skin-appendages",
+      "name_bn": "ঘাম, তেল গ্রন্থি ও নখ",
+      "name_en": "Sweat & Sebaceous Glands, Nails",
+      "description_bn": "ঘামের ফলা, গন্ধ, ব্রণ ও নখের রং-গঠনের বদল—অঙ্গের বাহ্যিক লক্ষণ।",
+      "description_en": "Sweat and oil glands, acne and nail colour/shape changes as body signs.",
+      "icon_key": "spa",
+      "group": "organ",
+      "body_parts": [
+        {
+          "id": "skin-appendages-part1",
+          "body_system_id": "skin-appendages",
+          "name_bn": "ঘাম ও তেল-গ্রন্থি",
+          "name_en": "Sweat & sebaceous glands",
+          "description": "তাপ-নিয়ন্ত্রণ ও তৈলাক্ত পৃষ্ঠ।"
+        },
+        {
+          "id": "skin-appendages-part2",
+          "body_system_id": "skin-appendages",
+          "name_bn": "নখ ও তার গোড়া",
+          "name_en": "Nail & matrix",
+          "description": "নখ গজানোর জায়গা ও পাত।"
+        }
+      ],
+      "related_course_ids": [
+        "acne-pimple-marks",
+        "allergy-itch-hives",
+        "burns-scalds",
+        "hair-nail-loss"
+      ]
+    },
+    {
+      "id": "muscle-tendon",
+      "name_bn": "পেশি, টানেল ও টেন্ডন",
+      "name_en": "Muscles, Tendons & Ligaments",
+      "description_bn": "দৌঁড়-ঝাঁপ-বহনের অঙ্গ: টান, টেন্ডনাইটিস, টান-বেধা ক্র্যাম্প ও দীর্ঘ অচলতা।",
+      "description_en": "Movement tissues: strains, tendinitis, cramps and stiffness from inactivity.",
+      "icon_key": "accessibility_new",
+      "group": "organ",
+      "body_parts": [
+        {
+          "id": "muscle-tendon-part1",
+          "body_system_id": "muscle-tendon",
+          "name_bn": "পেশি ও তার আবরণ",
+          "name_en": "Muscle & fascia",
+          "description": "সংকোচন ও শক্তি-সঞ্চয়ের পেশি।"
+        },
+        {
+          "id": "muscle-tendon-part2",
+          "body_system_id": "muscle-tendon",
+          "name_bn": "টেন্ডন ও লিগামেন্ট",
+          "name_en": "Tendons & ligaments",
+          "description": "হাড়-পেশি ও হাড়-হাড় সংযোগ।"
+        }
+      ],
+      "related_course_ids": [
+        "shoulder-elbow-pain"
+      ]
+    },
+    {
+      "id": "joints",
+      "name_bn": "জমট ও তার আবরণ",
+      "name_en": "Joints & Synovium",
+      "description_bn": "ঘষা-মোচড়ের জায়গা: ক্ষয় (osteoarthritis), প্রদাহ (arthritis), পিণ্ড ও আটকে যাওয়া।",
+      "description_en": "Joint surfaces and lining: wear, inflammation, lumps and locking.",
+      "icon_key": "accessibility_new",
+      "group": "organ",
+      "body_parts": [
+        {
+          "id": "joints-part1",
+          "body_system_id": "joints",
+          "name_bn": "জমটের তরুণা ও ক্যাপসুল",
+          "name_en": "Cartilage & capsule",
+          "description": "ঘষা কমানোর আস্তর ও থলি।"
+        },
+        {
+          "id": "joints-part2",
+          "body_system_id": "joints",
+          "name_bn": "সাইনোভিয়াল পর্দা",
+          "name_en": "Synovial lining",
+          "description": "জমটের স্নেহরস তৈরির পর্দা।"
+        }
+      ],
+      "related_course_ids": [
+        "gout-arthritis",
+        "hip-knee-thigh-pain"
+      ]
+    },
+    {
+      "id": "bones",
+      "name_bn": "হাড় ও খনিজের ভাণ্ডার",
+      "name_en": "Bones & Mineral Store",
+      "description_bn": "দেহের কাঠামো ও ক্যালসিয়ামের ভাণ্ডার—ভঙ্গি, দুর্বলতা (osteoporosis) ও ব্যথা।",
+      "description_en": "Skeleton and calcium store: posture, fragility, fractures and bone pain.",
+      "icon_key": "accessibility_new",
+      "group": "organ",
+      "body_parts": [
+        {
+          "id": "bones-part1",
+          "body_system_id": "bones",
+          "name_bn": "বহিঃস্থ কঠিন হাড়",
+          "name_en": "Cortical bone",
+          "description": "মজবুত বাহ্যিক স্তর।"
+        },
+        {
+          "id": "bones-part2",
+          "body_system_id": "bones",
+          "name_bn": "ভেতরের সপঞ্জি হাড় ও মজ্জা",
+          "name_en": "Trabecular bone & marrow",
+          "description": "রক্ত-তৈরির ভেতরের জাল।"
+        }
+      ],
+      "related_course_ids": [
+        "bone-fracture-healing",
+        "osteoporosis-bones"
+      ]
+    },
+    {
+      "id": "pelvis-perineum",
+      "name_bn": "শ্রোণী ও মধ্যবর্তী অঞ্চল",
+      "name_en": "Pelvis & Perineum",
+      "description_bn": "প্রস্রাব-মল-প্রজনন কাজের কেন্দ্রভূমি: প্রস্রাবে জ্বালা, নিচে ব্যথা ও বসার অস্বস্তি।",
+      "description_en": "Bowel, bladder and reproductive hub: burning, pelvic pain and sitting discomfort.",
+      "icon_key": "female",
+      "group": "organ",
+      "body_parts": [
+        {
+          "id": "pelvis-perineum-part1",
+          "body_system_id": "pelvis-perineum",
+          "name_bn": "শ্রোণীর তলা-পেশি",
+          "name_en": "Pelvic floor",
+          "description": "ধরে রাখার পেশির জাল।"
+        },
+        {
+          "id": "pelvis-perineum-part2",
+          "body_system_id": "pelvis-perineum",
+          "name_bn": "মধ্যবর্তী ত্বক",
+          "name_en": "Perineum",
+          "description": "গুদদ্বার-প্রস্রাব দ্বারের মধ্যবর্তী ত্বক।"
+        }
+      ],
+      "related_course_ids": [
+        "urine-infection"
+      ]
+    },
+    {
+      "id": "chest-region",
+      "name_bn": "বুক ও পাঁজর",
+      "name_en": "Chest & Ribs",
+      "description_bn": "পাঁজরের ব্যথা, শ্বাসকষ্ট ও বুক-চাপ—হৃৎপিণ্ড-ফুসফুস বনাম পেশি-জমটের ব্যথা আলাদা করা।",
+      "description_en": "Rib and chest-wall pain versus heart-lung pressure and breathlessness.",
+      "icon_key": "favorite",
+      "group": "region",
+      "body_parts": [
+        {
+          "id": "chest-region-part1",
+          "body_system_id": "chest-region",
+          "name_bn": "পাঁজর ও বুক-হাড়",
+          "name_en": "Ribs & sternum",
+          "description": "বুক-খাঁচার হাড়।"
+        },
+        {
+          "id": "chest-region-part2",
+          "body_system_id": "chest-region",
+          "name_bn": "বুকের পেশি ও পর্দা",
+          "name_en": "Chest wall",
+          "description": "ব্যথায় প্রায়ই আসল উৎস না-ধরা পেশি-স্তর।"
+        }
+      ],
+      "related_course_ids": [
+        "chest-pain-angina",
+        "cold-cough-flu",
+        "palpitation-irregular-beat"
+      ]
+    },
+    {
+      "id": "abdomen",
+      "name_bn": "উদর ও তার চার ভাগ",
+      "name_en": "Abdomen & Its Quadrants",
+      "description_bn": "পেটের উপর-নিচ, ডান-বাম ভাগ অনুযায়ী কারণ আলাদা করা—কোন ব্যথা কোন অঙ্গের ইঙ্গিত।",
+      "description_en": "Upper/lower, right/left abdominal pain mapped to the organ involved.",
+      "icon_key": "restaurant",
+      "group": "region",
+      "body_parts": [
+        {
+          "id": "abdomen-part1",
+          "body_system_id": "abdomen",
+          "name_bn": "উপরের উদর (ইপিগ্যাস্ট্রিক)",
+          "name_en": "Upper abdomen",
+          "description": "পাকস্থলী, যকৃৎ, অগ্ন্যাশয়ের এলাকা।"
+        },
+        {
+          "id": "abdomen-part2",
+          "body_system_id": "abdomen",
+          "name_bn": "নিচের উদর ও হাঁটু",
+          "name_en": "Lower abdomen & groin",
+          "description": "অন্ত্র, প্রস্রাব-প্রজনন অঙ্গ ও হাঁটুর বগল।"
+        }
+      ],
+      "related_course_ids": [
+        "stomach-pain-guide"
+      ]
+    },
+    {
+      "id": "throat-shoulder-region",
+      "name_bn": "ঘাড়, কাঁধ ও পিঠের উপরের অংশ",
+      "name_en": "Neck, Shoulder & Upper Back",
+      "description_bn": "দীর্ঘ বসা-মোবাইল-ভার বহনে জমট-পেশির ব্যথা, মাথা-সম্পর্কিত ঘাড় ব্যথা।",
+      "description_en": "Posture and load related neck-shoulder-upper-back pain and headache link.",
+      "icon_key": "accessibility_new",
+      "group": "region",
+      "body_parts": [
+        {
+          "id": "throat-shoulder-region-part1",
+          "body_system_id": "throat-shoulder-region",
+          "name_bn": "ঘাড়ের কশেরুকা ও পেশি",
+          "name_en": "Cervical spine & muscles",
+          "description": "মাথার ভার বহনকারী অংশ।"
+        },
+        {
+          "id": "throat-shoulder-region-part2",
+          "body_system_id": "throat-shoulder-region",
+          "name_bn": "কাঁধ-পিঠের জমট",
+          "name_en": "Shoulder-blade joints",
+          "description": "হাত-কাঁধের সংযোগের গাঁট।"
+        }
+      ],
+      "related_course_ids": [
+        "asthma-wheezing",
+        "back-spine-pain",
+        "headache-migraine"
+      ]
+    },
+    {
+      "id": "extremities",
+      "name_bn": "হাত-পা (দৈহিক প্রান্ত)",
+      "name_en": "Arms & Legs (Extremities)",
+      "description_bn": "ফোলা, বর্ণ বদল, ঠান্ডা-গরম অনুভব ও নাড়ির দুর্বলতা—রক্তসঞ্চালন-স্নায়ুর প্রান্তীয় অঞ্চল।",
+      "description_en": "Swelling, colour, temperature and pulse changes in the limbs.",
+      "icon_key": "water_drop",
+      "group": "region",
+      "body_parts": [
+        {
+          "id": "extremities-part1",
+          "body_system_id": "extremities",
+          "name_bn": "ধমনী-শিরা প্রান্ত",
+          "name_en": "Peripheral vessels",
+          "description": "হাত-পায়ের রক্ত-নালী।"
+        },
+        {
+          "id": "extremities-part2",
+          "body_system_id": "extremities",
+          "name_bn": "প্রান্তীয় স্নায়ু",
+          "name_en": "Peripheral nerves",
+          "description": "অবশ-ঝিমঝিমের পথ।"
+        }
+      ],
+      "related_course_ids": [
+        "leg-swelling"
+      ]
+    },
+    {
+      "id": "puberty-teen",
+      "name_bn": "কৈশোর ও বাল্য-পরিবর্তন",
+      "name_en": "Puberty & Adolescent Health",
+      "description_bn": "১০-১৯ বছরের শারীরিক-মানসিক পরিবর্তন, ব্রণ, মাসিক-শুরু, উচ্চতা ও আচরণগত ঝুঁকি।",
+      "description_en": "Adolescent physical-mental change, acne, first periods, growth and risk behaviour.",
+      "icon_key": "child",
+      "group": "life",
+      "body_parts": [
+        {
+          "id": "puberty-teen-part1",
+          "body_system_id": "puberty-teen",
+          "name_bn": "হরমোন ও শারীরিক পরিবর্তন",
+          "name_en": "Hormonal changes",
+          "description": "বৃদ্ধি, গলার স্বর, মাসিক।"
+        },
+        {
+          "id": "puberty-teen-part2",
+          "body_system_id": "puberty-teen",
+          "name_bn": "পুষ্টি ও আচরণ ঝুঁকি",
+          "name_en": "Nutrition & behaviour risk",
+          "description": "জাঙ্ক ফুড, স্ক্রিন, ধূমপান-শুরু।"
+        }
+      ],
+      "related_course_ids": [
+        "teen-health"
+      ]
+    },
+    {
+      "id": "pregnancy-postpartum",
+      "name_bn": "গর্ভাবস্থা ও প্রসবোত্তর যত্ন",
+      "name_en": "Pregnancy & Postpartum Care",
+      "description_bn": "৯ মাসের নিয়মিত চেকআপ, রক্ত-শর্করা-চাপ পর্যবেক্ষণ, প্রসব পরে দুধ-মন-শরীরের যত্ন।",
+      "description_en": "Antenatal routines, blood-sugar-pressure watch and postpartum feeding and mood care.",
+      "icon_key": "female",
+      "group": "life",
+      "body_parts": [
+        {
+          "id": "pregnancy-postpartum-part1",
+          "body_system_id": "pregnancy-postpartum",
+          "name_bn": "জরায়ু ও প্লেসেন্টা",
+          "name_en": "Uterus & placenta",
+          "description": "শিশুর বৃদ্ধি ও পুষ্টির অঙ্গ।"
+        },
+        {
+          "id": "pregnancy-postpartum-part2",
+          "body_system_id": "pregnancy-postpartum",
+          "name_bn": "স্তন ও দুধ-নির্গমন",
+          "name_en": "Breast & lactation",
+          "description": "প্রসবোত্তর দুধ ও সংক্রমণ।"
+        }
+      ],
+      "related_course_ids": [
+        "pregnancy-care"
+      ]
+    },
+    {
+      "id": "newborn-infant",
+      "name_bn": "নবজাতক ও শিশু (০-২ বছর)",
+      "name_en": "Newborn & Infant (0-2 years)",
+      "description_bn": "জন্মের পর ওজন-ঢেউ, খাওয়ানো, টিকা, নিঃশ্বাস-গতি ও বিপদ সংকেত চেনা।",
+      "description_en": "Feeding, weight pattern, vaccines, breathing rate and danger signs in infants.",
+      "icon_key": "child",
+      "group": "life",
+      "body_parts": [
+        {
+          "id": "newborn-infant-part1",
+          "body_system_id": "newborn-infant",
+          "name_bn": "নবজাতকের প্রতিরোধ",
+          "name_en": "Newborn immunity",
+          "description": "মাতৃ-সম-দুধ ও টিকার শুরু।"
+        },
+        {
+          "id": "newborn-infant-part2",
+          "body_system_id": "newborn-infant",
+          "name_bn": "বৃদ্ধি-মাপকাঠি",
+          "name_en": "Growth chart",
+          "description": "ওজন-উচ্চতা-মাথার পরিধি।"
+        }
+      ],
+      "related_course_ids": [
+        "infant-feeding-weights"
+      ]
+    },
+    {
+      "id": "menopause",
+      "name_bn": "মেনোপজ ও পরবর্তী যত্ন",
+      "name_en": "Menopause & Later Life",
+      "description_bn": "মাসিক বন্ধ হওয়ার আগাম-পরে গরম-ভাব, ঘুম, হাড় পাতলা ও মানসিক পরিবর্তন।",
+      "description_en": "Hot flushes, sleep, mood and bone loss around and after the end of periods.",
+      "icon_key": "female",
+      "group": "life",
+      "body_parts": [
+        {
+          "id": "menopause-part1",
+          "body_system_id": "menopause",
+          "name_bn": "হরমোন-পরিবর্তন",
+          "name_en": "Hormonal transition",
+          "description": "ইস্ট্রোজেন-পতনের প্রভাব।"
+        },
+        {
+          "id": "menopause-part2",
+          "body_system_id": "menopause",
+          "name_bn": "হাড় ও হৃদ-রক্তনালী",
+          "name_en": "Bone & heart risk",
+          "description": "পোস্ট-মেনোপজ ঝুঁকি-পরিবর্তন।"
+        }
+      ],
+      "related_course_ids": [
+        "menopause-care"
+      ]
+    },
+    {
+      "id": "men-health",
+      "name_bn": "পুরুষ স্বাস্থ্য",
+      "name_en": "Men's Health",
+      "description_bn": "টেস্টোস্টেরন, প্রোস্টেট, বন্ধ্যতা ও পেশাগত ঝুঁকির বিষয়ে খোলামেলা তথ্য।",
+      "description_en": "Testosterone, prostate, erectile and fertility concerns, and work-related risk.",
+      "icon_key": "male",
+      "group": "life",
+      "body_parts": [
+        {
+          "id": "men-health-part1",
+          "body_system_id": "men-health",
+          "name_bn": "হরমোন ও শুক্রতৈরি",
+          "name_en": "Hormones & fertility",
+          "description": "টেস্টোস্টেরন ও শুক্রাণু।"
+        },
+        {
+          "id": "men-health-part2",
+          "body_system_id": "men-health",
+          "name_bn": "প্রোস্টেট ও প্রস্রাব",
+          "name_en": "Prostate & urinary",
+          "description": "বয়সে পরিবর্তিত প্রস্রাবের পথ।"
+        }
+      ],
+      "related_course_ids": [
+        "male-health"
+      ]
+    },
+    {
+      "id": "travel-health",
+      "name_bn": "ভ্রমণ ও পরিযায়ী স্বাস্থ্য",
+      "name_en": "Travel & Migrant Health",
+      "description_bn": "দীর্ঘ যাত্রা, বিদেশ-কাজ, জলবায়ু-পরিবর্তন, উঁচু জায়গা ও সংক্রামক এলাকার ঝুঁকি।",
+      "description_en": "Long journeys, overseas work, altitude, climate and endemic-area risks.",
+      "icon_key": "air",
+      "group": "life",
+      "body_parts": [
+        {
+          "id": "travel-health-part1",
+          "body_system_id": "travel-health",
+          "name_bn": "দীর্ঘ যাত্রা ও বসে-থাকা",
+          "name_en": "Long journeys & sitting still",
+          "description": "পা-ফোলা, ঝিমঝিম ও জমাট-বাঁধার ঝুঁকি-মধ্য-মধ্যায় হাঁটা-পানি।"
+        },
+        {
+          "id": "travel-health-part2",
+          "body_system_id": "travel-health",
+          "name_bn": "উঁচু জায়গা ও তাপের ঝুঁকি",
+          "name_en": "Altitude, heat & cold exposure",
+          "description": "শ্বাসকষ্ট, মাথাঘোরানো, রোদ-পোড়া ও ডিহাইড্রেশনের অঞ্চল।"
+        },
+        {
+          "id": "travel-health-part3",
+          "body_system_id": "travel-health",
+          "name_bn": "বিদেশ-কাজ ও ফেরত-স্বাস্থ্য",
+          "name_en": "Overseas work & return health",
+          "description": "পরিযায়ী শ্রমিকের জ্বর, উদররোগ, টিকা ও মানসিক চাপের পর্যায়।"
+        }
+      ],
+      "related_course_ids": [
+        "travel-illness"
+      ]
+    },
+    {
+      "id": "occupational-health",
+      "name_bn": "পেশাগত স্বাস্থ্য",
+      "name_en": "Occupational & Workplace Health",
+      "description_bn": "কল-গার্মেন্টস-চাষ-গাড়ি-নির্মাণের ঝুঁকি: ধুলা-রাসায়নিক-শব্দ-ভার-বসা ও চোখ-কান-পেছনের ক্ষতি।",
+      "description_en": "Workplace risks across garments, farming, driving and construction: dust, chemicals, noise, load.",
+      "icon_key": "emergency",
+      "group": "life",
+      "body_parts": [
+        {
+          "id": "occupational-health-part1",
+          "body_system_id": "occupational-health",
+          "name_bn": "শ্বাস-ত্বক ঝুঁকি",
+          "name_en": "Inhalation & skin exposure",
+          "description": "ধুলা, রঙ-সলভেন্ট, কীটনাশক।"
+        },
+        {
+          "id": "occupational-health-part2",
+          "body_system_id": "occupational-health",
+          "name_bn": "ভার-বসা-কম্পন",
+          "name_en": "Load, posture & vibration",
+          "description": "পেশি-জমটের দীর্ঘমেয়াদি ক্ষতি।"
+        }
+      ],
+      "related_course_ids": [
+        "hand-wrist-numb"
+      ]
+    },
+    {
+      "id": "disability-rehab",
+      "name_bn": "পুনর্বাসন ও দীর্ঘমেয়াদি যত্ন",
+      "name_en": "Rehabilitation & Long-term Care",
+      "description_bn": "আঘাত, স্ট্রোক বা দীর্ঘ অসুস্থতার পরে হাঁটা-বলা-স্বাবলম্বন ফেরানো ও যত্নকারীর সুরক্ষা।",
+      "description_en": "Regaining movement, speech and self-care after injury or stroke, and carer safety.",
+      "icon_key": "elderly",
+      "group": "life",
+      "body_parts": [
+        {
+          "id": "disability-rehab-part1",
+          "body_system_id": "disability-rehab",
+          "name_bn": "ব্যায়াম-পুনর্বাসন",
+          "name_en": "Therapy & exercise",
+          "description": "ধাপে-ধাপে শক্তি-নড়াচড়া ফেরানো।"
+        },
+        {
+          "id": "disability-rehab-part2",
+          "body_system_id": "disability-rehab",
+          "name_bn": "বাড়ি-পরিবেশ-অনুকূলতা",
+          "name_en": "Home adaptation",
+          "description": "পড়ে-আঘাত কমানো ও সহায়ক সামগ্রী।"
+        }
+      ],
+      "related_course_ids": [
+        "bedridden-care",
+        "rehab-after-stroke"
+      ]
+    },
+    {
+      "id": "allergy-conditions",
+      "name_bn": "অ্যালার্জি ও প্রতিরোধ-অতিক্রম",
+      "name_en": "Allergy & Immune Overreaction",
+      "description_bn": "চুলকানি-ফোলা, নাক-চোখ-ত্বক-শ্বাসের অতিরিক্ত প্রতিক্রিয়া ও অ্যানাফাইলাক্সিস।",
+      "description_en": "Itchy swelling, nose-eye-skin-airway overreaction and anaphylaxis.",
+      "icon_key": "shield",
+      "group": "group",
+      "body_parts": [
+        {
+          "id": "allergy-conditions-part1",
+          "body_system_id": "allergy-conditions",
+          "name_bn": "ত্বক-শ্বাস প্রতিক্রিয়া",
+          "name_en": "Skin & airway allergy",
+          "description": "হাজরা, নাক-ভিড়, শ্বাসকষ্ট।"
+        },
+        {
+          "id": "allergy-conditions-part2",
+          "body_system_id": "allergy-conditions",
+          "name_bn": "ওষুধ-খাবার অ্যালার্জি",
+          "name_en": "Drug & food allergy",
+          "description": "খাবার-ঔষধজনিত তীব্র প্রতিক্রিয়া।"
+        }
+      ],
+      "related_course_ids": [
+        "allergy-itch-hives"
+      ]
+    },
+    {
+      "id": "pain-conditions",
+      "name_bn": "ব্যথা ও তার ব্যবস্থাপনা",
+      "name_en": "Pain & Its Management",
+      "description_bn": "তীব্র বনাম দীর্ঘ ব্যথা, ব্যথানাশক ঔষধের সীমাবদ্ধতা ও নির্ভরতা-এড়ানো।",
+      "description_en": "Acute versus chronic pain, analgesic limits and avoiding dependence.",
+      "icon_key": "healing",
+      "group": "group",
+      "body_parts": [
+        {
+          "id": "pain-conditions-part1",
+          "body_system_id": "pain-conditions",
+          "name_bn": "তন্ত্র-জনিত ব্যথা",
+          "name_en": "Nerve-type pain",
+          "description": "ঝলসে-ঝিমঝিম-বিদ্যুতের মতো ব্যথা।"
+        },
+        {
+          "id": "pain-conditions-part2",
+          "body_system_id": "pain-conditions",
+          "name_bn": "পেশি-জমটের ব্যথা",
+          "name_en": "Musculoskeletal pain",
+          "description": "টান, ক্ষয় ও অবস্থানজনিত ব্যথা।"
+        }
+      ],
+      "related_course_ids": [
+        "back-spine-pain",
+        "headache-migraine"
+      ]
+    },
+    {
+      "id": "nutrition-disorders",
+      "name_bn": "পুষ্টির অভাব ও আতিশয্য",
+      "name_en": "Nutrition Deficiency & Excess",
+      "description_bn": "আয়রন, বি-১২, ফোলেট, ভিটামিন ডি-এর অভাব; আবার ওজন-চর্বি-চিনির আতিশয্য।",
+      "description_en": "Iron, B12, folate and vitamin D deficiency, and the excess of weight, fat and sugar.",
+      "icon_key": "local_dining",
+      "group": "group",
+      "body_parts": [
+        {
+          "id": "nutrition-disorders-part1",
+          "body_system_id": "nutrition-disorders",
+          "name_bn": "অণু-পুষ্টির অভাব",
+          "name_en": "Micronutrient deficit",
+          "description": "রক্ত, হাড় ও শক্তির অভাব-জনিত লক্ষণ।"
+        },
+        {
+          "id": "nutrition-disorders-part2",
+          "body_system_id": "nutrition-disorders",
+          "name_bn": "পুষ্টি-আতিশয্য",
+          "name_en": "Overnutrition",
+          "description": "মেদ, চর্বি ও শর্করার বাড়তি বোঝা।"
+        }
+      ],
+      "related_course_ids": [
+        "fatigue-weakness",
+        "vitamin-deficiency",
+        "weight-management"
+      ]
+    },
+    {
+      "id": "sleep-disorders",
+      "name_bn": "ঘুমের সমস্যা",
+      "name_en": "Sleep Problems",
+      "description_bn": "অনিদ্রা, ঘুম ভাঙা, নাক-ডাকা-শ্বাস আটকানো, অসময়ে ঘুম-এসে যাওয়া ও দিনের ক্লান্তি।",
+      "description_en": "Insomnia, broken sleep, snoring and apnoea, timing problems and daytime fatigue.",
+      "icon_key": "bedtime",
+      "group": "group",
+      "body_parts": [
+        {
+          "id": "sleep-disorders-part1",
+          "body_system_id": "sleep-disorders",
+          "name_bn": "ঘুমের চক্র",
+          "name_en": "Sleep cycle",
+          "description": "শরীরের ঘড়ি ও ঘুমের পর্যায়।"
+        },
+        {
+          "id": "sleep-disorders-part2",
+          "body_system_id": "sleep-disorders",
+          "name_bn": "শ্বাস-আটকানো",
+          "name_en": "Airway during sleep",
+          "description": "নাক-ডাকা ও শ্বাস-থামার জায়গা।"
+        }
+      ],
+      "related_course_ids": [
+        "insomnia-sleep"
+      ]
+    },
+    {
+      "id": "substance-use",
+      "name_bn": "ধূমপান, মদ ও মাদক",
+      "name_en": "Smoking, Alcohol & Drug Use",
+      "description_bn": "নির্ভরতার ধাপ, ছাড়ার সময়ের শারীরিক-মানসিক লক্ষণ ও সাহায্যের পথ।",
+      "description_en": "Stages of dependence, withdrawal signs and routes to help for smoking, alcohol and drugs.",
+      "icon_key": "shield",
+      "group": "group",
+      "body_parts": [
+        {
+          "id": "substance-use-part1",
+          "body_system_id": "substance-use",
+          "name_bn": "নিকোটিন-নির্ভরতা",
+          "name_en": "Nicotine dependence",
+          "description": "সিগারেট, পান ও তামাকজাত দ্রব্যের আসক্তি।"
+        },
+        {
+          "id": "substance-use-part2",
+          "body_system_id": "substance-use",
+          "name_bn": "মদ ও মাদকের ক্ষতি",
+          "name_en": "Alcohol & drug harm",
+          "description": "যকৃত-স্নায়ু-মানসিক প্রভাব।"
+        }
+      ],
+      "related_course_ids": [
+        "quit-smoking-alcohol"
+      ]
+    },
+    {
+      "id": "cancer-awareness",
+      "name_bn": "আরম্ভিক লক্ষণ, স্ক্রিনিং ও পরিবার-যত্ন",
+      "name_en": "Cancer: Early Signs, Screening & Family Care",
+      "description_bn": "সাধারণ সতর্ক সংকেত, কোন স্ক্রিনিং কাজ করে, চিকিৎসাকালীন পুষ্টি-ত্বক-রক্ত ও যত্নকারীর ভূমিকা।",
+      "description_en": "Warning signs, which screenings work, and nutrition-skin-blood care during treatment.",
+      "icon_key": "science",
+      "group": "group",
+      "body_parts": [
+        {
+          "id": "cancer-awareness-part1",
+          "body_system_id": "cancer-awareness",
+          "name_bn": "সতর্ক সংকেত",
+          "name_en": "Warning signs",
+          "description": "ফোলা-ক্ষত-রক্ত-ওজন কমা-অক্ষত শুকানো।"
+        },
+        {
+          "id": "cancer-awareness-part2",
+          "body_system_id": "cancer-awareness",
+          "name_bn": "স্ক্রিনিং ও টিকা",
+          "name_en": "Screening & vaccines",
+          "description": "জরায়ুমুখী, স্তন, অন্ত্র ও হেপাটাইটিস-বি/HPV টিকা।"
+        }
+      ],
+      "related_course_ids": [
+        "swollen-lymph-nodes"
+      ]
+    },
+    {
+      "id": "tropical-heat",
+      "name_bn": "মৌসুমি ও তাপজনিত অসুস্থতা",
+      "name_en": "Seasonal & Heat Illness",
+      "description_bn": "গরমে পানিশূন্যতা, তাপ-প্রহার, বর্ষায় ডেঙ্গু-ম্যালেরিয়া-দাদ-ছোঁয়াচ ও বন্যার পরের ঝুঁকি।",
+      "description_en": "Heat illness, dehydration, monsoon fevers, fungal rash and post-flood risks.",
+      "icon_key": "coronavirus",
+      "group": "group",
+      "body_parts": [
+        {
+          "id": "tropical-heat-part1",
+          "body_system_id": "tropical-heat",
+          "name_bn": "তাপ-জল-ক্ষতি",
+          "name_en": "Heat & water",
+          "description": "পিপাসা, প্রস্রাব কম, গরমে মাথা ঘোরা।"
+        },
+        {
+          "id": "tropical-heat-part2",
+          "body_system_id": "tropical-heat",
+          "name_bn": "মশাবাহিত ও পানিবাহিত",
+          "name_en": "Mosquito & waterborne",
+          "description": "ডেঙ্গু, ম্যালেরিয়া, পানিবাহিত ডায়রিয়া।"
+        }
+      ],
+      "related_course_ids": [
+        "dengue-malaria-fever",
+        "heat-stroke-dehydration"
+      ]
+    },
+    {
+      "id": "injury-first-aid",
+      "name_bn": "আঘাত, পোড়া ও প্রাথমিক চিকিৎসা",
+      "name_en": "Injury, Burns & First Aid",
+      "description_bn": "রক্ত থামানো, পোড়া ঠান্ডা করা, ভঙ্গুর-মোচড় স্থির রাখা ও দেরি-বিপদ বোঝা।",
+      "description_en": "Stopping bleeding, cooling burns, splinting injuries and recognising danger.",
+      "icon_key": "emergency",
+      "group": "group",
+      "body_parts": [
+        {
+          "id": "injury-first-aid-part1",
+          "body_system_id": "injury-first-aid",
+          "name_bn": "বাইরের আঘাত",
+          "name_en": "External injury",
+          "description": "ক্ষেত, ছিদ্র, মোচড় ও হাড়।"
+        },
+        {
+          "id": "injury-first-aid-part2",
+          "body_system_id": "injury-first-aid",
+          "name_bn": "তাপ-রসায়ন-বিদ্যুৎ",
+          "name_en": "Heat, chemical & electric",
+          "description": "পোড়া-জ্বলা-ঝুলে-যাওয়া।"
+        }
+      ],
+      "related_course_ids": [
+        "bleeding-wounds",
+        "bone-fracture-healing",
+        "burns-scalds"
+      ]
+    },
+    {
+      "id": "report-lab",
+      "name_bn": "রিপোর্ট ও ল্যাব বোঝা",
+      "name_en": "Reports & Lab Basics",
+      "description_bn": "রক্ত-মূত্র-স্টল-ছবি রিপোর্টের প্রথম-নম্বর কী বোঝায়, কোনটা জরুরি আর কোনটা ভয় পাবার নয়।",
+      "description_en": "Reading blood, urine and stool reports: what the numbers mean and which matter.",
+      "icon_key": "science",
+      "group": "group",
+      "body_parts": [
+        {
+          "id": "report-lab-part1",
+          "body_system_id": "report-lab",
+          "name_bn": "রক্তের সাধারণ অংশ",
+          "name_en": "Common blood values",
+          "description": "হিমোগ্লোবিন, শর্করা, চর্বি, ক্রিয়াটিনিন।"
+        },
+        {
+          "id": "report-lab-part2",
+          "body_system_id": "report-lab",
+          "name_bn": "ছবি ও অন্যান্য",
+          "name_en": "Imaging & other tests",
+          "description": "এক্স-রে, আলট্রাসনোগ্রাম, ECG-র পরিচয়।"
+        }
+      ],
+      "related_course_ids": [
+        "dizziness-fainting",
+        "fatigue-weakness",
+        "high-blood-pressure",
+        "lab-sample-routine",
+        "pain-killer-safety",
+        "palpitation-irregular-beat",
+        "report-reading"
+      ]
+    },
+    {
+      "id": "kidney-ureter",
+      "name_bn": "কিডনি ও প্রস্রাপ-নালী",
+      "name_en": "Kidney & Urinary Tract",
+      "description_bn": "কিডনির ছাঁকনি, নালী ও মূত্রথলির সংক্রমণ, পাথর আর প্রস্রাপ-নিয়ন্ত্রণের সমস্যা।",
+      "description_en": "Kidney filters, ureters and bladder: infection, stones and control problems.",
+      "icon_key": "water_drop",
+      "group": "organ",
+      "body_parts": [
+        {
+          "id": "kidney-ureter-part1",
+          "body_system_id": "kidney-ureter",
+          "name_bn": "কিডনির ছাঁকনি ও পাথর",
+          "name_en": "Filters, pelvis & stones",
+          "description": "রক্ত-ছাঁকনি, লবণ-জমা ও কিডনি-কাজ-কমার স্তর।"
+        },
+        {
+          "id": "kidney-ureter-part2",
+          "body_system_id": "kidney-ureter",
+          "name_bn": "মূত্রথলি ও প্রস্রাপ-নালী",
+          "name_en": "Bladder & urethra",
+          "description": "জ্বালা, বারবার-দৌড়, ফাঁকা-না-হওয়া ও সংক্রমণের জায়গা।"
+        }
+      ],
+      "related_course_ids": [
+        "urine-infection"
+      ]
+    },
+    {
+      "id": "medication-safety",
+      "name_bn": "ঔষধের নিরাপদ ব্যবহার",
+      "name_en": "Medicine Safety & Self-Care Limits",
+      "description_bn": "ব্যথানাশক, অ্যান্টিবায়োটিক, ঘরোয়া-হারবল ও প্রবীণ-গর্ভাবস্থার ডোজ-সতর্কতা।",
+      "description_en": "Analgesics, antibiotics, herbal remedies and dosing cautions in pregnancy and old age.",
+      "icon_key": "medication",
+      "group": "group",
+      "body_parts": [
+        {
+          "id": "medication-safety-part1",
+          "body_system_id": "medication-safety",
+          "name_bn": "পেট, কিডনি ও রক্তপাতের ঝুঁকি",
+          "name_en": "Stomach, kidney & bleeding risk",
+          "description": "ব্যথানাশক-অতিরিক্ত-সেবনে ক্ষত, কিডনি-দুর্বলতা ও রক্ত-জমাট-বাঁধায়-সমস্যা।"
+        },
+        {
+          "id": "medication-safety-part2",
+          "body_system_id": "medication-safety",
+          "name_bn": "নির্ভরতা ও ভুল-ধারণা",
+          "name_en": "Dependence & false reassurance",
+          "description": "জ্বর-নিবারক-বার-বার, ঘরোয়া-টোটকা-ও অ্যান্টিবায়োটিক-নিজের-মতো-চালা।"
+        }
+      ],
+      "related_course_ids": [
+        "pain-killer-safety"
+      ]
+    }
+  ]
+}

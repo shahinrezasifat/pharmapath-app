@@ -55,6 +55,12 @@ PharmaPath একটি বাংলা-প্রথম Android অ্যাপ�
   </tr>
 </table>
 
+### বাধ্যতামূলক আপডেট
+
+পুরোনো সংস্করণে নতুন Release এলে এই পর্দা আসে। আপডেট ইনস্টল না করা পর্যন্ত অ্যাপের বাকি অংশ খোলা যায় না।
+
+<p align="center"><a href="docs/app/screenshots/update-required.png"><img src="docs/app/screenshots/update-required.png" alt="নতুন সংস্করণ বাধ্যতামূলক আপডেট পর্দা" width="420"></a></p>
+
 <details>
   <summary><strong>সেটিংস ও ডেটা ব্যবস্থাপনার আরও স্ক্রিনশট</strong></summary>
   <br>
@@ -97,3 +103,4 @@ flutter build apk --release `
 APK তৈরি হবে `build/app/outputs/flutter-apk/app-release.apk`-এ। Android-এর ইন-প্লেস আপডেটের জন্য একই application ID এবং release signing key ধরে রাখুন। ভবিষ্যৎ GitHub Release-এ `pubspec.yaml`-এর version বাড়িয়ে APK যুক্ত করুন। স্বয়ংক্রিয় release workflow ব্যবহার করলে repository Actions-এ `ANDROID_KEYSTORE_BASE64` ও `ANDROID_KEY_PROPERTIES` secrets সেট করুন; signing key কখনো repository-তে commit করবেন না।
 
 **প্ল্যাটফর্ম:** Android · **Application ID:** `com.pharmapath.pharmapath_app` · **লাইসেন্স:** repository-তে উল্লেখিত প্রকল্পের লাইসেন্স ও তৃতীয় পক্ষের ডেটা-লাইসেন্স যাচাই করুন।
+

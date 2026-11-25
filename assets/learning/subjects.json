@@ -1,0 +1,174 @@
+{
+  "version": 1,
+  "notice": "এই বিষয়গুলো শিক্ষামূলক। কোনো ওষুধ বা ডোজ চিকিৎসকের পরামর্শ ছাড়া ব্যবহার করবেন না।",
+  "subjects": [
+    {
+      "id": "antibiotics",
+      "title_bn": "অ্যান্টিবায়োটিক",
+      "description_bn": "গ্রুপ, কর্মপদ্ধতি ও কোন সংক্রমণে কোন গ্রুপ — এক জায়গায়।",
+      "icon": "science",
+      "accent": 3,
+      "tracks": ["medicine", "infection"],
+      "courses": ["antibiotics", "dengue-malaria-fever", "names"],
+      "subtopics": [
+        "পেনিসিলিন গ্রুপ",
+        "সেফালোস্পোরিন",
+        "ম্যাক্রোলাইড",
+        "ফ্লুরোকুইনোলোন",
+        "সালফোনামাইড",
+        "অ্যান্টিবায়োটিক প্রতিরোধ",
+        "অ্যালার্জি ও ক্রস-রিঅ্যাকটিভিটি"
+      ],
+      "indications": [
+        {
+          "condition": "ব্যাকটেরিয়াল গলাব্যথা / টনসিলাইটিস",
+          "group": "পেনিসিলিন গ্রুপ",
+          "note": "ভাইরাসজনিত গলাব্যথায় কাজ করে না; চিকিৎসকই নির্ধারণ করবেন।"
+        },
+        {
+          "condition": "চামড়া ও ক্ষত সংক্রমণ",
+          "group": "সেফালোস্পোরিন / পেনিসিলিন",
+          "note": "ক্ষতের মারাত্মকতা ও অ্যালার্জির ইতিহাস বিবেচনা করতে হবে।"
+        },
+        {
+          "condition": "শ্বাসনালী সংক্রমণ (-atypical)",
+          "group": "ম্যাক্রোলাইড",
+          "note": "কফ ও জ্বরের ধরন অনুযায়ী চিকিৎসকের decision।"
+        },
+        {
+          "condition": "মূত্রনালীর সংক্রমণ (UTI)",
+          "group": "ফ্লুরোকুইনোলোন / সালফোনামাইড",
+          "note": "গর্ভাবস্থা ও বয়স্কদের ক্ষেত্রে বিশেষ সতর্কতা।"
+        },
+        {
+          "condition": "সাধারণ সর্দি, ফ্লু, ডেঙ্গু",
+          "group": "কোনো অ্যান্টিবায়োটিক নয়",
+          "note": "ভাইরাসজনিত — সাপোর্টিভ যত্নই যথেষ্ট; অপ্রয়োজনীয় ব্যবহারে resistance বাড়ে।"
+        }
+      ]
+    },
+    {
+      "id": "pain-fever",
+      "title_bn": "ব্যথা, জ্বর ও প্রদাহ",
+      "description_bn": "প্যারাসিটামল, NSAID ও নিরাপদ ব্যবহারের মৌলিক ধারণা।",
+      "icon": "medication",
+      "accent": 0,
+      "tracks": ["medicine", "daily"],
+      "subtopics": ["প্যারাসিটামল", "NSAID", "কম্বিনেশন সতর্কতা", "গ্যাস্ট্রিক ঝুঁকি"],
+      "indications": []
+    },
+    {
+      "id": "cough-breathing",
+      "title_bn": "কাশি, সর্দি ও শ্বাসকষ্ট",
+      "description_bn": " antihistamine, decongestant, bronchodilator ও ইনহেলার ব্যবহার।",
+      "icon": "lungs",
+      "accent": 1,
+      "tracks": ["lungs", "ent", "daily"],
+      "subtopics": ["কাশির ধরন", "অ্যালার্জি ও antihistamine", "ইনহেলার কৌশল", "লাল পতাকা লক্ষণ"],
+      "indications": []
+    },
+    {
+      "id": "stomach-digestion",
+      "title_bn": "গ্যাস্ট্রিক ও হজম",
+      "description_bn": "অ্যান্টাসিড, PPI, H2 blocker, বমি ও কোষ্ঠকাঠিন্যের ওষুধ।",
+      "icon": "stomach",
+      "accent": 2,
+      "tracks": ["gut"],
+      "subtopics": ["অ্যাসিডিটি", "PPI / H2 blocker", "অ্যান্টিমেটিক", "ল্যাক্সেটিভ", "খাদ্য ও জীবনযাত্রা"],
+      "indications": []
+    },
+    {
+      "id": "heart-bp",
+      "title_bn": "হৃদয় ও রক্তচাপ",
+      "description_bn": "রক্তচাপের ওষুধের শ্রেণি ও জরুরি লক্ষণ চেনা।",
+      "icon": "heart",
+      "accent": 4,
+      "tracks": ["heart"],
+      "courses": ["bp", "longterm"],
+      "subtopics": ["উচ্চ রক্তচাপ", "ACE / ARB", "বিটা-ব্লকার", "কোলেস্টেরল", "বুকব্যথার red flags"],
+      "indications": []
+    },
+    {
+      "id": "diabetes-hormone",
+      "title_bn": "ডায়াবেটিস ও হরমোন",
+      "description_bn": "ইনসুলিন, মৌখিক ওষুধ, থাইরয়েড ও স্টেরয়েড সতর্কতা।",
+      "icon": "hormone",
+      "accent": 6,
+      "tracks": ["hormone"],
+      "courses": ["diabetes"],
+      "subtopics": ["রক্তে শর্করা", "ইনসুলিন", "মেটফর্মিন", "থাইরয়েড", "স্টেরয়েড"],
+      "indications": []
+    },
+    {
+      "id": "infection-parasite",
+      "title_bn": "সংক্রমণ ও পরজীবী",
+      "description_bn": "অ্যান্টিফাঙ্গাল, অ্যান্টিভাইরাল ও antiparasitic ওষুধের ভূমিকা।",
+      "icon": "coronavirus",
+      "accent": 5,
+      "tracks": ["infection", "blood"],
+      "subtopics": ["ডেঙ্গু", "ম্যালেরিয়া", "কৃমি", "ছত্রাক সংক্রমণ", "টিকা ও প্রতিরোধ"],
+      "indications": []
+    },
+    {
+      "id": "women-child-elderly",
+      "title_bn": "নারী, শিশু ও প্রবীণ",
+      "description_bn": "বিশেষ population-এ ওষুধের নিরাপত্তা ও ডোজ সতর্কতা।",
+      "icon": "female",
+      "accent": 7,
+      "tracks": ["women", "child", "elderly"],
+      "subtopics": ["গর্ভাবস্থা", "স্তন্যদান", "শিশুর ওজন-ভিত্তিক ডোজ", "প্রবীণদের বহু-ওষুধ ব্যবহার"],
+      "indications": []
+    },
+    {
+      "id": "emergency-firstaid",
+      "title_bn": "জরুরি ও প্রাথমিক চিকিৎসা",
+      "description_bn": "আঘাত, পোড়া, বিষক্রিয়া ও অ্যানাফাইল্যাক্সিসে প্রথম পদক্ষেপ।",
+      "icon": "emergency",
+      "accent": 8,
+      "tracks": ["emergency"],
+      "subtopics": ["রক্তপাত", "পোড়া", "বিষক্রিয়া", "অ্যানাফাইল্যাক্সিস", "কখন হাসপাতালে যাবেন"],
+      "indications": []
+    },
+    {
+      "id": "prescription-dose",
+      "title_bn": "প্রেসক্রিপশন ও ডোজ",
+      "description_bn": "Rx পড়া, ডোজ হিসাব ও ওষুধের মিথস্ক্রিয়া বোঝা।",
+      "icon": "science",
+      "accent": 9,
+      "tracks": ["practice"],
+      "subtopics": ["প্রেসক্রিপশন পড়া", "ডোজ হিসাব", "Drug interaction", "সময়সূচি"],
+      "indications": []
+    },
+    {
+      "id": "lab-reports",
+      "title_bn": "ল্যাব রিপোর্ট পড়া",
+      "description_bn": "CBC, লিপিড, লিভার ও কিডনি রিপোর্টের মৌলিক ব্যাখ্যা।",
+      "icon": "bloodtype",
+      "accent": 10,
+      "tracks": ["practice"],
+      "subtopics": ["CBC", "লিপিড প্রোফাইল", "LFT", "KFT", "রেফারেন্স রেঞ্জ"],
+      "indications": []
+    },
+    {
+      "id": "pharmacy-ops",
+      "title_bn": "ফার্মেসি পরিচালনা",
+      "description_bn": "ইনভেন্টরি, মেয়াদ, সংরক্ষণ ও কাস্টমার কাউন্সেলিং।",
+      "icon": "local_dining",
+      "accent": 11,
+      "tracks": ["practice"],
+      "subtopics": ["স্টক ব্যবস্থাপনা", "মেয়াদ ও স্টোরেজ", "কাস্টমার কাউন্সেলিং", "রেকর্ড রাখা", "নীতিমালা"],
+      "indications": []
+    },
+    {
+      "id": "medicine-safety",
+      "title_bn": "ওষুধ নিরাপত্তা",
+      "description_bn": "পার্শ্বপ্রতিক্রিয়া, contraindication ও রিপোর্টিং — সবার আগে।",
+      "icon": "shield",
+      "accent": 12,
+      "tracks": ["medicine", "blood"],
+      "courses": ["basics", "safe-use", "dose-form"],
+      "subtopics": ["পার্শ্বপ্রতিক্রিয়া", "Contraindication", "অ্যালার্জি", "ওষুধের মিথস্ক্রিয়া", "অ্যাডভার্স ইভেন্ট রিপোর্ট"],
+      "indications": []
+    }
+  ]
+}

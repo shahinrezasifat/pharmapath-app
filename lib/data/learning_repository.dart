@@ -11,6 +11,7 @@ class LearningRepository {
   final LearningDao _dao;
 
   List<Course>? _cache;
+  List<StudySubject>? _subjectsCache;
   List<LearningTrack>? _tracksCache;
   List<BodySystem>? _bodySystemsCache;
   List<DiseaseTopic>? _diseaseTopicsCache;
@@ -105,6 +106,29 @@ class LearningRepository {
   static String _trackOf(Course course) => course.track.isNotEmpty
       ? course.track
       : (_legacyTracks[course.id] ?? 'daily');
+
+  /// Pharmacy-oriented subjects for the redesigned course library. Falls back
+  /// to an empty list on slim builds that ship without the asset.
+  Future<List<StudySubject>> subjects() async {
+    final cached = _subjectsCache;
+    if (cached != null) return cached;
+    try {
+      final raw = await rootBundle.loadString('assets/learning/subjects.json');
+      final decoded = jsonDecode(raw) as Map<String, dynamic>;
+      final subjects = (decoded['subjects'] as List? ?? const [])
+          .whereType<Map>()
+          .map(
+            (e) => StudySubject.fromJson(
+              Map<String, dynamic>.from(e),
+            ),
+          )
+          .toList();
+      _subjectsCache = subjects;
+      return subjects;
+    } catch (_) {
+      return const <StudySubject>[];
+    }
+  }
 
   Future<List<Course>> courses() async {
     if (_cache != null) return _cache!;

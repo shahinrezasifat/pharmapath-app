@@ -110,7 +110,7 @@ class _QuizViewState extends State<QuizView> {
                                 ),
                                 Text(
                                   '${bn(_score)} / ${bn(questions.length)} সঠিক · '
-                                  '${bn(((_score / questions.length) * 100).round())}%',
+                                  '${bn(questions.isEmpty ? 0 : ((_score / questions.length) * 100).round())}%',
                                   style: Theme.of(context).textTheme.bodySmall
                                       ?.copyWith(
                                         color: Colors.white.withValues(
@@ -140,8 +140,8 @@ class _QuizViewState extends State<QuizView> {
                       const SizedBox(height: 10),
                       Text(
                         passed
-                            ? 'পাসের নিয়ম ${bn((LearningController.passRatio * 100).round())}% · ফলাফল এই ডিভাইসে সংরক্ষিত হয়েছে।'
-                            : 'পাসের জন্য ${bn((LearningController.passRatio * 100).round())}% দরকার। নিচের ব্যাখ্যা পড়ে আবার চেষ্টা করুন।',
+                            ? 'পাসের নিয়ম ${bn((threshold * 100).round())}% · ফলাফল এই ডিভাইসে সংরক্ষিত হয়েছে।'
+                            : 'পাসের জন্য ${bn((threshold * 100).round())}% দরকার। নিচের ব্যাখ্যা পড়ে আবার চেষ্টা করুন।',
                         style: Theme.of(context).textTheme.labelSmall?.copyWith(
                           color: Colors.white.withValues(alpha: 0.88),
                         ),
@@ -276,6 +276,14 @@ class _QuestionCard extends StatelessWidget {
   final bool submitted;
   final ValueChanged<int> onSelect;
 
+  /// Malformed imported quizzes can carry an out-of-range answer index; never
+  /// let the explanation row crash the whole quiz because of one bad row.
+  String _correctOption(QuizQuestion question) {
+    final i = question.answer;
+    if (i >= 0 && i < question.options.length) return question.options[i];
+    return 'সঠিক উত্তর পাওয়া যায়নি';
+  }
+
   @override
   Widget build(BuildContext context) {
     final scheme = Theme.of(context).colorScheme;
@@ -335,7 +343,7 @@ class _QuestionCard extends StatelessWidget {
                 borderRadius: BorderRadius.circular(12),
               ),
               child: Text(
-                '${selected == question.answer ? 'সঠিক।' : 'সঠিক উত্তর: ${question.options[question.answer]}।'} ${question.explanation}',
+                '${selected == question.answer ? 'সঠিক।' : 'সঠিক উত্তর: ${_correctOption(question)}।'} ${question.explanation}',
                 style: Theme.of(context).textTheme.bodySmall
                     ?.copyWith(height: 1.55),
               ),

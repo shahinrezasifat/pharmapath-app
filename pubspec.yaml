@@ -1,7 +1,7 @@
 name: pharmapath_app
 description: "PharmaPath — বাংলাদেশি ওষুধের তথ্য ও শেখার অফলাইন-ফার্স্ট অ্যাপ।"
 publish_to: 'none'
-version: 2.0.3+5
+version: 2.0.4+6
 
 environment:
   sdk: ^3.13.5
@@ -80,6 +80,7 @@ flutter_launcher_icons:
   ios: true
   min_sdk_android: 21
 
-
 dependency_overrides:
+  # path_provider_android 2.3.x uses JNI and fails during GetStorage startup
+  # on this Flutter/Android plugin setup. Keep the compatible channel plugin.
   path_provider_android: 2.2.19

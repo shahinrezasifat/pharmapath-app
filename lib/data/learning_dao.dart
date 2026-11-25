@@ -108,9 +108,21 @@ class LearningDao {
 
   Future<Map<String, ({int score, int total, int takenAt})>>
   bestResults() async {
+    // Pick the whole best attempt, not the maximum score paired with an
+    // arbitrary `total` from another row — otherwise 8/10 followed by 3/5
+    // would be reported as 8/5 (160%) and break pass/fail gating.
     final rows = await _db.rawQuery('''
-      SELECT course_id, MAX(score) AS score, total, MAX(taken_at) AS taken_at
-      FROM quiz_results GROUP BY course_id
+      SELECT course_id, score, total, taken_at
+      FROM (
+        SELECT course_id, score, total, taken_at,
+               ROW_NUMBER() OVER (
+                 PARTITION BY course_id
+                 ORDER BY CASE WHEN total > 0 THEN score * 1.0 / total ELSE 0 END DESC,
+                          taken_at DESC, id DESC
+               ) AS rn
+        FROM quiz_results
+      )
+      WHERE rn = 1
     ''');
     return {
       for (final row in rows)

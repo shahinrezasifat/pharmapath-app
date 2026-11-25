@@ -56,13 +56,16 @@ class GestureNavigation {
     return fullscreenMargin;
   }
 
-  /// Fixed height of the floating pill navigation bar container (66dp).
-  static const double navBarHeight = 66.0;
+  /// Height of the floating pill itself. Kept in sync with `height: 60` in
+  /// `shell_view.dart`; the shell overlays the bar instead of reserving a band.
+  static const double navBarHeight = 60.0;
 
-  /// Total height from screen bottom to top edge of the floating navigation bar pill:
-  /// navBarHeight (66dp) + bottom margin (14dp + gestureBarHeight).
+  /// Bottom margin of the pill: 14dp plus the system gesture inset.
+  static const double navBarBottomMargin = 14.0;
+
+  /// Distance from the screen bottom to the top edge of the pill.
   static double floatingNavBarHeight(BuildContext context) {
-    return 80.0 + gestureBarHeight(context);
+    return navBarHeight + navBarBottomMargin + gestureBarHeight(context);
   }
 
   /// Safe bottom margin for floating action buttons or bottom-floating elements
@@ -70,6 +73,12 @@ class GestureNavigation {
   static double fabBottomSpacing(BuildContext context, {double gapAboveBar = 14.0}) {
     return floatingNavBarHeight(context) + gapAboveBar;
   }
+
+  /// Distance from the screen bottom to the top of the pill, without the
+  /// gesture inset. Useful for nested Scaffolds that already account for the
+  /// system inset themselves.
+  static double get floatingNavBarHeightWithoutInset =>
+      navBarHeight + navBarBottomMargin;
 
   /// Total bottom clearance required for scrollable views (lists, grids) when
   /// hosted in the main shell with the floating bottom navigation bar.

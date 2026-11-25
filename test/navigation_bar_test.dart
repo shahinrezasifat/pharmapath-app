@@ -42,7 +42,8 @@ void main() {
       final shellScaffold = tester.widget<Scaffold>(
         find.byType(Scaffold).first,
       );
-      expect(shellScaffold.extendBody, isFalse);
+      // The bar is a floating overlay, so the body extends to the screen edge.
+      expect(shellScaffold.extendBody, isTrue);
 
       // 1. Initial State: active tab label is 'ঔষধ'
       expect(find.text('ঔষধ'), findsWidgets);
@@ -54,23 +55,22 @@ void main() {
       expect(find.text('প্রিয়'), findsNothing);
       expect(find.text('সেটিংস'), findsNothing);
 
-      // 2. Bar Position: Verify that the floating navigation bar is pinned at the bottom!
-      // Screen height is 800.
-      // Nav bar height is 66, bottom padding is 14.
-      // Top of bar should be at 800 - 14 - 66 = 720. Bottom is 786.
-      // It should NEVER be in the middle of the display (~360 - 426).
+      // 2. Bar position: a 60dp pill with 14dp bottom margin on an 800dp
+      // screen -> top 726, bottom 786. It never sits mid-screen.
       final barContainer = find.byType(BackdropFilter);
       expect(barContainer, findsWidgets);
       final navRect = tester.getRect(barContainer.first);
       expect(
         navRect.top,
-        closeTo(720.0, 5.0),
+        closeTo(726.0, 5.0),
         reason: 'Nav bar must be at bottom, not in the middle',
       );
       expect(navRect.bottom, closeTo(786.0, 5.0));
+      // Content flows underneath the floating bar instead of stopping above
+      // a reserved docked band.
       expect(
         tester.getRect(find.byType(IndexedStack)).bottom,
-        lessThanOrEqualTo(navRect.top),
+        greaterThan(navRect.top),
       );
 
       // 3. Switch to 'শেখা' tab
@@ -136,11 +136,11 @@ void main() {
 
     final barContainer = find.byType(BackdropFilter);
     final navRect = tester.getRect(barContainer.first);
-    expect(navRect.top, closeTo(660.0, 5.0));
+    expect(navRect.top, closeTo(666.0, 5.0));
     expect(navRect.bottom, closeTo(726.0, 5.0));
     expect(
       tester.getRect(find.byType(IndexedStack)).bottom,
-      lessThanOrEqualTo(navRect.top),
+      greaterThan(navRect.top),
     );
 
     // Tap through tabs without any layout overflow
@@ -172,14 +172,13 @@ void main() {
 
       final barContainer = find.byType(BackdropFilter);
       final navRect = tester.getRect(barContainer.first);
-      // When bottom inset is 24, bottom spacing is 14 + 24 = 38.
-      // 800 - 38 = 762 (bottom)
-      // 762 - 66 = 696 (top)
+      // Bottom margin = 14 + 24 = 38, pill height = 60.
+      // 800 - 38 = 762 (bottom), 762 - 60 = 702 (top).
       expect(navRect.bottom, closeTo(762.0, 5.0));
-      expect(navRect.top, closeTo(696.0, 5.0));
+      expect(navRect.top, closeTo(702.0, 5.0));
       expect(
         tester.getRect(find.byType(IndexedStack)).bottom,
-        lessThanOrEqualTo(navRect.top),
+        greaterThan(navRect.top),
       );
     },
   );

@@ -231,10 +231,8 @@ class _LessonViewState extends State<LessonView> {
                       ),
                       const SizedBox(height: 6),
                       Text(
-                        lesson.quiz.length == 2
-                            ? '২টি প্রশ্ন — সবগুলো সঠিক হলে পাঠ সম্পূর্ণ হবে।'
-                            : '${bn(lesson.quiz.length)}টি প্রশ্ন · '
-                                  '${bn((LearningController.passRatio * 100).round())}%+ সঠিক হলে পাঠ সম্পূর্ণ হবে।',
+                        '${bn(lesson.quiz.length)}টি প্রশ্ন · '
+                        '${bn((controller.effectivePassRatio(course, lesson) * 100).round())}%+ সঠিক হলে পাঠ সম্পূর্ণ হবে।',
                         textAlign: TextAlign.center,
                         style: Theme.of(context).textTheme.labelSmall
                             ?.copyWith(color: scheme.onSurfaceVariant),
@@ -870,22 +868,29 @@ class _StructuredContentBlocks extends StatelessWidget {
                                 children: [
                                   Row(
                                     children: [
-                                      Text(
-                                        block.term!.termBn,
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .titleSmall
-                                            ?.copyWith(
-                                              fontWeight: FontWeight.w700,
-                                            ),
+                                      Flexible(
+                                        child: Text(
+                                          block.term!.termBn,
+                                          overflow: TextOverflow.ellipsis,
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .titleSmall
+                                              ?.copyWith(
+                                                fontWeight: FontWeight.w700,
+                                              ),
+                                        ),
                                       ),
                                       const SizedBox(width: 6),
-                                      Text(
-                                        '(${block.term!.termEn})',
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .labelSmall
-                                            ?.copyWith(color: scheme.primary),
+                                      Flexible(
+                                        child: Text(
+                                          '(${block.term!.termEn})',
+                                          maxLines: 1,
+                                          overflow: TextOverflow.ellipsis,
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .labelSmall
+                                              ?.copyWith(color: scheme.primary),
+                                        ),
                                       ),
                                     ],
                                   ),

@@ -5,7 +5,6 @@ import 'package:get/get.dart';
 
 import '../core/api_exception.dart';
 import '../core/clinical_knowledge_engine.dart';
-import '../core/json_utils.dart' show stripHtml;
 import '../data/medicine_dao.dart';
 import '../models/medicine.dart';
 import '../services/ai_learning_tools.dart';
@@ -64,8 +63,12 @@ class MedicineDetailController extends GetxController {
   }
 
   Future<void> _init() async {
-    await _dao.recordView(medicine.value.id);
-    favorite.value = await _dao.isFavorite(medicine.value.id);
+    try {
+      await _dao.recordView(medicine.value.id);
+      favorite.value = await _dao.isFavorite(medicine.value.id);
+    } on Exception catch (error) {
+      debugPrint('Medicine local state failed: $error');
+    }
     await loadDetail();
     if (_ai == null) await refreshTranslation();
   }
@@ -150,27 +153,32 @@ class MedicineDetailController extends GetxController {
   int get translatedCount => translations.length;
   int get translationFieldCount => medicine.value.translationFields.length;
 
-  /// The medicine's brand name, kept in its official English packaging typography.
-  String get brandName => medicine.value.brandName;
+  /// Bangla translation for an identity field when one is available, falling
+  /// back to the source text from the catalogue. Identity names appear this
+  /// way on the hero instead of English packaging text in a Bangla-first UI.
+  String _display(String key, String fallback) {
+    final value = translations[key]?.trim();
+    return value?.isNotEmpty == true ? value! : fallback;
+  }
 
-  /// The manufacturer / company name, kept in English.
+  String get brandName => _display('brand_name', medicine.value.brandName);
+
   String get companyName {
     final company = medicine.value.company?.trim();
     if (company == null || company.isEmpty) return 'Unknown';
-    return company;
+    return _display('company', company);
   }
 
-  /// The active generic name / drug group, kept in English.
-  String get genericName => medicine.value.genericName?.trim() ?? '';
+  String get genericName =>
+      _display('generic_name', medicine.value.genericName?.trim() ?? '');
 
-  /// The strength, kept in English packaging notation (e.g. 500 mg).
-  String get strength => medicine.value.strength?.trim() ?? '';
+  String get strength => _display('strength', medicine.value.strength?.trim() ?? '');
 
-  /// The dosage form, kept in English (e.g. Tablet, Capsule, Syrup, Suspension).
   String get formLabel {
     final form = medicine.value.dosageForm?.trim();
-    if (form != null && form.isNotEmpty) return form;
-    return medicine.value.form.name;
+    final fallback =
+        form?.isNotEmpty == true ? form! : medicine.value.form.name;
+    return _display('dosage_form', fallback);
   }
 
   String get subtitle {
@@ -241,7 +249,7 @@ class MedicineDetailController extends GetxController {
     explanationError.value = '';
     try {
       final answer = await tools.explainMedicine(medicine.value);
-      if (RegExp(r'[A-Za-z]').hasMatch(stripHtml(answer.text))) {
+      if (!AiLearningTools.isBanglaText(answer.text)) {
         explanation.value = '';
         explanationError.value = 'সম্পূর্ণ বাংলা ব্যাখ্যা পাওয়া যায়নি।';
         return;

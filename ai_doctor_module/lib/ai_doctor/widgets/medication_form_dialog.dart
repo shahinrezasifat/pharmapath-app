@@ -168,8 +168,11 @@ class _AiMedicationFormDialogState extends State<AiMedicationFormDialog> {
             ? aiText('ওষুধ যোগ করুন', 'Add medication')
             : aiText('ওষুধ সম্পাদনা', 'Edit medication'),
       ),
-      content: SizedBox(
-        width: 440,
+      content: ConstrainedBox(
+        constraints: BoxConstraints(
+          maxWidth: 440,
+          maxHeight: MediaQuery.of(context).size.height * 0.7,
+        ),
         child: SingleChildScrollView(
           child: Column(
             mainAxisSize: MainAxisSize.min,

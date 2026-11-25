@@ -69,6 +69,15 @@ class AiLearningTools {
   static const String kindMedicineExplain = 'medicine_explain';
   static const String kindRecommendations = 'recommendations';
 
+  /// Latin letters are allowed only inside brackets/parentheses, where the
+  /// prompts explicitly ask the model to keep drug names and technical terms
+  /// (e.g. "(Napa)", "[PPI]"). Anything else means the answer slipped into
+  /// English and must not be shown as a Bangla translation.
+  static bool isBanglaText(String text) =>
+      !RegExp(r'[A-Za-z]').hasMatch(
+        stripHtml(text).replaceAll(RegExp(r'\([^)]*\)|\[[^\]]*\]'), ''),
+      );
+
   final Map<String, Future<String>> _inFlight = {};
 
   /// True when a model is selected, i.e. a request could actually be made.
@@ -105,14 +114,9 @@ class AiLearningTools {
         entry.key: AiDao.sourceHash(entry.value),
     };
     final cached = await _dao.translationsMatching(medicine.id, hashes)
-      ..removeWhere(
-        (_, value) => RegExp(r'[A-Za-z]').hasMatch(stripHtml(value)),
-      );
-    for (final entry in fields.entries) {
-      if (!RegExp(r'[A-Za-z]').hasMatch(stripHtml(entry.value))) {
-        cached[entry.key] = entry.value;
-      }
-    }
+      ..removeWhere((_, value) => !isBanglaText(value));
+    // Never present the untranslated source as if it were Bangla: a field that
+    // has no cached translation is omitted so the UI can show its own notice.
     final missing = [
       for (final entry in fields.entries)
         if (!cached.containsKey(entry.key)) entry,
@@ -139,9 +143,7 @@ class AiLearningTools {
 
     final parsed =
         parseTranslation(reply, [for (final field in missing) field.key])
-          ..removeWhere(
-            (_, value) => RegExp(r'[A-Za-z]').hasMatch(stripHtml(value)),
-          );
+          ..removeWhere((_, value) => !isBanglaText(value));
     for (final entry in parsed.entries) {
       await _dao.saveTranslation(
         medicine.id,
@@ -195,7 +197,9 @@ class AiLearningTools {
     final hash = AiDao.sourceHash(context);
     final ref = '${medicine.id}';
     final cached = await _dao.cache(kindMedicineExplain, ref, hash);
-    if (cached != null) return AiAnswer(text: cached, cached: true);
+    if (cached != null) {
+      return AiAnswer(text: tidyExplanation(cached), cached: true);
+    }
     if (!available) return const AiAnswer(error: offlineNotice);
 
     final reply = await _deduped(
@@ -203,8 +207,9 @@ class AiLearningTools {
       () => _assistant.explainMedicine(context: context),
     );
     if (reply == null) return const AiAnswer(error: offlineNotice);
-    await _dao.saveCache(kindMedicineExplain, ref, hash, reply);
-    return AiAnswer(text: tidyExplanation(reply));
+    final tidy = tidyExplanation(reply);
+    await _dao.saveCache(kindMedicineExplain, ref, hash, tidy);
+    return AiAnswer(text: tidy);
   }
 
   /// Asks a follow-up grounded in this one medicine's local catalogue record.
@@ -237,7 +242,7 @@ class AiLearningTools {
     if (reply == null) {
       return const AiAnswer(error: 'উত্তর পাওয়া যায়নি। আবার চেষ্টা করুন।');
     }
-    if (RegExp(r'[A-Za-z]').hasMatch(stripHtml(reply))) {
+    if (!isBanglaText(reply)) {
       return const AiAnswer(
         error: 'সম্পূর্ণ বাংলা উত্তর পাওয়া যায়নি। আবার চেষ্টা করুন।',
       );
@@ -291,7 +296,9 @@ class AiLearningTools {
     final hash = AiDao.sourceHash(plain);
     final ref = '${course.id}::${lesson.id}';
     final cached = await _dao.cache(kindLessonSummary, ref, hash);
-    if (cached != null) return AiAnswer(text: cached, cached: true);
+    if (cached != null) {
+      return AiAnswer(text: bulletList(cached), cached: true);
+    }
     if (!available) return const AiAnswer(error: offlineNotice);
 
     final reply = await _deduped(
@@ -299,8 +306,9 @@ class AiLearningTools {
       () => _assistant.summarizeLesson(title: lesson.title, body: plain),
     );
     if (reply == null) return const AiAnswer(error: offlineNotice);
-    await _dao.saveCache(kindLessonSummary, ref, hash, reply);
-    return AiAnswer(text: bulletList(reply));
+    final bullets = bulletList(reply);
+    await _dao.saveCache(kindLessonSummary, ref, hash, bullets);
+    return AiAnswer(text: bullets);
   }
 
   /// Turns a model reply into a clean Bangla bullet list (one bullet per line).

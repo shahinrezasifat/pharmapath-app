@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:io';
 
 import 'package:flutter/foundation.dart';
@@ -113,6 +114,16 @@ Future<void> main() async {
     }
 
     runApp(const PharmaPathApp());
+    // One-time catalogue backfill is heavy on a fresh install (thousands of
+    // rows). Let the first frame paint before starting it so startup feels
+    // instant; it is idempotent and safe to resume on the next launch.
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      unawaited(
+        db.backfillGenericDetails().catchError((Object error) {
+          debugPrint('Generic detail backfill skipped: $error');
+        }),
+      );
+    });
   } catch (error) {
     runApp(FatalApp(message: '$error'));
   }
@@ -163,17 +174,29 @@ class _UpdateAwareShell extends StatefulWidget {
 }
 
 class _UpdateAwareShellState extends State<_UpdateAwareShell> {
-  bool _checking = true;
+  bool _checking = kReleaseMode;
   bool _updateRequired = false;
   String? _checkError;
 
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) => _checkForUpdate());
+    if (kReleaseMode) {
+      WidgetsBinding.instance.addPostFrameCallback((_) => _checkForUpdate());
+    }
   }
 
   Future<void> _checkForUpdate() async {
+    if (!kReleaseMode) {
+      if (mounted) {
+        setState(() {
+          _checking = false;
+          _updateRequired = false;
+          _checkError = null;
+        });
+      }
+      return;
+    }
     final updater = Get.find<AppUpdateService>();
     if (!updater.isConfigured) {
       setState(() {

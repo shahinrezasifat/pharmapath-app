@@ -18,6 +18,9 @@ class LearningController extends GetxController {
   final RxList<Course> courses = <Course>[].obs;
   final RxList<LearningTrack> tracks = <LearningTrack>[].obs;
 
+  /// Subjects shown on the redesigned শেখা page (course library only).
+  final RxList<StudySubject> subjects = <StudySubject>[].obs;
+
   /// Shelf id -> its courses, alphabetical inside, computed by the repository.
   final RxMap<String, List<Course>> coursesByTrack =
       <String, List<Course>>{}.obs;
@@ -54,6 +57,7 @@ class LearningController extends GetxController {
     error.value = '';
     try {
       courses.assignAll(await _repository.courses());
+      subjects.assignAll(await _repository.subjects());
       tracks.assignAll(await _repository.tracks());
       final grouped = await _repository.coursesByTrack();
       coursesByTrack
@@ -350,7 +354,11 @@ class LearningController extends GetxController {
     );
     bestResults.assignAll(await _repository.bestResults());
     final threshold = effectivePassRatio(course, lesson);
-    final passed = total > 0 && score / total >= threshold;
+    // Completion follows the learner's BEST attempt, matching
+    // isLessonPassed(): a poor retake must not undo an earlier pass.
+    final best = lessonBest(course.id, lesson.id);
+    final passed =
+        best != null && best.total > 0 && best.score / best.total >= threshold;
     await setLessonCompleted(course.id, lesson.id, passed);
   }
 

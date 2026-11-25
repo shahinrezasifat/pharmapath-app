@@ -195,12 +195,16 @@ class ImageLoader {
     bool showError = false,
     VoidCallback? onTap,
   }) {
-    final words = companyName.split(' ');
+    final words = companyName
+        .trim()
+        .split(RegExp(r'\s+'))
+        .where((word) => word.isNotEmpty)
+        .toList();
     final initials = words.length >= 2
         ? '${words[0][0]}${words[1][0]}'.toUpperCase()
-        : companyName.length >= 2
-        ? companyName.substring(0, 2).toUpperCase()
-        : companyName.toUpperCase();
+        : words.length == 1 && words.first.length >= 2
+        ? words.first.substring(0, 2).toUpperCase()
+        : (words.isEmpty ? '?' : words.first.toUpperCase());
 
     return GestureDetector(
       onTap: onTap,

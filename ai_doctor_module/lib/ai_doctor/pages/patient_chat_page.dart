@@ -68,14 +68,17 @@ class _AiDoctorChatPageState extends State<AiDoctorChatPage> {
   }
 
   Future<void> _load() async {
-    if (!widget.standalone) {
-      final current = await AiDoctorDb.i.patient(_pid!);
+    final pid = _pid;
+    // A public constructor allows an unsaved patient; without an id there is
+    // no persisted thread to load, so fall back to the in-memory conversation.
+    if (!widget.standalone && pid != null) {
+      final current = await AiDoctorDb.i.patient(pid);
       if (current == null) {
         if (mounted) Navigator.pop(context, true);
         return;
       }
-      final messages = await AiDoctorDb.i.messages(_pid!);
-      final meds = await AiDoctorDb.i.meds(_pid!);
+      final messages = await AiDoctorDb.i.messages(pid);
+      final meds = await AiDoctorDb.i.meds(pid);
       if (!mounted) return;
       setState(() {
         _msgs = messages;
@@ -232,17 +235,16 @@ class _AiDoctorChatPageState extends State<AiDoctorChatPage> {
       );
     }
 
+    // DB writes above are awaits; the page may have been popped while they
+    // ran, so never call setState on a disposed state here.
+    if (!mounted) return;
     setState(() => _busy = true);
     try {
-      final conds = widget.standalone
-          ? <AiCondition>[]
-          : await AiDoctorDb.i.conditions(_pid!);
-      final meds = widget.standalone
-          ? <AiMedication>[]
-          : await AiDoctorDb.i.meds(_pid!);
-      final alg = widget.standalone
-          ? <AiAllergy>[]
-          : await AiDoctorDb.i.allergies(_pid!);
+      final pid = _pid;
+      final saved = !widget.standalone && pid != null;
+      final conds = saved ? await AiDoctorDb.i.conditions(pid) : <AiCondition>[];
+      final meds = saved ? await AiDoctorDb.i.meds(pid) : <AiMedication>[];
+      final alg = saved ? await AiDoctorDb.i.allergies(pid) : <AiAllergy>[];
       final system = aiBuildSystemPrompt(
         p: widget.patient,
         doc: _doctor,
@@ -279,11 +281,12 @@ class _AiDoctorChatPageState extends State<AiDoctorChatPage> {
         );
       }
     } on Exception catch (error) {
+      debugPrint('AI doctor reply failed: $error');
       await _add(
         'note',
         aiText(
           'উত্তর পাওয়া যায়নি। আবার চেষ্টা করুন।',
-          'Could not get a response: $error',
+          'Could not get a response. Please try again.',
         ),
       );
     } finally {
@@ -531,8 +534,8 @@ class _AiDoctorChatPageState extends State<AiDoctorChatPage> {
                       children: [
                         CircleAvatar(
                           radius: 26,
-                          backgroundColor: const Color(0xFFDBE8FC),
-                          foregroundColor: const Color(0xFF0C1830),
+                          backgroundColor: cs.primaryContainer,
+                          foregroundColor: cs.onPrimaryContainer,
                           child: Text(
                             _doctor.initial,
                             style: const TextStyle(
@@ -750,8 +753,8 @@ class _MessageView extends StatelessWidget {
             maxWidth: MediaQuery.of(context).size.width * 0.8,
           ),
           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
-          decoration: const BoxDecoration(
-            color: Color(0xFFDBE8FC),
+          decoration: BoxDecoration(
+            color: cs.primaryContainer,
             borderRadius: BorderRadius.only(
               topLeft: Radius.circular(20),
               topRight: Radius.circular(20),
@@ -777,9 +780,9 @@ class _MessageView extends StatelessWidget {
                 ),
               Text(
                 m.text,
-                style: const TextStyle(
+                style: TextStyle(
                   fontSize: 15,
-                  color: Color(0xFF0C1830),
+                  color: cs.onPrimaryContainer,
                   fontWeight: FontWeight.w500,
                 ),
               ),
@@ -802,13 +805,13 @@ class _MessageView extends StatelessWidget {
             children: [
               CircleAvatar(
                 radius: 13,
-                backgroundColor: const Color(0xFFDBE8FC),
+                backgroundColor: cs.primaryContainer,
                 child: Text(
                   doc.initial,
-                  style: const TextStyle(
+                  style: TextStyle(
                     fontSize: 11.5,
                     fontWeight: FontWeight.w700,
-                    color: Color(0xFF0C1830),
+                    color: cs.onPrimaryContainer,
                   ),
                 ),
               ),
@@ -860,10 +863,20 @@ class _Composer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final cs = Theme.of(context).colorScheme;
+    // Minimal composer: one subtle input surface, no nested card and no
+    // decorative shadow — just attachment, text and send.
     return SafeArea(
       top: false,
-      child: Padding(
-        padding: const EdgeInsets.fromLTRB(14, 4, 14, 8),
+      child: Container(
+        padding: const EdgeInsets.fromLTRB(12, 6, 12, 6),
+        decoration: BoxDecoration(
+          color: cs.surface,
+          border: Border(
+            top: BorderSide(
+              color: cs.outlineVariant.withValues(alpha: .35),
+            ),
+          ),
+        ),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
@@ -871,27 +884,27 @@ class _Composer extends StatelessWidget {
               Align(
                 alignment: Alignment.centerLeft,
                 child: Padding(
-                  padding: const EdgeInsets.only(bottom: 8),
+                  padding: const EdgeInsets.only(bottom: 6),
                   child: Stack(
                     children: [
                       ClipRRect(
-                        borderRadius: BorderRadius.circular(14),
+                        borderRadius: BorderRadius.circular(10),
                         child: Image.file(
                           File(imagePath!),
-                          width: 88,
-                          height: 72,
+                          width: 64,
+                          height: 64,
                           fit: BoxFit.cover,
                         ),
                       ),
                       Positioned(
-                        top: 2,
-                        right: 2,
+                        top: 1,
+                        right: 1,
                         child: IconButton.filledTonal(
                           onPressed: onRemoveImage,
-                          icon: const Icon(Icons.close, size: 16),
+                          icon: const Icon(Icons.close, size: 14),
                           constraints: const BoxConstraints.tightFor(
-                            width: 28,
-                            height: 28,
+                            width: 24,
+                            height: 24,
                           ),
                           padding: EdgeInsets.zero,
                         ),
@@ -900,97 +913,73 @@ class _Composer extends StatelessWidget {
                   ),
                 ),
               ),
-            Container(
-              padding: const EdgeInsets.fromLTRB(10, 6, 8, 6),
-              decoration: BoxDecoration(
-                color: cs.surface.withValues(alpha: .85),
-                borderRadius: BorderRadius.circular(30),
-                border: Border.all(
-                  color: cs.outlineVariant.withValues(alpha: .6),
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                IconButton(
+                  tooltip: aiText('ছবি যোগ করুন', 'Attach a photo'),
+                  onPressed: busy ? null : onPickImage,
+                  icon: Icon(
+                    Icons.add_photo_alternate_outlined,
+                    color: cs.onSurfaceVariant,
+                    size: 21,
+                  ),
+                  constraints: const BoxConstraints.tightFor(
+                    width: 40,
+                    height: 40,
+                  ),
+                  padding: EdgeInsets.zero,
                 ),
-                boxShadow: [
-                  BoxShadow(
-                    color: cs.shadow.withValues(alpha: .04),
-                    blurRadius: 18,
-                    offset: const Offset(0, 4),
-                  ),
-                ],
-              ),
-              child: Row(
-                children: [
-                  IconButton(
-                    tooltip: aiText('ছবি যোগ করুন', 'Attach a photo'),
-                    onPressed: busy ? null : onPickImage,
-                    icon: Icon(
-                      Icons.add_photo_alternate_outlined,
-                      color: cs.onSurfaceVariant,
+                const SizedBox(width: 2),
+                Expanded(
+                  child: TextField(
+                    controller: ctrl,
+                    minLines: 1,
+                    maxLines: 4,
+                    textInputAction: TextInputAction.send,
+                    onSubmitted: (_) => onSend(),
+                    decoration: InputDecoration(
+                      hintText: aiText(
+                        'আপনার প্রশ্ন লিখুন…',
+                        'Write your question…',
+                      ),
+                      hintStyle: TextStyle(
+                        color: cs.onSurfaceVariant,
+                        fontSize: 14,
+                      ),
+                      filled: true,
+                      fillColor: cs.surfaceContainerHighest.withValues(alpha: .45),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(20),
+                        borderSide: BorderSide.none,
+                      ),
+                      contentPadding: const EdgeInsets.symmetric(
+                        horizontal: 14,
+                        vertical: 9,
+                      ),
                     ),
+                  ),
+                ),
+                const SizedBox(width: 6),
+                IconButton.filled(
+                  onPressed: busy ? null : onSend,
+                  icon: Icon(
+                    busy
+                        ? Icons.hourglass_top_rounded
+                        : Icons.arrow_upward_rounded,
+                    size: 20,
+                  ),
+                  style: IconButton.styleFrom(
+                    backgroundColor: cs.primary,
+                    foregroundColor: cs.onPrimary,
                     padding: EdgeInsets.zero,
-                    constraints: const BoxConstraints.tightFor(
-                      width: 36,
-                      height: 36,
-                    ),
+                    shape: const CircleBorder(),
+                    minimumSize: const Size(40, 40),
                   ),
-                  const SizedBox(width: 4),
-                  Expanded(
-                    child: Container(
-                      height: 44,
-                      padding: const EdgeInsets.symmetric(horizontal: 14),
-                      decoration: BoxDecoration(
-                        color: cs.surface,
-                        borderRadius: BorderRadius.circular(16),
-                        border: Border.all(
-                          color: cs.outlineVariant.withValues(alpha: .8),
-                        ),
-                      ),
-                      alignment: Alignment.center,
-                      child: TextField(
-                        controller: ctrl,
-                        minLines: 1,
-                        maxLines: 3,
-                        textInputAction: TextInputAction.send,
-                        onSubmitted: (_) => onSend(),
-                        decoration: InputDecoration(
-                          hintText: aiText(
-                            'আপনার প্রশ্ন লিখুন…',
-                            'Write your question…',
-                          ),
-                          hintStyle: TextStyle(
-                            color: cs.outline,
-                            fontSize: 14.5,
-                          ),
-                          border: InputBorder.none,
-                          isDense: true,
-                          contentPadding: EdgeInsets.zero,
-                        ),
-                      ),
-                    ),
-                  ),
-                  const SizedBox(width: 8),
-                  SizedBox(
-                    width: 42,
-                    height: 42,
-                    child: IconButton.filled(
-                      onPressed: busy ? null : onSend,
-                      icon: Icon(
-                        busy
-                            ? Icons.hourglass_top_rounded
-                            : Icons.arrow_upward_rounded,
-                        size: 22,
-                      ),
-                      style: IconButton.styleFrom(
-                        backgroundColor: const Color(0xFF1D64F2),
-                        foregroundColor: Colors.white,
-                        padding: EdgeInsets.zero,
-                        shape: const CircleBorder(),
-                        elevation: 2,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
+                ),
+              ],
             ),
-            const SizedBox(height: 8),
+            const SizedBox(height: 5),
             Text(
               imagePath == null
                   ? aiText(
@@ -1002,8 +991,8 @@ class _Composer extends StatelessWidget {
                       'Photo will be sent to the configured AI provider. $aiDisclaimer',
                     ),
               style: TextStyle(
-                fontSize: 11.5,
-                color: cs.outline,
+                fontSize: 10.5,
+                color: cs.onSurfaceVariant.withValues(alpha: .85),
               ),
               textAlign: TextAlign.center,
             ),

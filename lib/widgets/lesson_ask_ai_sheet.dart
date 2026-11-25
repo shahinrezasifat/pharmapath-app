@@ -238,7 +238,7 @@ class _LessonChatSheetState extends State<_LessonChatSheet> {
             );
           },
           icon: const Icon(Icons.auto_awesome_rounded, size: 18),
-          label: const Text('পুরো সহকারককে জিজ্ঞাসা করুন'),
+          label: const Text('পুরো সহায়ককে জিজ্ঞাসা করুন'),
         ),
       ],
     );

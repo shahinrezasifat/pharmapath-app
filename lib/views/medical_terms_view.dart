@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../core/format.dart';
 import '../models/learning.dart';
 import '../widgets/glass.dart';
 import '../widgets/medical_term_dialog.dart';
@@ -399,7 +400,7 @@ class _MedicalTermsViewState extends State<MedicalTermsView> {
 
     return AppBackground(
       child: Scaffold(
-        appBar: AppBar(title: const Text('Medical glossary')),
+        appBar: AppBar(title: const Text('চিকিৎসা পরিভাষা')),
         body: ListView(
           padding: const EdgeInsets.fromLTRB(16, 8, 16, 32),
           children: [
@@ -422,13 +423,13 @@ class _MedicalTermsViewState extends State<MedicalTermsView> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          'Understand health terms',
+                          'স্বাস্থ্যের শব্দ বুঝুন',
                           style: Theme.of(context).textTheme.titleMedium
                               ?.copyWith(fontWeight: FontWeight.w700),
                         ),
                         const SizedBox(height: 3),
                         Text(
-                          '${_defaultTerms.length} terms · Simple Bengali explanations',
+                          '${bn(_defaultTerms.length)}টি পরিভাষা · সহজ বাংলা ব্যাখ্যা',
                           style: Theme.of(context).textTheme.bodySmall
                               ?.copyWith(color: scheme.onSurfaceVariant),
                         ),
@@ -443,7 +444,7 @@ class _MedicalTermsViewState extends State<MedicalTermsView> {
               controller: _search,
               onChanged: (val) => setState(() => _query = val),
               decoration: InputDecoration(
-                hintText: 'Search in English or Bengali',
+                hintText: 'ইংরেজি বা বাংলায় খুঁজুন',
                 prefixIcon: const Icon(Icons.search_rounded),
                 suffixIcon: _query.isNotEmpty
                     ? IconButton(
@@ -463,7 +464,7 @@ class _MedicalTermsViewState extends State<MedicalTermsView> {
               children: [
                 for (final category in categories)
                   ChoiceChip(
-                    label: Text(category),
+                    label: Text(category == 'All' ? 'সব' : category),
                     selected: _category == category,
                     onSelected: (_) => setState(() => _category = category),
                   ),
@@ -474,7 +475,7 @@ class _MedicalTermsViewState extends State<MedicalTermsView> {
               children: [
                 Expanded(
                   child: Text(
-                    '${filtered.length} ${filtered.length == 1 ? 'term' : 'terms'}',
+                    '${bn(filtered.length)}টি পরিভাষা',
                     style: Theme.of(context).textTheme.labelLarge
                         ?.copyWith(color: scheme.onSurfaceVariant),
                   ),
@@ -488,7 +489,7 @@ class _MedicalTermsViewState extends State<MedicalTermsView> {
                         _category = 'All';
                       });
                     },
-                    child: const Text('Clear filters'),
+                    child: const Text('ফিল্টার মুছুন'),
                   ),
               ],
             ),
@@ -503,10 +504,10 @@ class _MedicalTermsViewState extends State<MedicalTermsView> {
                       color: scheme.onSurfaceVariant,
                     ),
                     const SizedBox(height: 8),
-                    const Text('No matching terms'),
+                    const Text('কোনো পরিভাষা পাওয়া যায়নি'),
                     const SizedBox(height: 4),
                     Text(
-                      'Try another spelling or switch categories.',
+                      'অন্য বানান বা বিভাগ বেছে নিয়ে আবার চেষ্টা করুন।',
                       style: Theme.of(context).textTheme.bodySmall
                           ?.copyWith(color: scheme.onSurfaceVariant),
                       textAlign: TextAlign.center,

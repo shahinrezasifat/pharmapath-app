@@ -14,8 +14,8 @@ void main() {
     await tester.pumpWidget(const MaterialApp(home: MedicalTermsView()));
     await tester.pumpAndSettle();
 
-    expect(find.text('Medical glossary'), findsOneWidget);
-    expect(find.text('40 terms · Simple Bengali explanations'), findsOneWidget);
+    expect(find.text('চিকিৎসা পরিভাষা'), findsOneWidget);
+    expect(find.text('৪০টি পরিভাষা · সহজ বাংলা ব্যাখ্যা'), findsOneWidget);
     expect(find.text('Antibiotic'), findsOneWidget);
     expect(find.text('Anemia'), findsOneWidget);
 
@@ -24,9 +24,9 @@ void main() {
 
     expect(find.text('Anemia'), findsNWidgets(2));
     expect(find.text('Antibiotic'), findsNothing);
-    expect(find.text('1 term'), findsOneWidget);
+    expect(find.text('১টি পরিভাষা'), findsOneWidget);
 
-    await tester.tap(find.text('Clear filters'));
+    await tester.tap(find.text('ফিল্টার মুছুন'));
     await tester.pumpAndSettle();
 
     await tester.tap(

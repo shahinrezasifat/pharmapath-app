@@ -68,8 +68,16 @@ const aiEmergencyNote =
 
 /// উত্তরে রোগীর অ্যালার্জির ওষুধের নাম থাকলে সেটা ফিরিয়ে দেয়
 String? aiAllergyHit(String reply, List<AiAllergy> allergies) {
+  // Allergy names come from the English catalogue while the model usually
+  // replies in Bengali, so a case-sensitive contains() misses real hits and
+  // the safety note never appears.
+  final normalized = reply.toLowerCase().replaceAll(RegExp(r'\s+'), ' ');
   for (final a in allergies) {
-    if (a.name.isNotEmpty && reply.contains(a.name)) return a.name;
+    final name = a.name.trim();
+    if (name.isEmpty) continue;
+    if (normalized.contains(name.toLowerCase().replaceAll(RegExp(r'\s+'), ' '))) {
+      return a.name;
+    }
   }
   return null;
 }
@@ -99,6 +107,7 @@ Patient profile:
 - Current medications: ${list(meds, (m) => '${m.name}, ${m.dose} ${m.unit}, ${m.timesPerDay} times/day (${m.dosageForm}; ${m.since})')}
 - Medical history: ${list(past, (c) => c.sinceYear == null ? c.name : '${c.name} (since ${c.sinceYear})')}
 - Allergies: ${list(allergies, (a) => a.name)}
+Always repeat the exact allergy name from this list (English spelling is fine) whenever it is relevant to the advice.
 ''';
   final languageInstruction = languageCode == 'bn'
       ? 'Reply entirely in Bengali using clear, concise language.'
@@ -183,8 +192,22 @@ class AiDoctorService {
     if (res.statusCode != 200) {
       throw Exception('AI error ${res.statusCode}');
     }
-    final data = jsonDecode(utf8.decode(res.bodyBytes));
-    final content = data['choices'][0]['message']['content'];
+    final decoded = jsonDecode(utf8.decode(res.bodyBytes));
+    // Providers and captive portals can answer 200 with HTML, an empty
+    // `choices` list or a non-Map body. Validate the shape before indexing so
+    // a RangeError/TypeError never escapes as an uncatchable Error.
+    if (decoded is! Map) {
+      throw const FormatException('AI response was not a JSON object');
+    }
+    final choices = decoded['choices'];
+    if (choices is! List || choices.isEmpty || choices.first is! Map) {
+      throw const FormatException('AI response did not contain a choice');
+    }
+    final message = (choices.first as Map)['message'];
+    if (message is! Map) {
+      throw const FormatException('AI response did not contain a message');
+    }
+    final content = message['content'];
     if (content is String) return content.trim();
     if (content is List) {
       return content

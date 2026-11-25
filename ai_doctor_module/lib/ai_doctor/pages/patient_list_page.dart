@@ -165,7 +165,21 @@ class _AiDoctorHomePageState extends State<AiDoctorHomePage> {
       ),
     );
     if (confirmed == true && p.id != null) {
-      await AiDoctorDb.i.deletePatient(p.id!);
+      try {
+        await AiDoctorDb.i.deletePatient(p.id!);
+      } catch (error) {
+        debugPrint('Could not delete patient: $error');
+        if (mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text(
+                aiText('মুছে ফেলা যায়নি। আবার চেষ্টা করুন।', 'Could not delete. Please try again.'),
+              ),
+            ),
+          );
+        }
+        return;
+      }
       if (mounted) {
         _reload();
         ScaffoldMessenger.of(context).showSnackBar(
@@ -204,17 +218,23 @@ class _AiDoctorHomePageState extends State<AiDoctorHomePage> {
     final canPop = ModalRoute.of(context)?.canPop ?? false;
     final isShellTab = widget.isTab ?? !canPop;
     final inset = _bottomInset(context);
-    final navBarTop = isShellTab ? (80.0 + inset) : 0.0;
-    final fabBottom = isShellTab ? (navBarTop + 14.0) : (inset + 14.0);
-    final listBottom = isShellTab ? (navBarTop + 84.0) : (inset + 84.0);
+    // The shell now overlays its floating pill instead of reserving a band, so
+    // this page fills the whole screen. Compensate for the pill exactly once.
+    const navBarTop = 74.0; // 60dp pill + 14dp bottom margin
+    final fabBottom = isShellTab ? (navBarTop + 14.0 + inset) : (inset + 14.0);
+    final listBottom = isShellTab ? (navBarTop + 24.0 + inset) : (inset + 84.0);
     return Scaffold(
       appBar: AppBar(
         backgroundColor: cs.surface,
         surfaceTintColor: Colors.transparent,
-        title: Text(
-          aiText('রোগী', 'Patients'),
-          style: const TextStyle(fontWeight: FontWeight.w800),
-        ),
+        // The shell already shows this title; repeating it wastes a row of
+        // vertical space on the narrow patient list.
+        title: isShellTab
+            ? null
+            : Text(
+                aiText('রোগী', 'Patients'),
+                style: const TextStyle(fontWeight: FontWeight.w800),
+              ),
         actions: [
           AiDoctorLanguageButton(
             onChanged: () {
@@ -503,7 +523,7 @@ class _AiDoctorHomePageState extends State<AiDoctorHomePage> {
   }
 }
 
-class _PatientListCard extends StatelessWidget {
+class _PatientListCard extends StatefulWidget {
   const _PatientListCard({
     required this.patient,
     required this.onTap,
@@ -515,7 +535,18 @@ class _PatientListCard extends StatelessWidget {
   final VoidCallback onDelete;
 
   @override
+  State<_PatientListCard> createState() => _PatientListCardState();
+}
+
+class _PatientListCardState extends State<_PatientListCard> {
+  // One query per card instance, not one per rebuild: search keystrokes and
+  // language toggles previously re-read the DB for every visible patient.
+  late final Future<String> _summary =
+      AiDoctorDb.i.currentSummary(widget.patient.id!);
+
+  @override
   Widget build(BuildContext context) {
+    final patient = widget.patient;
     final colors = Theme.of(context).colorScheme;
     final details = [
       '${aiLocalizedNumber(patient.age)} ${aiText('বছর', 'years')}',
@@ -528,7 +559,7 @@ class _PatientListCard extends StatelessWidget {
       clipBehavior: Clip.antiAlias,
       child: InkWell(
         borderRadius: BorderRadius.circular(18),
-        onTap: onTap,
+        onTap: widget.onTap,
         child: Container(
           decoration: BoxDecoration(
             border: Border.all(
@@ -581,7 +612,7 @@ class _PatientListCard extends StatelessWidget {
                       ),
                     ],
                     FutureBuilder<String>(
-                      future: AiDoctorDb.i.currentSummary(patient.id!),
+                      future: _summary,
                       builder: (context, snapshot) {
                         final summary = snapshot.data;
                         if (summary == null ||
@@ -605,7 +636,7 @@ class _PatientListCard extends StatelessWidget {
               ),
               IconButton(
                 tooltip: aiText('রোগী মুছুন', 'Delete patient'),
-                onPressed: onDelete,
+                onPressed: widget.onDelete,
                 style: IconButton.styleFrom(
                   backgroundColor: colors.errorContainer.withValues(alpha: .65),
                   visualDensity: VisualDensity.compact,

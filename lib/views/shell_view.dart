@@ -9,6 +9,7 @@ import '../app/theme.dart';
 import '../controllers/favorites_controller.dart';
 import '../controllers/home_controller.dart';
 import '../controllers/navigation_controller.dart';
+import '../controllers/search_controller.dart';
 import '../core/navigation_mode.dart';
 import '../widgets/glass.dart';
 import 'favorites_view.dart';
@@ -37,7 +38,7 @@ class _ShellViewState extends State<ShellView> {
         HomeView(),
         SearchView(),
         LearningView(),
-        AiDoctorHomePage(),
+        const AiDoctorHomePage(isTab: true),
         FavoritesView(),
         SettingsView(),
       ];
@@ -62,13 +63,35 @@ class _ShellViewState extends State<ShellView> {
   static const _pageIndexes = [0, 2, 3, 4, 5];
 
   void _onSelect(int destinationIndex) {
-    final pageIndex = _pageIndexes[destinationIndex];
+    final pageIndex = _pageIndexes[destinationIndex.clamp(0, _pageIndexes.length - 1)];
     _nav.goTo(pageIndex);
-    if (Get.isRegistered<HomeController>()) {
-      if (pageIndex == 0) Get.find<HomeController>().load();
-    }
-    if (Get.isRegistered<FavoritesController>()) {
-      if (pageIndex == 4) Get.find<FavoritesController>().load();
+    _onRefresh(pageIndex);
+  }
+
+  /// Refresh means "reload this page", never "jump to another tab". The old
+  /// implementation sent the search page back to Home because the refresh
+  /// button reused the selected destination index.
+  void _onRefresh(int pageIndex) {
+    switch (pageIndex) {
+      case 0:
+        if (Get.isRegistered<HomeController>()) {
+          Get.find<HomeController>().load();
+        }
+        break;
+      case 1:
+        if (Get.isRegistered<MedicineSearchController>()) {
+          final search = Get.find<MedicineSearchController>();
+          search.refreshHistory();
+          if (search.query.value.trim().isNotEmpty) {
+            search.search(record: false);
+          }
+        }
+        break;
+      case 4:
+        if (Get.isRegistered<FavoritesController>()) {
+          Get.find<FavoritesController>().load();
+        }
+        break;
     }
   }
 
@@ -107,29 +130,37 @@ class _ShellViewState extends State<ShellView> {
           ? const Color(0xFF8D9BB8) // #8d9bb8
           : const Color(0xFF667694); // #667694
 
+      // Clamp once: the header, the page stack and the highlighted tab must
+      // never disagree about which page is actually visible.
+      final safeIndex = index.clamp(0, _pages.length - 1);
       return Scaffold(
         backgroundColor: scheme.surface,
-        extendBody: false,
-        body: AppBackground(
-          child: Column(
-            children: [
-              _SectionHeader(
-                index: index,
-                title: _pageTitles[index.clamp(0, _pageTitles.length - 1)],
-                onSearch: () => _nav.goTo(1),
-                onRefresh: () => _onSelect(selectedDestination),
+        // The bar is an overlay, not a docked band: the page content extends
+        // underneath it so the glass blur has something real to sample and no
+        // empty strip is reserved at the bottom of the screen.
+        extendBody: true,
+        body: Stack(
+          children: [
+            AppBackground(
+              child: Column(
+                children: [
+                  _SectionHeader(
+                    index: safeIndex,
+                    title: _pageTitles[safeIndex],
+                    onSearch: () => _nav.goTo(1),
+                    onRefresh: () => _onRefresh(safeIndex),
+                  ),
+                  Expanded(
+                    child: IndexedStack(index: safeIndex, children: _pages),
+                  ),
+                ],
               ),
-              Expanded(
-                child: IndexedStack(index: index, children: _pages),
-              ),
-            ],
-          ),
-        ),
-        bottomNavigationBar: isKeyboardOpen
-            ? null
-            : Align(
-                alignment: Alignment.bottomCenter,
-                heightFactor: 1.0,
+            ),
+            if (!isKeyboardOpen)
+              Positioned(
+                left: 0,
+                right: 0,
+                bottom: 0,
                 child: Padding(
                   padding: EdgeInsets.only(
                     left: 12,
@@ -138,58 +169,65 @@ class _ShellViewState extends State<ShellView> {
                   ),
                   child: ConstrainedBox(
                     constraints: const BoxConstraints(maxWidth: 420),
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(30),
-                      child: BackdropFilter(
-                        filter: ImageFilter.blur(sigmaX: 20, sigmaY: 20),
-                        child: Container(
-                          height: 60,
-                          decoration: BoxDecoration(
-                            color: navBg,
-                            borderRadius: BorderRadius.circular(30),
-                            border: Border.all(color: navLine, width: 1),
-                            boxShadow: const [
-                              BoxShadow(
-                                color: Color(0x402557C5), // rgba(37,87,197,.25)
-                                blurRadius: 40,
-                                offset: Offset(0, 12),
-                              ),
-                            ],
+                    // Shadow lives OUTSIDE the clip, otherwise it is cut away
+                    // and the pill reads as flat/pinned instead of floating.
+                    child: Container(
+                      decoration: const BoxDecoration(
+                        borderRadius: BorderRadius.all(Radius.circular(30)),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Color(0x402557C5), // rgba(37,87,197,.25)
+                            blurRadius: 40,
+                            offset: Offset(0, 12),
                           ),
-                          padding: const EdgeInsets.all(8),
-                          child: LayoutBuilder(
-                            builder: (context, constraints) {
-                              return FittedBox(
-                                fit: BoxFit.scaleDown,
-                                alignment: Alignment.center,
-                                child: ConstrainedBox(
-                                  constraints: BoxConstraints(
-                                    minWidth: constraints.maxWidth,
-                                    minHeight: constraints.maxHeight,
+                        ],
+                      ),
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(30),
+                        child: BackdropFilter(
+                          filter: ImageFilter.blur(sigmaX: 20, sigmaY: 20),
+                          child: Container(
+                            height: 60,
+                            decoration: BoxDecoration(
+                              color: navBg,
+                              borderRadius: BorderRadius.circular(30),
+                              border: Border.all(color: navLine, width: 1),
+                            ),
+                            padding: const EdgeInsets.all(8),
+                            child: LayoutBuilder(
+                              builder: (context, constraints) {
+                                return FittedBox(
+                                  fit: BoxFit.scaleDown,
+                                  alignment: Alignment.center,
+                                  child: ConstrainedBox(
+                                    constraints: BoxConstraints(
+                                      minWidth: constraints.maxWidth,
+                                      minHeight: constraints.maxHeight,
+                                    ),
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.center,
+                                      children: [
+                                        for (
+                                          var i = 0;
+                                          i < _destinations.length;
+                                          i++
+                                        )
+                                          _NavigationDestination(
+                                            type: _destinations[i].type,
+                                            label: _destinations[i].label,
+                                            selected: selectedDestination == i,
+                                            mutedColor: mutedColor,
+                                            onTap: () => _onSelect(i),
+                                          ),
+                                      ],
+                                    ),
                                   ),
-                                  child: Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.center,
-                                    children: [
-                                      for (
-                                        var i = 0;
-                                        i < _destinations.length;
-                                        i++
-                                      )
-                                        _NavigationDestination(
-                                          type: _destinations[i].type,
-                                          label: _destinations[i].label,
-                                          selected: selectedDestination == i,
-                                          mutedColor: mutedColor,
-                                          onTap: () => _onSelect(i),
-                                        ),
-                                    ],
-                                  ),
-                                ),
-                              );
-                            },
+                                );
+                              },
+                            ),
                           ),
                         ),
                       ),
@@ -197,6 +235,8 @@ class _ShellViewState extends State<ShellView> {
                   ),
                 ),
               ),
+          ],
+        ),
       );
     });
   }
@@ -389,7 +429,7 @@ class _NavigationDestinationState extends State<_NavigationDestination> {
                                   widget.label,
                                   maxLines: 1,
                                   softWrap: false,
-                                  overflow: TextOverflow.clip,
+                                  overflow: TextOverflow.ellipsis,
                                   style: const TextStyle(
                                     fontFamily: AppTheme.fontFamily,
                                     fontSize: 13,

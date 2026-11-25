@@ -118,7 +118,7 @@ class BodySystemView extends StatelessWidget {
                     Icon(Icons.hub_outlined, size: 18, color: scheme.primary),
                     const SizedBox(width: 8),
                     Text(
-                      'সংশ্লিষ্ট অঙ্গসমূহ (Body Parts)',
+                      'সংশ্লিষ্ট অঙ্গসমূহ',
                       style: Theme.of(context).textTheme.titleSmall
                           ?.copyWith(fontWeight: FontWeight.w800),
                     ),

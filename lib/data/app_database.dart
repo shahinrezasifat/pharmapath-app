@@ -13,6 +13,10 @@ import '../services/seed_database.dart';
 class AppDatabase {
   AppDatabase._(this.db, {required this.ftsAvailable});
 
+  /// Current SQLite schema version. Kept public so backup manifests report the
+  /// real version instead of a stale hard-coded number.
+  static const int schemaVersion = 9;
+
   final Database db;
   final bool ftsAvailable;
 
@@ -42,7 +46,7 @@ class AppDatabase {
     await SeedInstaller.installIfNeeded(dbPath);
     final database = await openDatabase(
       dbPath,
-      version: 9,
+      version: schemaVersion,
       onConfigure: (db) async {
         await db.execute('PRAGMA foreign_keys = ON');
       },
@@ -89,7 +93,9 @@ class AppDatabase {
     // that generic-level text (with the brand name substituted) once, so more
     // catalogue entries can show real clinical content instead of an empty
     // detail page.
-    await app.backfillGenericDetails();
+    // The one-time backfill scans the whole catalogue and writes many rows.
+    // It is intentionally NOT awaited here: the caller schedules it after the
+    // first frame so a fresh install can show its UI immediately.
     return app;
   }
 
@@ -510,10 +516,24 @@ class AppDatabase {
           VALUES (new.id, new.brand_name, new.generic_name, new.company, new.strength, new.dosage_form, new.therapeutic_class);
         END
       ''');
-      // Populate the index for rows that already existed before the table.
-      await db.execute(
-        'INSERT INTO medicines_fts(medicines_fts) VALUES(\'rebuild\')',
+      // Rebuild only ONCE. Triggers keep the index in sync afterwards, and
+      // rebuilding ~19k rows on every cold start kept the app on the splash
+      // screen for 10+ minutes on slower devices.
+      final ready = await db.query(
+        'meta',
+        where: 'key = ?',
+        whereArgs: ['fts_index_ready_v1'],
+        limit: 1,
       );
+      if (ready.isEmpty) {
+        await db.execute(
+          'INSERT INTO medicines_fts(medicines_fts) VALUES(\'rebuild\')',
+        );
+        await db.insert('meta', {
+          'key': 'fts_index_ready_v1',
+          'value': '1',
+        }, conflictAlgorithm: ConflictAlgorithm.replace);
+      }
       return true;
     } catch (error) {
       debugPrint('FTS5 unavailable, using LIKE search: $error');
@@ -591,15 +611,103 @@ class AppDatabase {
     });
   }
 
+  /// Columns of the `medicines` table, in the exact order used by the upsert
+  /// helper below. Kept in one place so the INSERT and the DO UPDATE clause can
+  /// never drift apart.
+  static const _medicineColumns = <String>[
+    'id',
+    'slug',
+    'url',
+    'brand_name',
+    'dosage_form',
+    'strength',
+    'generic_name',
+    'generic_id',
+    'company',
+    'company_id',
+    'unit_price',
+    'price_text',
+    'pack_sizes',
+    'indications',
+    'composition',
+    'pharmacology',
+    'dosage_and_administration',
+    'interaction',
+    'contraindications',
+    'side_effects',
+    'pregnancy_and_lactation',
+    'precautions_and_warnings',
+    'overdose_effects',
+    'therapeutic_class',
+    'storage_conditions',
+    'common_questions',
+    'sections_json',
+    'detail_loaded',
+    'source',
+    'source_updated',
+    'first_seen',
+    'last_updated',
+    'trade_price',
+    'mrp',
+    'stock_quantity',
+    'batch_number',
+    'rack_no',
+    'mfg_date',
+    'expiry_date',
+    'image_url',
+    'company_logo_url',
+  ];
+
+  /// `INSERT OR REPLACE` deletes the old row before inserting the new one.
+  /// Because `favorites`, `view_history` and `translations` point at medicines,
+  /// that silently destroys user data on every detail refresh. SQLite UPSERT
+  /// updates the existing row in place instead, so those rows survive.
+  static final String _medicineUpsertSql = () {
+    final placeholders = List<String>.filled(
+      _medicineColumns.length,
+      '?',
+    ).join(',');
+    final assignments = _medicineColumns
+        .where((name) => name != 'id' && name != 'first_seen')
+        .map((name) => '$name = excluded.$name')
+        .join(', ');
+    // `first_seen` describes the first time we ever saw the record, so an
+    // update must never overwrite it with the incoming value.
+    return 'INSERT INTO medicines (${_medicineColumns.join(',')}) '
+        'VALUES ($placeholders) ON CONFLICT(id) DO UPDATE SET '
+        '$assignments, first_seen = medicines.first_seen';
+  }();
+
+  static List<Object?> _medicineUpsertArgs(
+    Medicine m, {
+    required int detailLoaded,
+    required String? sourceUpdated,
+    required int firstSeen,
+    required int lastUpdated,
+  }) {
+    final values = <String, Object?>{
+      ...m.toDbMap(),
+      'detail_loaded': detailLoaded,
+      'source_updated': sourceUpdated ?? m.sourceUpdated,
+      'first_seen': firstSeen,
+      'last_updated': lastUpdated,
+    };
+    return [for (final name in _medicineColumns) values[name]];
+  }
+
   /// Full record, marks the row as detail-loaded.
   Future<void> upsertDetail(Medicine m, {String? sourceUpdated}) async {
-    await db.insert('medicines', {
-      ...m.toDbMap(),
-      'detail_loaded': 1,
-      'source_updated': sourceUpdated ?? m.sourceUpdated,
-      'first_seen': m.firstSeen ?? DateTime.now().millisecondsSinceEpoch,
-      'last_updated': DateTime.now().millisecondsSinceEpoch,
-    }, conflictAlgorithm: ConflictAlgorithm.replace);
+    final now = DateTime.now().millisecondsSinceEpoch;
+    await db.rawInsert(
+      _medicineUpsertSql,
+      _medicineUpsertArgs(
+        m,
+        detailLoaded: 1,
+        sourceUpdated: sourceUpdated,
+        firstSeen: m.firstSeen ?? now,
+        lastUpdated: now,
+      ),
+    );
   }
 
   /// Batched variant of [upsertDetail] for the initial full download and the
@@ -615,13 +723,16 @@ class AppDatabase {
     await db.transaction((txn) async {
       final batch = txn.batch();
       for (final m in items) {
-        batch.insert('medicines', {
-          ...m.toDbMap(),
-          'detail_loaded': m.hasClinicalData || m.detailLoaded ? 1 : 0,
-          'source_updated': sourceUpdated ?? m.sourceUpdated,
-          'first_seen': m.firstSeen ?? now,
-          'last_updated': now,
-        }, conflictAlgorithm: ConflictAlgorithm.replace);
+        batch.rawInsert(
+          _medicineUpsertSql,
+          _medicineUpsertArgs(
+            m,
+            detailLoaded: m.hasClinicalData || m.detailLoaded ? 1 : 0,
+            sourceUpdated: sourceUpdated,
+            firstSeen: m.firstSeen ?? now,
+            lastUpdated: now,
+          ),
+        );
       }
       await batch.commit(noResult: true);
     });

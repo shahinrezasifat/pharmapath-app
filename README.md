@@ -85,7 +85,7 @@ PharmaPath একটি বাংলা-প্রথম Android অ্যাপ�
 
 ## ডাউনলোড ও আপডেট
 
-**বর্তমান সংস্করণ: 2.0.3** · [সর্বশেষ GitHub Release থেকে APK নিন](https://github.com/shahinrezasifat/pharmapath-app/releases/latest)
+**বর্তমান সংস্করণ: 2.0.4** · [সর্বশেষ GitHub Release থেকে APK নিন](https://github.com/shahinrezasifat/pharmapath-app/releases/latest)
 
 অ্যাপ চালু হলেই ইন্টারনেট দিয়ে GitHub-এর সর্বশেষ প্রকাশিত সংস্করণ যাচাই হয়। নতুন সংস্করণ থাকলে আপডেটের পর্দা আসবে এবং আপডেট ইনস্টল না করা পর্যন্ত অ্যাপের বাকি অংশে যাওয়া যাবে না। APK অ্যাপের ভেতর থেকেই ডাউনলোড হয়। প্রথমবার Android এই উৎস থেকে ইনস্টল করার অনুমতি চাইতে পারে; তারপর Android installer-এ Update নিশ্চিত করতে হবে। আপডেট যাচাই ও ডাউনলোডে ইন্টারনেট লাগে।
 

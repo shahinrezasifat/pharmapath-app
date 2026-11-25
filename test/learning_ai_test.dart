@@ -967,13 +967,15 @@ void main() {
           findsOneWidget,
         );
         expect(find.text('দিনে সর্বোচ্চ ৮টি ট্যাবলেট।'), findsOneWidget);
+        // Age filtering is deliberate: a 32-year-old must not be shown the
+        // paediatric section, and the adult/maximum guidance stays visible.
         expect(
           find.text('১২ বছরের কম বয়সী শিশুদের জন্য সুপারিশ করা হয় না।'),
-          findsOneWidget,
+          findsNothing,
         );
         expect(find.text('প্রাপ্তবয়স্কদের ডোজ'), findsOneWidget);
         expect(find.text('সর্বোচ্চ ডোজ'), findsOneWidget);
-        expect(find.text('শিশুদের ডোজ'), findsOneWidget);
+        expect(find.text('শিশুদের ডোজ'), findsNothing);
         expect(
           find.text(
             'গর্ভাবস্থা ও স্তন্যদানে ব্যবহারের আগে চিকিৎসকের পরামর্শ নিন।',
@@ -1044,64 +1046,51 @@ void main() {
       await db.close();
     });
 
-    testWidgets(
-      'displays redesigned PRD learning home with header, categories, and progress',
-      (tester) async {
-        tester.view.physicalSize = const Size(1200, 2600);
-        tester.view.devicePixelRatio = 1;
-        addTearDown(tester.view.reset);
+    testWidgets('shows only the subject-based course library', (tester) async {
+      tester.view.physicalSize = const Size(1200, 2600);
+      tester.view.devicePixelRatio = 1;
+      addTearDown(tester.view.reset);
 
-        await tester.pumpWidget(const MaterialApp(home: LearningView()));
-        await tester.pumpAndSettle();
+      await tester.pumpWidget(const MaterialApp(home: LearningView()));
+      await tester.pumpAndSettle();
 
-        // PRD Section 4.1 Header & Subtitle
-        expect(find.text('শেখা'), findsWidgets);
-        expect(find.text('ধাপে ধাপে শিখুন, জ্ঞান যাচাই করুন।'), findsOneWidget);
+      expect(find.text('বিষয়, কোর্স বা পাঠ খুঁজুন…'), findsOneWidget);
+      expect(find.text('কোর্স লাইব্রেরি'), findsOneWidget);
+      expect(find.text('অ্যান্টিবায়োটিক'), findsWidgets);
 
-        // PRD Section 4.4 Progress Dashboard
-        expect(find.text('আপনার সার্বিক অগ্রগতি'), findsOneWidget);
+      // Everything the reader asked to remove is gone from this page.
+      for (final gone in [
+        'সার্বিক অগ্রগতি',
+        'সুপারিশকৃত পাঠ',
+        'চিকিৎসা পরিভাষা',
+        'রিভিশন',
+        'অঙ্গতন্ত্র',
+        'কুইজ',
+      ]) {
+        expect(find.text(gone), findsNothing, reason: '$gone is still visible');
+      }
+    });
 
-        // The generic recommendation chips are gone; search moved into the
-        // AppBar so nothing but progress and the directory sits under the header.
-        for (final chip in [
-          'সব বিষয়',
-          'মানবদেহ পরিচিতি',
-          'অঙ্গ ও অঙ্গতন্ত্র',
-          'ফার্মেসি অনুশীলন',
-        ]) {
-          expect(
-            find.text(chip),
-            findsNothing,
-            reason: '$chip still clutters the hub',
-          );
-        }
-
-        // Courses, organ systems and quizzes are reached through the tabs.
-        expect(find.text('কোর্স'), findsWidgets);
-        expect(find.text('অঙ্গতন্ত্র'), findsWidgets);
-        expect(find.text('কুইজ'), findsWidgets);
-      },
-    );
-
-    testWidgets('offers a continue learning card when a lesson was started', (
+    testWidgets('a subject opens its subtopics and indication guide', (
       tester,
     ) async {
       tester.view.physicalSize = const Size(1200, 2600);
       tester.view.devicePixelRatio = 1;
       addTearDown(tester.view.reset);
 
-      await tester.runAsync(() => controller.markRead('b3', 'b3-l0'));
-      await tester.pumpWidget(const MaterialApp(home: LearningView()));
+      await tester.pumpWidget(const GetMaterialApp(home: LearningView()));
       await tester.pumpAndSettle();
 
-      // PRD Section 4.2 Continue Learning Card
-      expect(find.textContaining('চলমান পাঠ'), findsOneWidget);
-      expect(find.textContaining('চালিয়ে যান'), findsWidgets);
+      await tester.tap(find.text('অ্যান্টিবায়োটিক').first);
+      await tester.pumpAndSettle();
 
-      // The resume card leads the page, the dashboard follows it.
+      expect(find.text('উপবিষয়'), findsOneWidget);
+      expect(find.text('পেনিসিলিন গ্রুপ'), findsWidgets);
+      expect(find.text('কোন অবস্থায় কোন গ্রুপ'), findsOneWidget);
+      expect(find.text('এই বিষয়ের কোর্স'), findsOneWidget);
       expect(
-        tester.getTopLeft(find.textContaining('চলমান পাঠ')).dy,
-        lessThan(tester.getTopLeft(find.text('আপনার সার্বিক অগ্রগতি')).dy),
+        find.text('শিক্ষামূলক গাইড — চিকিৎসকের পরামর্শের বিকল্প নয়।'),
+        findsOneWidget,
       );
     });
 

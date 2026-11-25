@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 import 'dart:math';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
 import 'package:package_info_plus/package_info_plus.dart';
@@ -75,7 +76,7 @@ class AppUpdateService {
       !value.contains('..');
 
   Future<AppRelease?> checkForUpdate() async {
-    if (!isConfigured) return null;
+    if (!kReleaseMode || !isConfigured) return null;
     final uri = Uri.https(
       'api.github.com',
       '/repos/$_owner/$_repository/releases/latest',
@@ -94,7 +95,14 @@ class AppUpdateService {
     if (response.statusCode != 200) {
       throw HttpException('GitHub returned ${response.statusCode}: ${response.body}');
     }
-    final decoded = jsonDecode(response.body);
+    // A captive portal or proxy can answer 200 with HTML; jsonDecode would
+    // throw a FormatException out of this background check and break startup.
+    final Object? decoded;
+    try {
+      decoded = jsonDecode(response.body);
+    } on FormatException {
+      throw HttpException('GitHub returned a non-JSON response');
+    }
     if (decoded is! Map<String, dynamic> || decoded['draft'] == true || decoded['prerelease'] == true) {
       return null;
     }
@@ -160,14 +168,18 @@ class AppUpdateService {
     final sink = file.openWrite();
     var received = 0;
     try {
-      await for (final chunk in response.stream) {
-        sink.add(chunk);
-        received += chunk.length;
-        if (length != null && length > 0) {
-          onProgress((received / length).clamp(0.0, 1.0));
+      // A timeout on the initial response is not enough: the body stream can
+      // stall forever, so bound the whole download as well.
+      await () async {
+        await for (final chunk in response.stream) {
+          sink.add(chunk);
+          received += chunk.length;
+          if (length != null && length > 0) {
+            onProgress((received / length).clamp(0.0, 1.0));
+          }
         }
-      }
-      await sink.flush();
+        await sink.flush();
+      }().timeout(const Duration(minutes: 5));
     } finally {
       await sink.close();
     }

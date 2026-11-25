@@ -3,6 +3,7 @@ import 'dart:io';
 import 'dart:typed_data';
 
 import 'package:archive/archive_io.dart';
+import 'package:flutter/foundation.dart' show debugPrint;
 import 'package:path/path.dart' as p;
 import 'package:path_provider/path_provider.dart';
 import 'package:sqflite/sqflite.dart';
@@ -141,7 +142,12 @@ class BackupService {
   Future<void> deleteAllBackups() async {
     final dir = await _dir();
     await for (final entity in dir.list()) {
-      if (entity is File) await entity.delete();
+      // Only delete export artefacts; leave any other file in the app-private
+      // directory (including future formats) untouched.
+      if (entity is File &&
+          (entity.path.endsWith('.json') || entity.path.endsWith('.db'))) {
+        await entity.delete();
+      }
     }
   }
 
@@ -226,7 +232,7 @@ class BackupService {
           // A snapshot taken by an older app may not have a table that exists
           // now (e.g. `translations`); skip those instead of failing the
           // restore — the live table is already empty from the delete below.
-          final present = await _db.db.rawQuery(
+          final present = await txn.rawQuery(
             "SELECT 1 FROM snap.sqlite_master WHERE type='table' AND name=? LIMIT 1",
             [table],
           );
@@ -235,8 +241,8 @@ class BackupService {
           // Copy only the columns both versions share, in the live order. An
           // older snapshot simply lacks the newest column (e.g. the reading
           // history added in v7) instead of shifting every value sideways.
-          final live = await _db.db.rawQuery('PRAGMA table_info($table)');
-          final snap = await _db.db.rawQuery('PRAGMA snap.table_info($table)');
+          final live = await txn.rawQuery('PRAGMA table_info($table)');
+          final snap = await txn.rawQuery('PRAGMA snap.table_info($table)');
           final snapNames = snap.map((c) => c['name'].toString()).toSet();
           final common = live
               .map((c) => c['name'].toString())
@@ -251,9 +257,15 @@ class BackupService {
       });
       // Triggers already kept FTS roughly in sync; rebuild guarantees an exact
       // index over the restored rows (contentless-external FTS5).
-      await _db.db.execute(
-        "INSERT INTO medicines_fts(medicines_fts) VALUES('rebuild')",
-      );
+      if (_db.ftsAvailable) {
+        try {
+          await _db.db.execute(
+            "INSERT INTO medicines_fts(medicines_fts) VALUES('rebuild')",
+          );
+        } catch (error) {
+          debugPrint('FTS rebuild after restore skipped: $error');
+        }
+      }
     } finally {
       await _db.db.execute('DETACH DATABASE snap');
     }
@@ -314,6 +326,17 @@ class BackupService {
     if (manifest['app'] != 'PharmaPath') {
       throw const FormatException('এটি PharmaPath ডেটা ব্যাকআপ নয়।');
     }
+    // Never attach arbitrary bytes as a database. A crafted bundle could
+    // otherwise replace the live catalogue with any SQLite file.
+    const magic = 'SQLite format 3\x00';
+    if (db.length < magic.length ||
+        utf8.decode(db.sublist(0, magic.length), allowMalformed: true) !=
+            magic) {
+      throw const FormatException('ব্যাকআপের ডেটাবেস ফাইলটি বৈধ নয়।');
+    }
+    if (db.length > 500 * 1024 * 1024) {
+      throw const FormatException('ব্যাকআপের ডেটাবেস ফাইলটি অত্যন্ত বড়।');
+    }
     final version =
         int.tryParse(manifest['format_version']?.toString() ?? '') ?? 0;
     if (version > catalogZipFormatVersion) {
@@ -331,7 +354,7 @@ class BackupService {
       'app': 'PharmaPath',
       'format_version': catalogZipFormatVersion,
       'app_version': AppConfig.version,
-      'db_version': 2,
+      'db_version': AppDatabase.schemaVersion,
       'created_at': DateTime.now().toIso8601String(),
       'source_base': await _db.meta(AppConfig.metaSourceBase),
       'sync_fingerprint': await _db.meta(AppConfig.metaFingerprint),

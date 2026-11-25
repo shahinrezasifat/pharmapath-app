@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:get/get.dart';
 
 import '../core/app_config.dart';
@@ -48,7 +50,13 @@ class LessonAiController extends GetxController {
   @override
   void onInit() {
     super.onInit();
-    Future.microtask(loadSummary);
+    unawaited(
+      Future.microtask(
+        () => loadSummary().catchError((Object error) {
+          summaryError.value = 'সারাংশ আনা যায়নি। আবার চেষ্টা করুন।';
+        }),
+      ),
+    );
   }
 
   /// Fill [summary] from the cache first, so reopening a lesson is instant and

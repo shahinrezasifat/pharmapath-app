@@ -378,16 +378,19 @@ class _DataManagementViewState extends State<DataManagementView> {
       await api.health();
       final stats = await api.stats();
       final total = stats['total_medicines'] ?? 0;
+      if (!mounted) return;
       setState(() {
         _apiOk = true;
         _apiStatus = 'সংযোগ সফল · সার্ভারে ${bn(total)}টি ওষুধ আছে।';
       });
     } on ApiException catch (e) {
+      if (!mounted) return;
       setState(() {
         _apiOk = false;
         _apiStatus = e.message;
       });
     } catch (e) {
+      if (!mounted) return;
       setState(() {
         _apiOk = false;
         _apiStatus = 'সংযোগ ব্যর্থ: $e';

@@ -486,7 +486,7 @@ Expected JSON Format:
 
     String? lastError;
 
-    for (final candidate in candidates.take(3)) {
+    for (final candidate in candidates) {
       final body = jsonEncode({
         'model': candidate,
         'messages': messages,
@@ -605,8 +605,14 @@ Expected JSON Format:
     return 'wav';
   }
 
-  Uri _uri(String path) =>
-      Uri.parse('${_baseUrl.replaceAll(RegExp(r'/+$'), '')}$path');
+  Uri _uri(String path) {
+    final base = Uri.parse(_baseUrl);
+    final basePath = base.path.replaceAll(RegExp(r'/+$'), '');
+    return base.replace(
+      path: '$basePath$path',
+      queryParameters: base.hasQuery ? base.queryParameters : null,
+    );
+  }
 
   String _wireKey() => AppConfig.normalizedAssistantKey(_apiKey);
 

@@ -247,7 +247,7 @@ class LearningProgressLineChart extends StatelessWidget {
 
   String _getDayName(int index) {
     const days = ['সোম', 'মঙ্গল', 'বুধ', 'বৃহ', 'শুক্র', 'শনি', 'রবি'];
-    return days[index];
+    return days[index.clamp(0, days.length - 1)];
   }
 }
 
@@ -319,7 +319,9 @@ class CoursePerformanceBarChart extends StatelessWidget {
                       getTitlesWidget: (value, meta) => Padding(
                         padding: const EdgeInsets.only(top: 8),
                         child: Text(
-                          courses[value.toInt()].name,
+                          value.toInt() >= 0 && value.toInt() < courses.length
+                              ? courses[value.toInt()].name
+                              : '',
                           style: const TextStyle(fontSize: 10),
                           maxLines: 2,
                           overflow: TextOverflow.ellipsis,
@@ -528,7 +530,7 @@ class AnalyticsDashboard extends StatelessWidget {
         _buildStatCard(
           icon: Icons.trending_up_rounded,
           label: 'এই সপ্তাহে',
-          value: '${weekData.last.toStringAsFixed(0)}%',
+          value: weekData.isEmpty ? '—' : '${weekData.last.toStringAsFixed(0)}%',
           color: scheme.tertiary,
         ),
         _buildStatCard(
@@ -621,9 +623,11 @@ class AnalyticsDashboard extends StatelessWidget {
   }
 
   String _generateInsight() {
-    final passRate = (passed / (passed + failed + pending) * 100);
-    final avgWeeklyProgress =
-        weekData.reduce((a, b) => a + b) / weekData.length;
+    final total = passed + failed + pending;
+    final passRate = total == 0 ? 0.0 : (passed / total * 100);
+    final avgWeeklyProgress = weekData.isEmpty
+        ? 0.0
+        : weekData.reduce((a, b) => a + b) / weekData.length;
 
     if (passRate > 80) {
       return '🎉 দুর্দান্ত! আপনি সব কুইজে ৮০% এর উপরে স্কোর করছেন। এই গতি বজায় রাখুন!';

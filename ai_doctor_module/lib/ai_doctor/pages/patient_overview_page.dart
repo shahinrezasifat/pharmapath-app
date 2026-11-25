@@ -25,8 +25,17 @@ class AiPatientOverviewPage extends StatefulWidget {
 
 class _AiPatientOverviewPageState extends State<AiPatientOverviewPage> {
   late AiPatient _patient = widget.patient;
+  // A deep-linked question is consumed once. Keeping it in the immutable
+  // widget would re-send the same question on every later consultation tap.
+  late String? _pendingQuestion;
   late Future<({List<AiMedication> medications, List<AiDailyTask> tasks})>
   _data = _load();
+
+  @override
+  void initState() {
+    super.initState();
+    _pendingQuestion = widget.initialQuestion;
+  }
 
   Future<({List<AiMedication> medications, List<AiDailyTask> tasks})>
   _load() async {
@@ -51,12 +60,14 @@ class _AiPatientOverviewPageState extends State<AiPatientOverviewPage> {
   }
 
   Future<void> _openChat({String? question}) async {
+    final asked = question ?? _pendingQuestion;
+    _pendingQuestion = null;
     final deleted = await Navigator.push<bool>(
       context,
       MaterialPageRoute(
         builder: (_) => AiDoctorChatPage(
           patient: _patient,
-          initialQuestion: question ?? widget.initialQuestion,
+          initialQuestion: asked,
         ),
       ),
     );
@@ -641,9 +652,13 @@ class _AddTaskDialogState extends State<_AddTaskDialog> {
           onPressed: () => Navigator.of(context).pop(),
           child: Text(aiText('বাতিল', 'Cancel')),
         ),
-        FilledButton(
-          onPressed: _submit,
-          child: Text(aiText('যোগ করুন', 'Add task')),
+        ValueListenableBuilder<TextEditingValue>(
+          valueListenable: _titleController,
+          builder: (context, value, _) => FilledButton(
+            // Disabled instead of silently doing nothing on an empty title.
+            onPressed: value.text.trim().isEmpty ? null : _submit,
+            child: Text(aiText('যোগ করুন', 'Add task')),
+          ),
         ),
       ],
     );

@@ -6,7 +6,7 @@ import 'dart:io';
 import 'dart:typed_data';
 
 import 'package:file_picker/file_picker.dart';
-import 'package:flutter/foundation.dart' show kIsWeb;
+import 'package:flutter/foundation.dart' show debugPrint, kIsWeb;
 import 'package:image_picker/image_picker.dart';
 import 'package:get/get.dart';
 import 'package:path_provider/path_provider.dart';
@@ -194,7 +194,11 @@ class AssistantController extends GetxController {
     super.onInit();
     // The assistant's model state is exposed via getters above — no copying,
     // so a model switch is visible everywhere instantly with no re-init.
-    _restore();
+    unawaited(
+      _restore().catchError((Object error) {
+        debugPrint('Assistant restore failed: $error');
+      }),
+    );
     loadModels();
   }
 

@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 
 import '../core/essential_medicines.dart';
@@ -26,15 +27,22 @@ class MedicineSearchController extends GetxController {
   Future<void>? _formRawLoad;
 
   Future<void> _ensureFormRaw() => _formRawLoad ??= () async {
-    final raws = await _dao.distinctDosageForms();
-    _formRaw.clear();
-    for (final raw in raws) {
-      _formRaw.putIfAbsent(MedicineForm.classify(raw).key, () => []).add(raw);
-    }
-    // Manual rows store the Bengali label as `dosage_form`; make every chip
-    // match those too, and guarantee no selected chip can ever be filter-less.
-    for (final f in MedicineForm.selectable) {
-      _formRaw.putIfAbsent(f.key, () => []).add(f.label);
+    try {
+      final raws = await _dao.distinctDosageForms();
+      _formRaw.clear();
+      for (final raw in raws) {
+        _formRaw.putIfAbsent(MedicineForm.classify(raw).key, () => []).add(raw);
+      }
+      // Manual rows store the Bengali label as `dosage_form`; make every chip
+      // match those too, and guarantee no selected chip can ever be filter-less.
+      for (final f in MedicineForm.selectable) {
+        _formRaw.putIfAbsent(f.key, () => []).add(f.label);
+      }
+    } catch (_) {
+      // Do not cache a failed future forever: the next tap must be able to
+      // retry the dosage-form lookup.
+      _formRawLoad = null;
+      rethrow;
     }
   }();
 
@@ -131,7 +139,14 @@ class MedicineSearchController extends GetxController {
       totalPages.value = result.totalPages;
       total.value = result.total;
       if (record && term.isNotEmpty) {
-        unawaited(_dao.addSearchTerm(term).then((_) => _loadHistory()));
+        unawaited(
+          _dao
+              .addSearchTerm(term)
+              .then((_) => _loadHistory())
+              .catchError((Object error) {
+                debugPrint('Search history update failed: $error');
+              }),
+        );
       }
     } catch (e) {
       error.value = 'সার্চ করা যায়নি: $e';

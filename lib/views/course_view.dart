@@ -149,10 +149,14 @@ class CourseView extends StatelessWidget {
                           ?.copyWith(fontWeight: FontWeight.w800),
                     ),
                     const Spacer(),
-                    Text(
-                      'অগ্রগতি ডিভাইসে সংরক্ষিত',
-                      style: Theme.of(context).textTheme.labelSmall
-                          ?.copyWith(color: scheme.onSurfaceVariant),
+                    Flexible(
+                      child: Text(
+                        'অগ্রগতি ডিভাইসে সংরক্ষিত',
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: Theme.of(context).textTheme.labelSmall
+                            ?.copyWith(color: scheme.onSurfaceVariant),
+                      ),
                     ),
                   ],
                 ),

@@ -292,7 +292,7 @@ void main() {
 
       final planCall = assistant.calls.last;
       expect(planCall.mode, AssistantReplyMode.treatmentPlan);
-      expect(planCall.query, contains('সাক্ষাৎকার শেষ হয়েছে'));
+      expect(planCall.query, contains('সাক্ষাৎকার সম্পন্ন হয়েছে'));
       expect(planCall.history.length, greaterThan(4));
       expect(planCall.history.first.text, contains('আমার তিন দিন ধরে জ্বর'));
       expect(planCall.history.last.role, 'user');

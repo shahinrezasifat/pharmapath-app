@@ -173,7 +173,8 @@ class TutorialService {
     final stored = _storage.read<Map>(_storageKey);
     if (stored != null) {
       for (int i = 0; i < _tutorials.length; i++) {
-        final isCompleted = stored[_tutorials[i].id] ?? false;
+        final value = stored[_tutorials[i].id];
+        final isCompleted = value is bool ? value : false;
         _tutorials[i] = _tutorials[i].copyWith(completed: isCompleted);
       }
     }

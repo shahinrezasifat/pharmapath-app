@@ -2876,21 +2876,26 @@ class _IndicationsCardState extends State<_IndicationsCard> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    AnimatedCrossFade(
-                      firstChild: Text(
-                        widget.text,
-                        maxLines: 3,
-                        overflow: TextOverflow.ellipsis,
-                        style: theme.textTheme.bodyMedium?.copyWith(
-                          color: scheme.onSurfaceVariant,
-                          height: 1.45,
-                        ),
-                      ),
-                      secondChild: HtmlContent(widget.text),
-                      crossFadeState: _expanded
-                          ? CrossFadeState.showSecond
-                          : CrossFadeState.showFirst,
+                    // Only one variant is mounted at a time: keeping both
+                    // children of an AnimatedCrossFade alive duplicates the
+                    // same text for screen readers and for hit-testing.
+                    AnimatedSwitcher(
                       duration: const Duration(milliseconds: 240),
+                      child: _expanded
+                          ? HtmlContent(
+                              widget.text,
+                              key: const ValueKey('indications-full'),
+                            )
+                          : Text(
+                              widget.text,
+                              key: const ValueKey('indications-short'),
+                              maxLines: 3,
+                              overflow: TextOverflow.ellipsis,
+                              style: theme.textTheme.bodyMedium?.copyWith(
+                                color: scheme.onSurfaceVariant,
+                                height: 1.45,
+                              ),
+                            ),
                     ),
                     if (widget.text.length > 100) ...[
                       const SizedBox(height: 6),
@@ -3017,7 +3022,7 @@ class _InventoryCard extends StatelessWidget {
                     ),
                   ),
                   const Spacer(),
-                  if (expiryBadge != null) expiryBadge,
+                  ?expiryBadge,
                 ],
               ),
               const Padding(

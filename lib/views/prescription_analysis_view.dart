@@ -104,10 +104,12 @@ class _PrescriptionAnalysisViewState extends State<PrescriptionAnalysisView> {
                   ),
                 ),
                 const SizedBox(width: 10),
-                Text(
-                  'প্রেসক্রিপশন স্ক্যান করা হচ্ছে…',
-                  style: Theme.of(context).textTheme.titleMedium
-                      ?.copyWith(fontWeight: FontWeight.w700),
+                Expanded(
+                  child: Text(
+                    'প্রেসক্রিপশন স্ক্যান করা হচ্ছে…',
+                    style: Theme.of(context).textTheme.titleMedium
+                        ?.copyWith(fontWeight: FontWeight.w700),
+                  ),
                 ),
               ],
             ),

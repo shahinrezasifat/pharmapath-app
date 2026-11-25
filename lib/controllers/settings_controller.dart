@@ -56,6 +56,7 @@ class SettingsController extends GetxController {
     if (trimmed.isEmpty ||
         uri == null ||
         !uri.hasScheme ||
+        uri.host.trim().isEmpty ||
         !(uri.isScheme('http') || uri.isScheme('https'))) {
       apiBaseError.value =
           'সম্পূর্ণ http(s) ঠিকানা দিন, যেমন http://127.0.0.1:8000';

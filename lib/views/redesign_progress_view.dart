@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../core/format.dart';
 import 'task3_demo_view.dart';
 import 'task6_demo_view.dart';
 
@@ -59,6 +60,11 @@ class RedesignProgressView extends StatelessWidget {
         'demo': Task6DemoView(),
       },
     ];
+    // Every progress number is derived from the same task list, so the chips,
+    // bar and caption can never contradict each other.
+    final totalTasks = tasks.length;
+    final completedTasks = tasks.where((t) => t['completed'] == true).length;
+    final progress = totalTasks == 0 ? 0.0 : completedTasks / totalTasks;
 
     return Scaffold(
       appBar: AppBar(title: const Text('ফার্মাপাথ UI রিডিজাইন - অগ্রগতি')),
@@ -114,11 +120,11 @@ class RedesignProgressView extends StatelessWidget {
                     ),
                   ),
                   const SizedBox(height: 16),
-                  const Row(
+                  Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Chip(
-                        label: Text('২/১৩ টাস্ক সম্পন্ন'),
+                        label: Text('${bn(completedTasks)}/${bn(totalTasks)} টাস্ক সম্পন্ন'),
                         backgroundColor: Colors.green,
                         labelStyle: TextStyle(color: Colors.white),
                       ),
@@ -144,16 +150,19 @@ class RedesignProgressView extends StatelessWidget {
             const SizedBox(height: 12),
 
             LinearProgressIndicator(
-              value: 3 / 13, // 3 out of 13 tasks completed
+              value: progress,
               minHeight: 12,
               borderRadius: BorderRadius.circular(6),
               backgroundColor: Colors.grey.shade200,
               valueColor: const AlwaysStoppedAnimation<Color>(Colors.green),
             ),
             const SizedBox(height: 8),
-            const Row(
+            Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [Text('১৫% সম্পূর্ণ'), Text('২/১৩ টাস্ক')],
+              children: [
+                Text('${bn((progress * 100).round())}% সম্পূর্ণ'),
+                Text('${bn(completedTasks)}/${bn(totalTasks)} টাস্ক'),
+              ],
             ),
 
             const SizedBox(height: 32),

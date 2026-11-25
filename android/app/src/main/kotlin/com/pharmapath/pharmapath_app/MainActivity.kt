@@ -16,9 +16,8 @@ class MainActivity : FlutterActivity() {
 
     override fun configureFlutterEngine(flutterEngine: FlutterEngine) {
         super.configureFlutterEngine(flutterEngine)
-        // Recent Flutter tooling may omit this legacy plugin from automatic
-        // registration when building with the AGP 9 plugin loader. GetStorage
-        // depends on it to resolve its app documents directory.
+        // Keep GetStorage's documents-directory lookup working with the
+        // legacy Android path_provider plugin on the AGP 9 Flutter loader.
         if (!flutterEngine.plugins.has(PathProviderPlugin::class.java)) {
             flutterEngine.plugins.add(PathProviderPlugin())
         }

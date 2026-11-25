@@ -89,6 +89,13 @@ class AssistantKnowledge extends GetxService {
 
     final byKey = <String, Medicine>{};
     final ordered = <Medicine>[];
+    // Prefer a row with genuinely stored clinical text. `detailLoaded` alone
+    // is not enough: every known generic gets curated sections through the
+    // local knowledge engine fallback, so it is true even for summary rows.
+    int quality(Medicine m) =>
+        (m.indications?.trim().isNotEmpty ?? false ? 4 : 0) +
+        (m.dosageAndAdministration?.trim().isNotEmpty ?? false ? 2 : 0) +
+        (m.detailLoaded ? 1 : 0);
     void offer(Medicine medicine) {
       final generic = (medicine.genericName ?? '').trim().toLowerCase();
       final key = generic.isEmpty ? 'id:${medicine.id}' : generic;
@@ -96,7 +103,7 @@ class AssistantKnowledge extends GetxService {
       if (existing == null) {
         byKey[key] = medicine;
         ordered.add(medicine);
-      } else if (medicine.detailLoaded && !existing.detailLoaded) {
+      } else if (quality(medicine) > quality(existing)) {
         ordered[ordered.indexOf(existing)] = medicine;
         byKey[key] = medicine;
       }

@@ -34,7 +34,7 @@ class _LessonQuizViewState extends State<LessonQuizView> {
 
   int get _score {
     var score = 0;
-    for (var i = 0; i < _questions.length; i++) {
+    for (var i = 0; i < _questions.length && i < _answers.length; i++) {
       if (_answers[i] == _questions[i].answer) score++;
     }
     return score;
@@ -296,6 +296,12 @@ class _QuizQuestionCard extends StatelessWidget {
   final bool submitted;
   final ValueChanged<int> onSelect;
 
+  String _correctOption(QuizQuestion question) {
+    final i = question.answer;
+    if (i >= 0 && i < question.options.length) return question.options[i];
+    return 'সঠিক উত্তর পাওয়া যায়নি';
+  }
+
   @override
   Widget build(BuildContext context) {
     final scheme = Theme.of(context).colorScheme;
@@ -363,7 +369,7 @@ class _QuizQuestionCard extends StatelessWidget {
                 borderRadius: BorderRadius.circular(12),
               ),
               child: Text(
-                '${wrong ? 'সঠিক উত্তর: ${question.options[question.answer]}। ' : 'সঠিক। '}'
+                '${wrong ? 'সঠিক উত্তর: ${_correctOption(question)}। ' : 'সঠিক। '}'
                 '${question.explanation}',
                 style: Theme.of(context).textTheme.bodySmall
                     ?.copyWith(height: 1.55),

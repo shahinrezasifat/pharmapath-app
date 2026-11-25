@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -50,9 +51,10 @@ class SettingsView extends StatelessWidget {
                 subtitle: 'হালকা, গাঢ় অথবা সিস্টেম অনুযায়ী',
                 onTap: () => Get.to(() => const AppearanceSettingsView()),
               ),
-              SettingsTile(
-                icon: Icons.system_update_alt_rounded,
-                title: 'আপডেট খুঁজুন',
+              if (kReleaseMode)
+                SettingsTile(
+                  icon: Icons.system_update_alt_rounded,
+                  title: 'আপডেট খুঁজুন',
                 subtitle: 'GitHub Releases থেকে নতুন সংস্করণ দেখুন',
                 onTap: () async {
                   final messenger = ScaffoldMessenger.of(context);
@@ -115,8 +117,8 @@ class SettingsView extends StatelessWidget {
             children: [
               SettingsTile(
                 icon: Icons.people_alt_outlined,
-                title: 'পেশেন্ট',
-                subtitle: 'Patient profiles, medications and consultations',
+                title: 'রোগী',
+                subtitle: 'রোগীর প্রোফাইল, ওষুধ ও পরামর্শ',
                 onTap: () => Get.to(() => const AiDoctorHomePage()),
               ),
             ],

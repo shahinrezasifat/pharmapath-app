@@ -42,8 +42,8 @@ void main() {
       expect(detectedHeight, 24.0);
       // Spacing must be gesture height + safe margin (24 + 10 = 34dp)
       expect(detectedSpacing, 34.0);
-      // Shell content clearance = navBarHeight (78) + spacing (34) + buffer (16) = 128dp
-      expect(detectedShellPadding, 128.0);
+      // Floating pill top = 60 + 14 + 24 = 98dp; + 20dp content buffer = 118dp.
+      expect(detectedShellPadding, 118.0);
     });
 
     testWidgets('accurately detects 3-button navigation mode (bottom inset = 48)',
@@ -115,8 +115,8 @@ void main() {
       expect(detectedHeight, 0.0);
       // Spacing falls back to the clean fullscreen margin (14dp)
       expect(detectedSpacing, 14.0);
-      // Shell content clearance = navBarHeight (78) + spacing (14) + buffer (16) = 108dp
-      expect(detectedShellPadding, 108.0);
+      // Floating pill top = 60 + 14 + 0 = 74dp; + 20dp content buffer = 94dp.
+      expect(detectedShellPadding, 94.0);
     });
 
     testWidgets('SafeBottom widget wraps child with safe margin in gesture mode',

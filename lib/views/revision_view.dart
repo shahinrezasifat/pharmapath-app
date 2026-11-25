@@ -21,7 +21,7 @@ class RevisionView extends StatelessWidget {
       return AppBackground(
         child: Scaffold(
           appBar: AppBar(
-            title: const Text('কুইজ ও রিভিশন হাব (Quiz & Revision)'),
+            title: const Text('কুইজ ও রিভিশন'),
           ),
           body: ListView(
             padding: const EdgeInsets.fromLTRB(16, 8, 16, 32),
@@ -85,10 +85,12 @@ class RevisionView extends StatelessWidget {
                     color: scheme.primary,
                   ),
                   const SizedBox(width: 8),
-                  Text(
-                    'অসম্পূর্ণ বা রিভিশন অপেক্ষারত পাঠ (${pending.length}টি)',
-                    style: Theme.of(context).textTheme.titleSmall
-                        ?.copyWith(fontWeight: FontWeight.w800),
+                  Expanded(
+                    child: Text(
+                      'অসম্পূর্ণ বা রিভিশন অপেক্ষারত পাঠ (${pending.length}টি)',
+                      style: Theme.of(context).textTheme.titleSmall
+                          ?.copyWith(fontWeight: FontWeight.w800),
+                    ),
                   ),
                 ],
               ),

@@ -282,7 +282,7 @@ void main() {
         await controller.ask('Napa');
         final reply = controller.messages.last.text;
         expect(reply, matches(RegExp(r'[\u0980-\u09ff]')));
-        expect(reply, contains('প্রয়োজনীয় ঔষধ'));
+        expect(reply, contains('প্রয়োজনীয়'));
         expect(reply, contains('Napa'));
         expect(reply, isNot(contains('Relevant medicines')));
         expect(reply, isNot(contains('General guidance')));

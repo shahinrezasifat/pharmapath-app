@@ -7,9 +7,11 @@ import 'models.dart';
 class AiDoctorDb {
   AiDoctorDb._();
   static final AiDoctorDb i = AiDoctorDb._();
-  Database? _db;
+  Future<Database>? _dbFuture;
 
-  Future<Database> get db async => _db ??= await _open();
+  /// Cache the in-flight future, not just the result: two concurrent first
+  /// callers must share one connection instead of opening two handles.
+  Future<Database> get db => _dbFuture ??= _open();
 
   Future<Database> _open() async {
     final directory = await getApplicationSupportDirectory();

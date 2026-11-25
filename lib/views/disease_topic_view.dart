@@ -458,10 +458,12 @@ class _SectionTitle extends StatelessWidget {
       children: [
         Icon(icon, size: 18, color: scheme.primary),
         const SizedBox(width: 8),
-        Text(
-          title,
-          style: Theme.of(context).textTheme.titleSmall
-              ?.copyWith(fontWeight: FontWeight.w800, color: scheme.onSurface),
+        Expanded(
+          child: Text(
+            title,
+            style: Theme.of(context).textTheme.titleSmall
+                ?.copyWith(fontWeight: FontWeight.w800, color: scheme.onSurface),
+          ),
         ),
       ],
     );

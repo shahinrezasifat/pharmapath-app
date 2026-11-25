@@ -110,7 +110,11 @@ class Medicine {
 
   bool get isExpired {
     final e = expiry;
-    return e != null && e.isBefore(DateTime.now());
+    if (e == null) return false;
+    // Expiry dates are day-granular (yyyy-MM-dd). Compare calendar dates so a
+    // pack expiring today is not flagged expired from 00:00 onwards.
+    final today = DateTime.now();
+    return e.isBefore(DateTime(today.year, today.month, today.day));
   }
 
   /// Days until expiry (negative when already expired), null when unknown.

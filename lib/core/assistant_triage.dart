@@ -726,18 +726,17 @@ bool isInterviewComplete({
   required Set<TriageSlot> answeredSlots,
 }) {
   if (answered <= 0) return false;
-  // If answered all questions in the concise plan (2-3 questions)
-  if (answered >= total) {
+  // Full confidence: every question in the plan has an answer.
+  if (total > 0 && answered >= total) return true;
+  // A hurried patient may finish early, but never without the three safety
+  // slots (urgency, age and risk) on record. Those are the minimum needed to
+  // decide whether this can wait for a doctor at all.
+  if (userRequestedFinish &&
+      kSafetyCriticalSlots.every(answeredSlots.contains)) {
     return true;
   }
-  // Early finish if user requested finish or asked for solution
-  if (userRequestedFinish && answered >= 1) {
-    return true;
-  }
-  // If patient answered at least 2 questions, consultation is sufficient
-  if (answered >= 2) {
-    return true;
-  }
+  // No other shortcut: partial interviews stay open so the doctor never
+  // prescribes from an incomplete history.
   return false;
 }
 
@@ -749,6 +748,7 @@ List<String> _conditionOpeners(String lessonId, String query) {
         if (!hasDur) 'জ্বরটা কতদিন ধরে হচ্ছে এবং তাপমাত্রা কত উঠেছে?',
         'সাথে কি গা ব্যথা, কাঁপুনি, কাশি, বমি বা অন্য কোনো সমস্যা আছে?',
         'রোগীর বয়স কত এবং ইতিমধ্যে কোনো ওষুধ খেয়েছেন কি?',
+        _weightQ,
       ];
     case 'cold-cough':
       return [
@@ -773,8 +773,12 @@ List<String> _conditionOpeners(String lessonId, String query) {
     case 'headache':
       return [
         if (!hasDur) 'মাথাব্যথা কতদিন থেকে এবং কেমন (ধকধক, একপাশে না পুরো মাথায়)?',
-        'তীব্রতা কেমন? সাথে বমিভাব, চোখে ঝাপসা বা আলোতে অস্বস্তি আছে কি?',
+        'ব্যথাটা ঠিক কোথায়—কপাল, চোখের পেছনে, নাকের চারপাশে, না পুরো মাথায়?',
+        'শুরুটা কেমন—হঠাৎ করে এসেছে, না ধীরে ধীরে বেড়েছে?',
+        'তীব্রতা ১০-এর মধ্যে কত? সাথে বমিভাব, চোখে ঝাপসা বা আলোতে অস্বস্তি আছে কি?',
+        'কীসে ব্যথা বাড়ে বা কমে—আলো, শব্দ, ঘুমের অভাব, না খাবার?',
         'রোগীর বয়স কত? উচ্চ রক্তচাপ বা চোখের সমস্যার ইতিহাস আছে কি?',
+        _weightQ,
       ];
     case 'dengue':
     case 'typhoid':

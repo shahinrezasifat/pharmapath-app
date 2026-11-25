@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io';
 import 'dart:typed_data';
 
@@ -61,6 +62,40 @@ void main() {
         sample(id: 1, brand: 'Napa').toDbMap(),
         isNot(contains('image_url')),
       );
+    });
+
+    test('detail refresh keeps favorites and view history', () async {
+      final medicine = sample(
+        id: 901,
+        brand: 'Refresh Me',
+        generic: 'Paracetamol',
+        detailed: true,
+      );
+      await db.upsertDetail(medicine);
+      await dao.toggleFavorite(medicine.id);
+      await dao.recordView(medicine.id);
+
+      await db.upsertDetail(
+        sample(
+          id: medicine.id,
+          brand: 'Refreshed Brand',
+          generic: 'Paracetamol',
+          detailed: true,
+        ),
+      );
+
+      expect(await dao.isFavorite(medicine.id), isTrue);
+      final history = await db.db.rawQuery(
+        'SELECT viewed_at FROM view_history WHERE medicine_id = ?',
+        [medicine.id],
+      );
+      expect(history, hasLength(1));
+      final rows = await db.db.rawQuery(
+        'SELECT brand_name, first_seen FROM medicines WHERE id = ?',
+        [medicine.id],
+      );
+      expect(rows.single['brand_name'], 'Refreshed Brand');
+      expect(rows.single['first_seen'], isNotNull);
     });
 
     test('searches complete medicines by brand case-insensitively', () async {
@@ -311,6 +346,13 @@ void main() {
       final best = await learning.bestResults();
       expect(best['basics']!.score, 3);
       expect(best['basics']!.total, 3);
+
+      // A lower raw score on a smaller paper can still be the better result.
+      await learning.saveQuizResult('advanced', 8, 10);
+      await learning.saveQuizResult('advanced', 3, 5);
+      final advanced = await learning.bestResults();
+      expect(advanced['advanced']!.score, 8);
+      expect(advanced['advanced']!.total, 10);
 
       await learning.clearProgress();
       expect(await learning.completedLessonKeys(), isEmpty);
@@ -808,7 +850,10 @@ void main() {
     // encode/decode/validation path is pure and exercised here without the
     // file-picker or path_provider plugins.
     test('zipBundle/unzipBundle round-trips the database and manifest', () {
-      final dbBytes = Uint8List.fromList(List.generate(4096, (i) => i % 256));
+      final dbBytes = Uint8List.fromList(<int>[
+        ...utf8.encode('SQLite format 3\x00'),
+        ...List.generate(4096, (i) => i % 256),
+      ]);
       final manifest = <String, dynamic>{
         'app': 'PharmaPath',
         'format_version': BackupService.catalogZipFormatVersion,

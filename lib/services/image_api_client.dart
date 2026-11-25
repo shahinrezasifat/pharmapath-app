@@ -159,7 +159,9 @@ class ImageApiClient {
         final clearbitUrl = '$_logoApiBase/$domain?size=256';
 
         // Verify the logo exists by making a HEAD request
-        final response = await _client.head(Uri.parse(clearbitUrl));
+        final response = await _client
+            .head(Uri.parse(clearbitUrl))
+            .timeout(const Duration(seconds: 10));
         if (response.statusCode == 200) {
           return clearbitUrl;
         }
@@ -214,7 +216,9 @@ class ImageApiClient {
   /// Validates if an image URL is accessible and returns image metadata
   Future<Map<String, dynamic>?> validateImageUrl(String url) async {
     try {
-      final response = await _client.head(Uri.parse(url));
+      final response = await _client
+          .head(Uri.parse(url))
+          .timeout(const Duration(seconds: 10));
 
       if (response.statusCode == 200) {
         final contentType = response.headers['content-type'] ?? '';
@@ -289,13 +293,17 @@ class ImageApiClient {
   }
 
   String _getCompanyInitials(String companyName) {
-    final words = companyName.split(' ');
+    final words = companyName
+        .trim()
+        .split(RegExp(r'\s+'))
+        .where((word) => word.isNotEmpty)
+        .toList();
     if (words.length >= 2) {
       return '${words[0][0]}${words[1][0]}'.toUpperCase();
-    } else if (companyName.length >= 2) {
-      return companyName.substring(0, 2).toUpperCase();
+    } else if (words.length == 1 && words.first.length >= 2) {
+      return words.first.substring(0, 2).toUpperCase();
     }
-    return companyName.toUpperCase();
+    return words.isEmpty ? '?' : words.first.toUpperCase();
   }
 
   void dispose() => _client.close();

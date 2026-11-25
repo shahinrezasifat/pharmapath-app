@@ -84,14 +84,14 @@ void showMedicalTermSheet(BuildContext context, MedicalTerm term) {
               ),
               const SizedBox(height: 16),
               _InfoSection(
-                label: 'Definition',
+                label: 'সংজ্ঞা',
                 text: term.definitionBn,
                 icon: Icons.biotech_outlined,
               ),
               if (term.simpleExplanationBn.isNotEmpty) ...[
                 const SizedBox(height: 12),
                 _InfoSection(
-                  label: 'In simple words',
+                  label: 'সহজ ভাষায়',
                   text: term.simpleExplanationBn,
                   icon: Icons.lightbulb_outline_rounded,
                 ),
@@ -99,7 +99,7 @@ void showMedicalTermSheet(BuildContext context, MedicalTerm term) {
               if (term.exampleBn.isNotEmpty) ...[
                 const SizedBox(height: 12),
                 _InfoSection(
-                  label: 'Example',
+                  label: 'উদাহরণ',
                   text: term.exampleBn,
                   icon: Icons.cases_outlined,
                 ),
@@ -109,7 +109,7 @@ void showMedicalTermSheet(BuildContext context, MedicalTerm term) {
                 width: double.infinity,
                 child: OutlinedButton(
                   onPressed: () => Navigator.pop(ctx),
-                  child: const Text('Done'),
+                  child: const Text('সম্পন্ন'),
                 ),
               ),
             ],

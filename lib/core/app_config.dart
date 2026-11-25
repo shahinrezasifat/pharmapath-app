@@ -5,7 +5,7 @@ abstract final class AppConfig {
   static const String appName = 'ফার্মাপাথ';
   static const String appNameLatin = 'PharmaPath';
   static const String tagline = 'ওষুধ জানুন। ভালো বুঝুন।';
-  static const String version = '2.0.3';
+  static const String version = '2.0.4';
   static const String githubOwner = String.fromEnvironment(
     'GITHUB_REPOSITORY_OWNER',
     defaultValue: 'shahinrezasifat',
@@ -205,4 +205,3 @@ abstract final class AppConfig {
       'পরিবর্তন করার আগে অবশ্যই একজন যোগ্য চিকিৎসক বা ফার্মাসিস্টের পরামর্শ নিন। '
       'জরুরি অবস্থা, অতিরিক্ত ডোজ বা তীব্র অ্যালার্জিতে সঙ্গে সঙ্গে হাসপাতালে যান।';
 }
-

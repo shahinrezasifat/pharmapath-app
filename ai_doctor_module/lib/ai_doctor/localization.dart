@@ -109,6 +109,7 @@ String aiDoctorName(String id, String fallback) {
     'ariful' => 'ডা. আরিফুল ইসলাম',
     'mahmuda' => 'ডা. মাহমুদা খাতুন',
     'sajid' => 'ডা. সাজিদ করিম',
+    'tanvir' => 'ডা. তানভির আহমেদ',
     _ => fallback,
   };
 }
@@ -123,6 +124,7 @@ String aiDoctorRole(String value, {required bool vision, required bool fast}) {
     'Lead Consultant' => 'প্রধান পরামর্শক',
     'Senior Consultant' => 'জ্যেষ্ঠ পরামর্শক',
     'Consultant' => 'পরামর্শক',
+    'Resident' => 'রেজিডেন্ট চিকিৎসক',
     _ => value,
   };
   return '$role'

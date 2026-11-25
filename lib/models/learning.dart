@@ -669,6 +669,82 @@ class LearningTrack {
   Map<String, dynamic> toJson() => {'id': id, 'label_bn': labelBn};
 }
 
+/// One indication inside a pharmacy subject, e.g. "bacterial sore throat →
+/// penicillin group". Educational only — never a prescription.
+class SubjectIndication {
+  const SubjectIndication({
+    required this.condition,
+    required this.group,
+    required this.note,
+  });
+
+  final String condition;
+  final String group;
+  final String note;
+
+  factory SubjectIndication.fromJson(Map<String, dynamic> json) =>
+      SubjectIndication(
+        condition: json['condition']?.toString() ?? '',
+        group: json['group']?.toString() ?? '',
+        note: json['note']?.toString() ?? '',
+      );
+}
+
+/// A subject in the redesigned course library. Subjects group several of the
+/// existing library shelves and add practice-oriented subtopics on top.
+class StudySubject {
+  const StudySubject({
+    required this.id,
+    required this.titleBn,
+    required this.descriptionBn,
+    required this.icon,
+    required this.trackIds,
+    this.subtopics = const [],
+    this.indications = const [],
+    this.courseIds = const [],
+    this.accentIndex = 0,
+  });
+
+  final String id;
+  final String titleBn;
+  final String descriptionBn;
+  final String icon;
+  final List<String> trackIds;
+  final List<String> subtopics;
+  final List<SubjectIndication> indications;
+  final List<String> courseIds;
+  final int accentIndex;
+
+  factory StudySubject.fromJson(Map<String, dynamic> json) => StudySubject(
+    id: json['id']?.toString() ?? '',
+    titleBn: json['title_bn']?.toString() ?? '',
+    descriptionBn: json['description_bn']?.toString() ?? '',
+    icon: json['icon']?.toString() ?? 'book',
+    trackIds: (json['tracks'] as List? ?? const [])
+        .map((e) => e.toString())
+        .toList(),
+    subtopics: (json['subtopics'] as List? ?? const [])
+        .map((e) => e.toString())
+        .toList(),
+    indications: (json['indications'] as List? ?? const [])
+        .whereType<Map>()
+        .map(
+          (e) => SubjectIndication.fromJson(
+            Map<String, dynamic>.from(e),
+          ),
+        )
+        .toList(),
+    courseIds: (json['courses'] as List? ?? const [])
+        .map((e) => e.toString())
+        .toList(),
+    accentIndex:
+        int.tryParse(json['accent']?.toString() ?? '') ?? 0,
+  );
+
+  bool matches(Course course) =>
+      courseIds.contains(course.id) || trackIds.contains(course.track);
+}
+
 /// Lesson Model (Section 16.5 & Section 10 Reader)
 class Lesson {
   const Lesson({

@@ -74,39 +74,6 @@ class _LearningViewState extends State<LearningView> {
 
     return Scaffold(
       backgroundColor: scheme.surface,
-      appBar: AppBar(
-        title: const Text(
-          'শেখা',
-          style: TextStyle(fontWeight: FontWeight.w800, letterSpacing: -0.2),
-        ),
-        actions: [
-          Obx(() {
-            final count = controller.bookmarks.length;
-            return IconButton(
-              tooltip: 'বুকমার্ক করা পাঠ',
-              onPressed: () =>
-                  setState(() => _showBookmarks = !_showBookmarks),
-              icon: Badge(
-                isLabelVisible: count > 0,
-                label: Text(bn(count)),
-                backgroundColor: scheme.primary,
-                child: Icon(
-                  _showBookmarks
-                      ? Icons.bookmark_rounded
-                      : Icons.bookmark_border_rounded,
-                  color: _showBookmarks ? scheme.primary : null,
-                ),
-              ),
-            );
-          }),
-          IconButton(
-            tooltip: 'রিফ্রেশ',
-            onPressed: controller.load,
-            icon: const Icon(Icons.refresh_rounded),
-          ),
-          const SizedBox(width: 4),
-        ],
-      ),
       body: Obx(() {
         if (controller.loading.value) {
           return const Padding(
@@ -131,8 +98,13 @@ class _LearningViewState extends State<LearningView> {
           },
           child: CustomScrollView(
             slivers: [
-              // Header + always-visible search.
-              SliverToBoxAdapter(child: _Header(search: _searchField())),
+              // Search sits directly under the shared top header.
+              SliverToBoxAdapter(
+                child: Padding(
+                  padding: const EdgeInsets.fromLTRB(16, 6, 16, 14),
+                  child: _searchField(),
+                ),
+              ),
               if (query.isNotEmpty) ..._searchSlivers(controller, query),
               if (query.isEmpty) ...[
                 if (_showBookmarks) ..._bookmarkSlivers(controller),
@@ -188,26 +160,6 @@ class _LearningViewState extends State<LearningView> {
         ),
       ),
       onChanged: (val) => setState(() => _query = val),
-    );
-  }
-
-  Widget _Header({required Widget search}) {
-    final scheme = Theme.of(context).colorScheme;
-    return Padding(
-      padding: const EdgeInsets.fromLTRB(16, 4, 16, 16),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            'ধাপে ধাপে শিখুন, জ্ঞান যাচাই করুন।',
-            style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-              color: scheme.onSurfaceVariant,
-            ),
-          ),
-          const SizedBox(height: 12),
-          search,
-        ],
-      ),
     );
   }
 
@@ -267,9 +219,8 @@ class _LearningViewState extends State<LearningView> {
                 const SizedBox(height: 4),
                 Text(
                   '${bn(controller.completedLessonCount)}/${bn(totalLessons)} পাঠ সম্পন্ন',
-                  style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                    color: scheme.onSurfaceVariant,
-                  ),
+                  style: Theme.of(context).textTheme.bodyMedium
+                      ?.copyWith(color: scheme.onSurfaceVariant),
                 ),
                 const SizedBox(height: 12),
                 ClipRRect(
@@ -333,7 +284,11 @@ class _LearningViewState extends State<LearningView> {
         sliver: SliverToBoxAdapter(
           child: Row(
             children: [
-              Icon(Icons.auto_awesome_rounded, size: 18, color: scheme.secondary),
+              Icon(
+                Icons.auto_awesome_rounded,
+                size: 18,
+                color: scheme.secondary,
+              ),
               const SizedBox(width: 6),
               Text(
                 'সুপারিশকৃত পাঠ',
@@ -345,9 +300,8 @@ class _LearningViewState extends State<LearningView> {
               const Spacer(),
               Text(
                 '${bn(recs.length)}টি পাঠ',
-                style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                  color: scheme.onSurfaceVariant,
-                ),
+                style: Theme.of(context).textTheme.bodySmall
+                    ?.copyWith(color: scheme.onSurfaceVariant),
               ),
             ],
           ),
@@ -402,9 +356,8 @@ class _LearningViewState extends State<LearningView> {
                         '${item.reason} · ${bn(item.lesson.minutes)} মিনিট',
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
-                        style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                          color: scheme.onSurfaceVariant,
-                        ),
+                        style: Theme.of(context).textTheme.bodySmall
+                            ?.copyWith(color: scheme.onSurfaceVariant),
                       ),
                     ],
                   ),
@@ -527,9 +480,8 @@ class _LearningViewState extends State<LearningView> {
               Text(
                 '${bn(controller.courses.length)}টি কোর্স · ${bn(lessons)}টি পাঠ · '
                 '${bn(shelves.length)}টি বিভাগ',
-                style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                  color: scheme.onSurfaceVariant,
-                ),
+                style: Theme.of(context).textTheme.bodySmall
+                    ?.copyWith(color: scheme.onSurfaceVariant),
               ),
             ],
           ),
@@ -546,8 +498,9 @@ class _LearningViewState extends State<LearningView> {
                   label: Text('${entry.label} (${bn(entry.courses.length)})'),
                   selected: entry.id == _selectedTrack,
                   onSelected: (_) => setState(
-                    () => _selectedTrack =
-                        entry.id == _selectedTrack ? '' : entry.id,
+                    () => _selectedTrack = entry.id == _selectedTrack
+                        ? ''
+                        : entry.id,
                   ),
                 ),
                 const SizedBox(width: 8),
@@ -566,12 +519,14 @@ class _LearningViewState extends State<LearningView> {
     ];
 
     for (final entry in shown) {
-      slivers.addAll(_shelfSlivers(
-        entry: entry,
-        controller: controller,
-        expanded: focus != null,
-        previewCount: previewCount,
-      ));
+      slivers.addAll(
+        _shelfSlivers(
+          entry: entry,
+          controller: controller,
+          expanded: focus != null,
+          previewCount: previewCount,
+        ),
+      );
     }
 
     if (entries.isEmpty) {
@@ -603,8 +558,9 @@ class _LearningViewState extends State<LearningView> {
       0,
       (sum, course) => sum + course.lessons.length,
     );
-    final visible =
-        expanded ? entry.courses : entry.courses.take(previewCount).toList();
+    final visible = expanded
+        ? entry.courses
+        : entry.courses.take(previewCount).toList();
     final icon = entry.courses.first.icon;
     final colors = LearningVisuals.colorsFor(
       icon,
@@ -644,9 +600,8 @@ class _LearningViewState extends State<LearningView> {
                     ),
                     Text(
                       '${bn(entry.courses.length)}টি কোর্স · ${bn(lessons)}টি পাঠ',
-                      style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                        color: scheme.onSurfaceVariant,
-                      ),
+                      style: Theme.of(context).textTheme.bodySmall
+                          ?.copyWith(color: scheme.onSurfaceVariant),
                     ),
                   ],
                 ),
@@ -676,9 +631,7 @@ class _LearningViewState extends State<LearningView> {
   List<Widget> _bookmarkSlivers(LearningController controller) {
     final scheme = Theme.of(context).colorScheme;
     final bookmarked = controller.courses
-        .where(
-          (c) => c.lessons.any((l) => controller.isBookmarked(c.id, l.id)),
-        )
+        .where((c) => c.lessons.any((l) => controller.isBookmarked(c.id, l.id)))
         .toList();
     return [
       SliverPadding(
@@ -691,9 +644,8 @@ class _LearningViewState extends State<LearningView> {
               Expanded(
                 child: Text(
                   'বুকমার্ক করা পাঠ (${bn(bookmarked.length)}টি)',
-                  style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                    fontWeight: FontWeight.w800,
-                  ),
+                  style: Theme.of(context).textTheme.titleMedium
+                      ?.copyWith(fontWeight: FontWeight.w800),
                 ),
               ),
               TextButton(
@@ -710,8 +662,7 @@ class _LearningViewState extends State<LearningView> {
           sliver: SliverToBoxAdapter(
             child: EmptyState(
               title: 'কোনো বুকমার্ক নেই',
-              message:
-                  'পাঠ খোলার সময় বুকমার্ক আইকন চেপে প্রয়োজনীয় পাঠ এখানে রাখুন।',
+              message: 'পাঠ খোলার সময় বুকমার্ক আইকন চেপে প্রয়োজনীয় পাঠ এখানে রাখুন।',
               icon: Icons.bookmark_border_rounded,
             ),
           ),
@@ -761,8 +712,7 @@ class _LearningViewState extends State<LearningView> {
     final labels = controller.atlasGroupLabels;
     final ordered = [
       for (final key in labels.keys)
-        if (groups[key] != null)
-          (label: labels[key]!, rows: groups[key]!),
+        if (groups[key] != null) (label: labels[key]!, rows: groups[key]!),
       if (groups.keys.where((k) => !labels.containsKey(k)).isNotEmpty)
         (
           label: 'অন্যান্য বিভাগ',
@@ -782,15 +732,13 @@ class _LearningViewState extends State<LearningView> {
             children: [
               Text(
                 'মানবদেহের অঙ্গতন্ত্র ও রোগ-বিভাগ (${bn(systems.length)}টি)',
-                style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                  fontWeight: FontWeight.w800,
-                ),
+                style: Theme.of(context).textTheme.titleMedium
+                    ?.copyWith(fontWeight: FontWeight.w800),
               ),
               Text(
                 'প্রতিটি বিভাগে অংশ, লক্ষণ ও সেখান থেকে খোলা যায় এমন কোর্স।',
-                style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                  color: scheme.onSurfaceVariant,
-                ),
+                style: Theme.of(context).textTheme.bodySmall
+                    ?.copyWith(color: scheme.onSurfaceVariant),
               ),
             ],
           ),
@@ -816,9 +764,8 @@ class _LearningViewState extends State<LearningView> {
                 ),
                 Text(
                   '${bn(group.rows.length)}টি',
-                  style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                    color: scheme.onSurfaceVariant,
-                  ),
+                  style: Theme.of(context).textTheme.bodySmall
+                      ?.copyWith(color: scheme.onSurfaceVariant),
                 ),
               ],
             ),
@@ -863,9 +810,8 @@ class _LearningViewState extends State<LearningView> {
                       sys.nameBn,
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
-                      style: Theme.of(context).textTheme.titleSmall?.copyWith(
-                        fontWeight: FontWeight.w800,
-                      ),
+                      style: Theme.of(context).textTheme.titleSmall
+                          ?.copyWith(fontWeight: FontWeight.w800),
                     ),
                     const SizedBox(height: 2),
                     Text(
@@ -924,9 +870,8 @@ class _LearningViewState extends State<LearningView> {
                       ),
                       Text(
                         'পাস মার্ক ৮০% · সঠিক উত্তর দিলে পাঠ ও কোর্স সম্পন্ন হবে।',
-                        style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                          color: scheme.onSurfaceVariant,
-                        ),
+                        style: Theme.of(context).textTheme.bodySmall
+                            ?.copyWith(color: scheme.onSurfaceVariant),
                       ),
                     ],
                   ),
@@ -1046,7 +991,9 @@ class _LearningViewState extends State<LearningView> {
     ];
 
     if (matchedSystems.isNotEmpty) {
-      slivers.add(_searchSectionTitle('অঙ্গতন্ত্রসমূহ (${bn(matchedSystems.length)})'));
+      slivers.add(
+        _searchSectionTitle('অঙ্গতন্ত্রসমূহ (${bn(matchedSystems.length)})'),
+      );
       slivers.add(
         SliverPadding(
           padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -1086,7 +1033,9 @@ class _LearningViewState extends State<LearningView> {
 
     if (matchedTopics.isNotEmpty) {
       slivers.add(
-        _searchSectionTitle('রোগ ও স্বাস্থ্যসমস্যা (${bn(matchedTopics.length)})'),
+        _searchSectionTitle(
+          'রোগ ও স্বাস্থ্যসমস্যা (${bn(matchedTopics.length)})',
+        ),
       );
       slivers.add(
         SliverPadding(
@@ -1239,23 +1188,19 @@ class _Stat extends StatelessWidget {
       children: [
         Text(
           value,
-          style: Theme.of(context).textTheme.titleMedium?.copyWith(
-            fontWeight: FontWeight.w800,
-            color: scheme.primary,
-          ),
+          style: Theme.of(context).textTheme.titleMedium
+              ?.copyWith(fontWeight: FontWeight.w800, color: scheme.primary),
         ),
         const SizedBox(height: 2),
         Text(
           label,
-          style: Theme.of(context).textTheme.bodySmall?.copyWith(
-            fontWeight: FontWeight.w600,
-          ),
+          style: Theme.of(context).textTheme.bodySmall
+              ?.copyWith(fontWeight: FontWeight.w600),
         ),
         Text(
           sub,
-          style: Theme.of(context).textTheme.bodySmall?.copyWith(
-            color: scheme.onSurfaceVariant,
-          ),
+          style: Theme.of(context).textTheme.bodySmall
+              ?.copyWith(color: scheme.onSurfaceVariant),
         ),
       ],
     );
@@ -1313,15 +1258,13 @@ class _ContinueCard extends StatelessWidget {
                       target.lesson.title,
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
-                      style: Theme.of(context).textTheme.titleSmall?.copyWith(
-                        fontWeight: FontWeight.w800,
-                      ),
+                      style: Theme.of(context).textTheme.titleSmall
+                          ?.copyWith(fontWeight: FontWeight.w800),
                     ),
                     Text(
                       '${target.course.title} · ${bn(pct)}%',
-                      style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                        color: scheme.onSurfaceVariant,
-                      ),
+                      style: Theme.of(context).textTheme.bodySmall
+                          ?.copyWith(color: scheme.onSurfaceVariant),
                     ),
                   ],
                 ),
@@ -1376,10 +1319,7 @@ class _FeaturedCard extends StatelessWidget {
           Row(
             children: [
               Container(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 8,
-                  vertical: 4,
-                ),
+                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                 decoration: BoxDecoration(
                   color: Colors.white.withValues(alpha: 0.2),
                   borderRadius: BorderRadius.circular(8),
@@ -1400,19 +1340,16 @@ class _FeaturedCard extends StatelessWidget {
           const SizedBox(height: 12),
           Text(
             course.title,
-            style: Theme.of(context).textTheme.titleMedium?.copyWith(
-              color: Colors.white,
-              fontWeight: FontWeight.w800,
-            ),
+            style: Theme.of(context).textTheme.titleMedium
+                ?.copyWith(color: Colors.white, fontWeight: FontWeight.w800),
           ),
           const SizedBox(height: 4),
           Text(
             course.subtitle,
             maxLines: 2,
             overflow: TextOverflow.ellipsis,
-            style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-              color: Colors.white.withValues(alpha: 0.9),
-            ),
+            style: Theme.of(context).textTheme.bodyMedium
+                ?.copyWith(color: Colors.white.withValues(alpha: 0.9)),
           ),
           const SizedBox(height: 14),
           Row(
@@ -1490,32 +1427,33 @@ class _CourseCard extends StatelessWidget {
                       course.title,
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
-                      style: Theme.of(context).textTheme.titleSmall?.copyWith(
-                        fontWeight: FontWeight.w800,
-                      ),
+                      style: Theme.of(context).textTheme.titleSmall
+                          ?.copyWith(fontWeight: FontWeight.w800),
                     ),
                     Text(
                       course.subtitle,
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
-                      style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                        color: scheme.onSurfaceVariant,
-                      ),
+                      style: Theme.of(context).textTheme.bodySmall
+                          ?.copyWith(color: scheme.onSurfaceVariant),
                     ),
                     const SizedBox(height: 2),
                     Text(
                       '${bn(total)}টি পাঠ'
                       '${course.quiz.isNotEmpty ? ' · ${bn(course.quiz.length)}টি কুইজ' : ''}',
-                      style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                        color: scheme.onSurfaceVariant,
-                      ),
+                      style: Theme.of(context).textTheme.bodySmall
+                          ?.copyWith(color: scheme.onSurfaceVariant),
                     ),
                   ],
                 ),
               ),
               const SizedBox(width: 8),
               if (isDone)
-                Icon(Icons.check_circle_rounded, color: scheme.primary, size: 22)
+                Icon(
+                  Icons.check_circle_rounded,
+                  color: scheme.primary,
+                  size: 22,
+                )
               else
                 Text(
                   '${bn((progress * 100).round())}%',

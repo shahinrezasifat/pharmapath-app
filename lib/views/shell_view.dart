@@ -50,6 +50,15 @@ class _ShellViewState extends State<ShellView> {
     (type: _NavIconType.settings, label: 'সেটিংস'),
   ];
 
+  static const _pageTitles = [
+    'ওষুধ',
+    'খুঁজুন',
+    'শেখা',
+    'রোগী',
+    'প্রিয়',
+    'সেটিংস',
+  ];
+
   static const _pageIndexes = [0, 2, 3, 4, 5];
 
   void _onSelect(int destinationIndex) {
@@ -102,7 +111,19 @@ class _ShellViewState extends State<ShellView> {
         backgroundColor: scheme.surface,
         extendBody: false,
         body: AppBackground(
-          child: IndexedStack(index: index, children: _pages),
+          child: Column(
+            children: [
+              _SectionHeader(
+                index: index,
+                title: _pageTitles[index.clamp(0, _pageTitles.length - 1)],
+                onSearch: () => _nav.goTo(1),
+                onRefresh: () => _onSelect(selectedDestination),
+              ),
+              Expanded(
+                child: IndexedStack(index: index, children: _pages),
+              ),
+            ],
+          ),
         ),
         bottomNavigationBar: isKeyboardOpen
             ? null
@@ -122,7 +143,7 @@ class _ShellViewState extends State<ShellView> {
                       child: BackdropFilter(
                         filter: ImageFilter.blur(sigmaX: 20, sigmaY: 20),
                         child: Container(
-                          height: 66,
+                          height: 60,
                           decoration: BoxDecoration(
                             color: navBg,
                             borderRadius: BorderRadius.circular(30),
@@ -181,6 +202,80 @@ class _ShellViewState extends State<ShellView> {
   }
 }
 
+class _SectionHeader extends StatelessWidget {
+  const _SectionHeader({
+    required this.index,
+    required this.title,
+    required this.onSearch,
+    required this.onRefresh,
+  });
+
+  final int index;
+  final String title;
+  final VoidCallback onSearch;
+  final VoidCallback onRefresh;
+
+  @override
+  Widget build(BuildContext context) {
+    final scheme = Theme.of(context).colorScheme;
+    final isHome = index == 0;
+    final showSearch = index == 0 || index == 1;
+    return SafeArea(
+      bottom: false,
+      child: Padding(
+        padding: const EdgeInsets.fromLTRB(18, 10, 18, 8),
+        child: Row(
+          children: [
+            Container(
+              width: 38,
+              height: 38,
+              decoration: BoxDecoration(
+                color: scheme.primaryContainer,
+                borderRadius: BorderRadius.circular(13),
+              ),
+              clipBehavior: Clip.antiAlias,
+              child: Image.asset('assets/LOGO.jpg', fit: BoxFit.cover),
+            ),
+            const SizedBox(width: 11),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text(
+                    isHome ? 'ফার্মাপাথ' : title,
+                    style: Theme.of(context).textTheme.titleMedium
+                        ?.copyWith(fontWeight: FontWeight.w800),
+                  ),
+                  Text(
+                    isHome
+                        ? 'ওষুধ জানুন। ভালো বুঝুন।'
+                        : 'PharmaPath · অফলাইন-ফার্স্ট',
+                    style: Theme.of(context).textTheme.labelSmall
+                        ?.copyWith(color: scheme.onSurfaceVariant),
+                  ),
+                ],
+              ),
+            ),
+            if (showSearch)
+              IconButton.filledTonal(
+                tooltip: 'ওষুধ খুঁজুন',
+                onPressed: onSearch,
+                icon: const Icon(Icons.search_rounded),
+              ),
+            if (index == 1 || index == 4)
+              IconButton(
+                tooltip: 'রিফ্রেশ',
+                onPressed: onRefresh,
+                icon: const Icon(Icons.refresh_rounded),
+              ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
 class _NavigationDestination extends StatefulWidget {
   const _NavigationDestination({
     required this.type,
@@ -236,9 +331,9 @@ class _NavigationDestinationState extends State<_NavigationDestination> {
             child: AnimatedContainer(
               duration: const Duration(milliseconds: 350),
               curve: Curves.easeOutCubic,
-              height: 50,
+              height: 46,
               padding: EdgeInsets.symmetric(
-                horizontal: widget.selected ? 16 : 12,
+                horizontal: widget.selected ? 12 : 10,
               ),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(22),
@@ -297,7 +392,7 @@ class _NavigationDestinationState extends State<_NavigationDestination> {
                                   overflow: TextOverflow.clip,
                                   style: const TextStyle(
                                     fontFamily: AppTheme.fontFamily,
-                                    fontSize: 14,
+                                    fontSize: 13,
                                     fontWeight: FontWeight.w600,
                                     color: Colors.white,
                                     letterSpacing: -0.2,

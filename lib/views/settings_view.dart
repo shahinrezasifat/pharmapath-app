@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../app/theme.dart';
 import '../controllers/settings_controller.dart';
-import '../core/app_config.dart';
 import '../core/navigation_mode.dart';
 import '../services/app_update_service.dart';
 import '../widgets/glass.dart';
@@ -18,7 +16,6 @@ import 'data_management_view.dart';
 class SettingsView extends StatelessWidget {
   const SettingsView({super.key});
 
-
   @override
   Widget build(BuildContext context) {
     // ignore: unused_local_variable – settings kept in case a sub-widget needs it
@@ -26,83 +23,22 @@ class SettingsView extends StatelessWidget {
     final scheme = Theme.of(context).colorScheme;
     return Scaffold(
       backgroundColor: Colors.transparent,
-      appBar: AppBar(title: const Text('সেটিংস')),
       body: ListView(
         padding: EdgeInsets.fromLTRB(
           16,
-          4,
+          10,
           16,
           GestureNavigation.shellContentBottomPadding(context),
         ),
         children: [
-          // ── App identity card ────────────────────────────────────────────
-          // Medicine count is shown prominently on the Home Page; we don't
-          // duplicate it here to avoid redundancy.
-          GlassCard(
-            padding: const EdgeInsets.all(18),
-            gradient: AppTheme.heroGradient(context),
-            borderColor: Colors.white.withValues(alpha: 0.18),
-            child: Row(
-              children: [
-                Container(
-                  width: 54,
-                  height: 54,
-                  decoration: BoxDecoration(
-                    color: Colors.white.withValues(alpha: 0.16),
-                    borderRadius: BorderRadius.circular(17),
-                    border: Border.all(
-                      color: Colors.white.withValues(alpha: 0.22),
-                    ),
-                  ),
-                  child: const Icon(
-                    Icons.medical_services_rounded,
-                    color: Colors.white,
-                    size: 28,
-                  ),
-                ),
-                const SizedBox(width: 13),
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        AppConfig.appName,
-                        style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                          color: Colors.white,
-                          fontWeight: FontWeight.w800,
-                        ),
-                      ),
-                      const SizedBox(height: 2),
-                      Text(
-                        '${AppConfig.appNameLatin} · সংস্করণ ${AppConfig.version}',
-                        style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                          color: Colors.white.withValues(alpha: 0.88),
-                        ),
-                      ),
-                      const SizedBox(height: 5),
-                      Row(
-                        children: [
-                          const Icon(
-                            Icons.offline_bolt_outlined,
-                            size: 13,
-                            color: Colors.white70,
-                          ),
-                          const SizedBox(width: 5),
-                          Expanded(
-                            child: Text(
-                              'সম্পূর্ণ অফলাইনে কাজ করে',
-                              style: Theme.of(context).textTheme.labelSmall
-                                  ?.copyWith(
-                                    color: Colors.white.withValues(alpha: 0.80),
-                                  ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                ),
-              ],
+          Padding(
+            padding: const EdgeInsets.fromLTRB(6, 2, 6, 10),
+            child: Text(
+              'অ্যাপ, ডেটা ও নিরাপত্তা',
+              style: Theme.of(context).textTheme.labelLarge?.copyWith(
+                color: scheme.onSurfaceVariant,
+                fontWeight: FontWeight.w600,
+              ),
             ),
           ),
           const SectionTitle(title: 'ব্যক্তিগতকরণ'),
@@ -123,7 +59,11 @@ class SettingsView extends StatelessWidget {
                   final updater = Get.find<AppUpdateService>();
                   if (!updater.isConfigured) {
                     messenger.showSnackBar(
-                      const SnackBar(content: Text('এই অ্যাপের GitHub repository কনফিগার করা নেই।')),
+                      const SnackBar(
+                        content: Text(
+                          'এই অ্যাপের GitHub repository কনফিগার করা নেই।',
+                        ),
+                      ),
                     );
                     return;
                   }
@@ -131,12 +71,17 @@ class SettingsView extends StatelessWidget {
                     final release = await updater.checkForUpdate();
                     if (release == null) {
                       messenger.showSnackBar(
-                        const SnackBar(content: Text('আপনি সর্বশেষ সংস্করণ ব্যবহার করছেন।')),
+                        const SnackBar(
+                          content: Text('আপনি সর্বশেষ সংস্করণ ব্যবহার করছেন।'),
+                        ),
                       );
                     } else if (context.mounted) {
                       await showDialog<void>(
                         context: context,
-                        builder: (_) => _SettingsUpdateDialog(updater: updater, release: release),
+                        builder: (_) => _SettingsUpdateDialog(
+                          updater: updater,
+                          release: release,
+                        ),
                       );
                     }
                   } catch (error) {
@@ -194,8 +139,7 @@ class SettingsView extends StatelessWidget {
               SettingsTile(
                 icon: Icons.info_outline_rounded,
                 title: 'ফার্মাপাথ সম্পর্কে',
-                subtitle:
-                      'সংস্করণ · লাইসেন্স ও সীমাবদ্ধতা',
+                subtitle: 'সংস্করণ · লাইসেন্স ও সীমাবদ্ধতা',
                 onTap: () => Get.to(() => const AboutView(kind: 'about')),
               ),
             ],

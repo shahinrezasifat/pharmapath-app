@@ -1,47 +1,91 @@
-# PharmaPath — ওষুধ জানুন। ভালো বুঝুন।
+<div align="center">
+  <img src="assets/LOGO.jpg" alt="PharmaPath logo" width="112" />
+  <h1>PharmaPath</h1>
+  <p><strong>ওষুধ জানুন। ভালো বুঝুন।</strong></p>
+  <p>বাংলাদেশি ওষুধের তথ্য, ফার্মেসি শেখা ও রোগীর সহায়তার অফলাইন-ফার্স্ট Android অ্যাপ</p>
+  <p>
+    <a href="https://github.com/shahinrezasifat/pharmapath-app/releases/latest"><img alt="Latest release" src="https://img.shields.io/github/v/release/shahinrezasifat/pharmapath-app?display_name=tag&color=2563eb"></a>
+    <a href="https://github.com/shahinrezasifat/pharmapath-app/releases/latest"><img alt="Android download" src="https://img.shields.io/badge/Android-APK-22a06b?logo=android&logoColor=white"></a>
+    <img alt="Flutter" src="https://img.shields.io/badge/Built%20with-Flutter-54c5f8?logo=flutter&logoColor=white">
+  </p>
+  <p><a href="https://github.com/shahinrezasifat/pharmapath-app/releases/latest"><strong>⬇ সর্বশেষ APK ডাউনলোড</strong></a> · <a href="#screenshots">স্ক্রিনশট দেখুন</a> · <a href="#features">ফিচার</a></p>
+</div>
 
-<p align="center">
-  <img src="assets/LOGO.jpg" alt="PharmaPath logo" width="150" />
-</p>
+> **চিকিৎসা-সংক্রান্ত সতর্কতা:** PharmaPath-এর ওষুধ ও শেখার তথ্য শিক্ষামূলক; এগুলো চিকিৎসকের পরামর্শ, রোগ নির্ণয় বা প্রেসক্রিপশনের বিকল্প নয়। ওষুধ শুরু, বন্ধ বা ডোজ বদলানোর আগে যোগ্য চিকিৎসক বা ফার্মাসিস্টের পরামর্শ নিন। জরুরি উপসর্গে দ্রুত চিকিৎসা নিন।
 
-<p align="center"><strong>বাংলাদেশি ওষুধের তথ্য ও শেখার অফলাইন-ফার্স্ট অ্যাপ</strong></p>
+## PharmaPath সম্পর্কে
 
-PharmaPath is a Bangla-first Android app for browsing a locally stored medicine catalogue and learning foundational pharmacy and health topics. Search and saved data are available offline. When connected, users can refresh medicine data and access optional AI assistance. No login or subscription is required.
+PharmaPath একটি বাংলা-প্রথম Android অ্যাপ। স্থানীয়ভাবে সংরক্ষিত ওষুধের ক্যাটালগ, শেখার পাঠ এবং আপনার সেভ করা তথ্য ইন্টারনেট ছাড়াই দেখা যায়। ইন্টারনেট থাকলে ক্যাটালগ সিঙ্ক, ঐচ্ছিক AI সহায়তা এবং GitHub থেকে নতুন সংস্করণ যাচাই করা যায়। অ্যাকাউন্ট বা সাবস্ক্রিপশন লাগে না।
 
-> **Health information:** Catalogue and learning content may contain errors or omissions and is not clinically verified. Use it for education only; it does not diagnose, prescribe, or replace advice from a licensed clinician. Seek professional advice before acting on medicine information.
+<a id="features"></a>
+## অ্যাপের ফিচার
 
-## Screenshots
+| বিভাগ | কী পাবেন |
+|---|---|
+| 💊 ওষুধ | জেনেরিক, ব্র্যান্ড ও কোম্পানি দিয়ে খোঁজা; ওষুধের বিবরণ, বিকল্প এবং পছন্দের তালিকা |
+| 📚 শেখা | বাংলা কোর্স, পাঠ, শারীরস্থান, চিকিৎসা পরিভাষা, কুইজ ও রিভিশন |
+| 🧑‍⚕️ রোগী | ডিভাইসেই রোগীর প্রোফাইল, ওষুধের তালিকা ও পরামর্শ-সংক্রান্ত নোট |
+| ✨ সহায়তা | ঐচ্ছিক বাংলা ও ইংরেজি AI সহায়তা; উত্তর ভুল হতে পারে |
+| 💾 ডেটা | অফলাইন ক্যাটালগ, স্থানীয় ইতিহাস এবং ZIP/ডেটাবেস ব্যাকআপ ও রিস্টোর |
+| 🎨 ব্যক্তিগতকরণ | হালকা, গাঢ় বা সিস্টেম থিম; বাংলা ইন্টারফেস |
+| 🔄 আপডেট | চালুর সময় নতুন GitHub Release যাচাই; আপডেট থাকলে ইনস্টল না করা পর্যন্ত মূল অ্যাপ খোলা যায় না |
 
-### Home
-![PharmaPath home screen](docs/app/screenshots/home.png)
+<a id="screenshots"></a>
+## স্ক্রিনশট
 
-### Learning
-![PharmaPath learning screen](docs/app/screenshots/learning.png)
+নিচের ছবিগুলো Android এমুলেটর থেকে অ্যাপের বর্তমান বিল্ডে নতুন করে নেওয়া। প্রতিটি ছবিতে ক্লিক করলে পূর্ণ আকারে দেখা যাবে।
 
-### Settings
-![PharmaPath settings screen](docs/app/screenshots/settings.png)
+### মূল পর্দা ও ন্যাভিগেশন
 
-## App details
+<table>
+  <tr>
+    <td align="center"><a href="docs/app/screenshots/home.png"><img src="docs/app/screenshots/home.png" alt="হোম" width="220"></a><br><strong>হোম</strong></td>
+    <td align="center"><a href="docs/app/screenshots/search.png"><img src="docs/app/screenshots/search.png" alt="ওষুধ খোঁজা" width="220"></a><br><strong>ওষুধ খোঁজা</strong></td>
+    <td align="center"><a href="docs/app/screenshots/medicine-detail.png"><img src="docs/app/screenshots/medicine-detail.png" alt="ওষুধের বিবরণ" width="220"></a><br><strong>ওষুধের বিবরণ</strong></td>
+  </tr>
+  <tr>
+    <td align="center"><a href="docs/app/screenshots/learning.png"><img src="docs/app/screenshots/learning.png" alt="শেখা ও কোর্স" width="220"></a><br><strong>শেখা ও কোর্স</strong></td>
+    <td align="center"><a href="docs/app/screenshots/learning-quiz.png"><img src="docs/app/screenshots/learning-quiz.png" alt="কুইজ" width="220"></a><br><strong>কুইজ</strong></td>
+    <td align="center"><a href="docs/app/screenshots/quiz-run.png"><img src="docs/app/screenshots/quiz-run.png" alt="কুইজের প্রশ্ন" width="220"></a><br><strong>কুইজের প্রশ্ন</strong></td>
+  </tr>
+  <tr>
+    <td align="center"><a href="docs/app/screenshots/patient.png"><img src="docs/app/screenshots/patient.png" alt="রোগী ব্যবস্থাপনা" width="220"></a><br><strong>রোগী ব্যবস্থাপনা</strong></td>
+    <td align="center"><a href="docs/app/screenshots/favorites.png"><img src="docs/app/screenshots/favorites.png" alt="প্রিয় ওষুধ" width="220"></a><br><strong>প্রিয়</strong></td>
+    <td align="center"><a href="docs/app/screenshots/settings.png"><img src="docs/app/screenshots/settings.png" alt="সেটিংস" width="220"></a><br><strong>সেটিংস</strong></td>
+  </tr>
+</table>
 
-- **Medicine catalogue:** bundled SQLite data, full-text search, detailed medicine records, favourites, and history.
-- **Learning:** Bangla courses and lessons, body-system references, medical terms, quizzes, and learning progress.
-- **Patient tools:** locally stored patient profiles, medication lists, and consultation support.
-- **AI assistance:** optional Bangla and English learning and health assistance; generated responses can be wrong.
-- **Privacy and offline use:** no app account; saved records, favourites, history, and learning progress remain on the device. Network access is used for medicine sync, optional AI services, and checking GitHub releases.
-- **Backup:** export and restore local app data.
-- **Platform:** Android APK; minimum Android version follows the Flutter project configuration.
-- **Package ID:** `com.pharmapath.pharmapath_app`.
-- **Current version:** 2.0.0.
+<details>
+  <summary><strong>সেটিংস ও ডেটা ব্যবস্থাপনার আরও স্ক্রিনশট</strong></summary>
+  <br>
+  <table>
+    <tr>
+      <td align="center"><a href="docs/app/screenshots/appearance.png"><img src="docs/app/screenshots/appearance.png" alt="থিম নির্বাচন" width="220"></a><br><strong>চেহারা ও থিম</strong></td>
+      <td align="center"><a href="docs/app/screenshots/offline-data.png"><img src="docs/app/screenshots/offline-data.png" alt="অফলাইন ডেটা" width="220"></a><br><strong>অফলাইন ডেটা ও সিঙ্ক</strong></td>
+      <td align="center"><a href="docs/app/screenshots/backup.png"><img src="docs/app/screenshots/backup.png" alt="ব্যাকআপ ও রিস্টোর" width="220"></a><br><strong>ব্যাকআপ ও রিস্টোর</strong></td>
+    </tr>
+    <tr>
+      <td align="center"><a href="docs/app/screenshots/medical-safety.png"><img src="docs/app/screenshots/medical-safety.png" alt="চিকিৎসা সতর্কতা" width="220"></a><br><strong>চিকিৎসা সতর্কতা</strong></td>
+      <td align="center"><a href="docs/app/screenshots/privacy.png"><img src="docs/app/screenshots/privacy.png" alt="গোপনীয়তা ও ডেটা উৎস" width="220"></a><br><strong>গোপনীয়তা ও ডেটা উৎস</strong></td>
+      <td align="center"><a href="docs/app/screenshots/about.png"><img src="docs/app/screenshots/about.png" alt="PharmaPath পরিচিতি" width="220"></a><br><strong>অ্যাপ সম্পর্কে</strong></td>
+    </tr>
+  </table>
+</details>
 
-## Download
+## ডাউনলোড ও আপডেট
 
-Get the latest Android installer from [GitHub Releases](https://github.com/shahinrezasifat/pharmapath-app/releases/latest). Android will ask you to confirm installation. In-app update checks require an internet connection. Keep the release signing key and Android package ID unchanged for future in-place updates.
+**বর্তমান সংস্করণ: 2.0.1** · [সর্বশেষ GitHub Release থেকে APK নিন](https://github.com/shahinrezasifat/pharmapath-app/releases/latest)
 
-## Source and data
+অ্যাপ চালু হলেই ইন্টারনেট দিয়ে GitHub-এর সর্বশেষ প্রকাশিত সংস্করণ যাচাই হয়। নতুন সংস্করণ থাকলে আপডেটের পর্দা আসবে এবং আপডেট ইনস্টল না করা পর্যন্ত অ্যাপের বাকি অংশে যাওয়া যাবে না। অ্যাপ থেকেই APK ডাউনলোড শুরু হয়; Android-এর ইনস্টলার শেষে ইনস্টল নিশ্চিত করতে বলবে। আপডেট যাচাই করতে ইন্টারনেট লাগবে।
 
-PharmaPath includes independently developed UI, learning materials, and locally bundled medicine reference data. It is not affiliated with MedEx or a medicine manufacturer. Data source and license details are shown in the app under Settings → Privacy and data sources. Do not use the catalogue as clinical guidance.
+## গোপনীয়তা ও ডেটা
 
-## Build from source
+- প্রোফাইল, পছন্দের ওষুধ, সার্চ ইতিহাস এবং শেখার অগ্রগতি ডিভাইসেই থাকে।
+- অ্যাপ অ্যাকাউন্ট বা অ্যানালিটিক্স প্রোফাইল নেই।
+- অনলাইন সংযোগ লাগে ক্যাটালগ সিঙ্ক, ঐচ্ছিক AI মডেলের প্রথম ব্যবহার এবং GitHub আপডেট যাচাইয়ের জন্য।
+- ওষুধের ডেটার উৎস ও সীমাবদ্ধতা অ্যাপের **সেটিংস → গোপনীয়তা ও ডেটা উৎস**-এ ব্যাখ্যা করা আছে। PharmaPath কোনো ওষুধ কোম্পানির সঙ্গে সম্পৃক্ত নয়।
+
+## ডেভেলপারদের জন্য
 
 ```powershell
 flutter pub get
@@ -50,214 +94,6 @@ flutter build apk --release `
   --dart-define=GITHUB_REPOSITORY_NAME=pharmapath-app
 ```
 
-The APK is written to `build/app/outputs/flutter-apk/app-release.apk`. Release signing configuration is kept outside the public repository; see below before creating a new release.
+APK তৈরি হবে `build/app/outputs/flutter-apk/app-release.apk`-এ। Android-এর ইন-প্লেস আপডেটের জন্য একই application ID এবং release signing key ধরে রাখুন। ভবিষ্যৎ GitHub Release-এ `pubspec.yaml`-এর version বাড়িয়ে APK যুক্ত করুন। স্বয়ংক্রিয় release workflow ব্যবহার করলে repository Actions-এ `ANDROID_KEYSTORE_BASE64` ও `ANDROID_KEY_PROPERTIES` secrets সেট করুন; signing key কখনো repository-তে commit করবেন না।
 
-## GitHub releases and in-app Android updates
-
-The app checks the latest **published, non-prerelease** GitHub Release at startup and from **Settings → আপডেট খুঁজুন**. When an update is newer than the installed version, Android downloads the release APK and opens Android's package installer. Android still asks the user to confirm installation. On other platforms, the update prompt links to the release page. The mandatory startup check requires an internet connection so GitHub can confirm there is no newer build.
-
-Publish each APK as an asset on a GitHub Release whose tag matches the app version (for example `v2.0.0`). Every future release must increment `version:` in `pubspec.yaml`, use the same Android application ID and signing key, attach an `.apk` asset, and use a version tag greater than the installed version. Android will reject an APK signed with a different key or with a non-incremented version code. Do not publish the debug APK.
-
-To publish tagged builds automatically, push `.github/workflows/android-release.yml` to the repository, then push a version tag such as `v2.0.0`. The workflow builds the APK using the actual GitHub owner/repository values and attaches it to a GitHub Release. For upgrade compatibility, add `ANDROID_KEYSTORE_BASE64` (the base64 encoded signing keystore) and `ANDROID_KEY_PROPERTIES` (the four `key.properties` lines, with `storeFile=android/pharmapath-release.keystore`) as repository Actions secrets before publishing. Existing local key files are intentionally excluded from Git. Keep the signing key and package ID stable across upgrades; without these secrets, the workflow creates a debug-signed APK for first installs, which cannot update an APK signed with a different key.
-
-PharmaPath is a Flutter client for the medicine-catalogue HTTP API that was
-documented during the static reverse-engineering study of the shipped MedEx
-3.5.0 Android application. The study lives one directory up in
-`../MedEx-Reverse-Engineering/`.
-
-The app is **read-only**: it fetches catalogue records and lets you browse,
-search and locally bookmark them. Favourites and history never leave the
-device.
-
----
-
-## 1. Project layout
-
-```
-pharmapath_app/
-├── lib/
-│   ├── main.dart                  # bootstrap, GetX DI, MaterialApp
-│   ├── app/
-│   │   ├── routes.dart            # route constants + icon mapping
-│   │   └── theme.dart             # Material 3 light/dark themes
-│   ├── core/
-│   │   ├── app_config.dart        # compile-time defaults, timeouts
-│   │   ├── api_client.dart        # HTTP GET, URL building, bearer token
-│   │   ├── api_exception.dart     # typed error with status/URI
-│   │   ├── json_utils.dart        # tolerant envelope/list parsing
-│   │   ├── paged_result.dart      # generic page wrapper
-│   │   ├── demo_data.dart         # offline fixture catalogue
-│   │   └── storage.dart           # get_storage keys
-│   ├── models/
-│   │   ├── catalog_item.dart      # resource-agnostic record + field aliases
-│   │   └── catalog_resource.dart  # recovered endpoints
-│   ├── repositories/
-│   │   └── catalog_repository.dart# live + demo data access
-│   ├── controllers/               # GetX state (settings, lists, search…)
-│   ├── views/                     # screens
-│   └── widgets/                   # cards, rails, states, HTML renderer
-├── test/widget_test.dart          # parser unit tests
-└── pubspec.yaml
-```
-
-State management is **GetX**; the HTTP layer is `package:http`; local storage is
-`get_storage`; rich text is rendered with `flutter_widget_from_html_core`.
-
----
-
-## 2. API configuration
-
-| Setting | Default | Where to change |
-|---|---|---|
-| Base URL | `https://medex.com.bd/api/beta/` | Settings → Connection, or `--dart-define=MEDEX_API_BASE=…` |
-| Bearer token | empty | Settings → Connection, or `--dart-define=MEDEX_API_TOKEN=…` |
-| Live API on start | `true` | `--dart-define=ENABLE_LIVE_API=false` |
-| Offline demo mode | off | Settings → Connection toggle |
-
-The base URL is the one literal string recovered from the MedEx Dart AOT
-snapshot. Endpoint paths below are the fragments that survived in the binary;
-**HTTP semantics and detail-path templates are inferred**, because the Dart
-controller code is compiled machine code and was not decompiled.
-
-### Resources wired into the UI
-
-| Resource | Path | Notes |
-|---|---|---|
-| Global search | `search?search=` (+ optional `type`) | typed search |
-| Brands | `brands` | supports `page`, `alpha`, `type` |
-| Generics | `generics` | `type=herbal`, `type=veterinary` |
-| Companies | `companies` | supports `alpha` |
-| Dosage forms | `dosage-forms` | |
-| Drug classes | `drug-classes` | |
-| Indications | `indications` | supports `search` |
-| Jobs | `jobs` | path inferred |
-| Newly launched | `newly-launched-brands` | |
-| Featured brands | `special-segments/brands` | |
-| Campaigns | `campaigns` | home rail |
-| Segments | `segments` | home data |
-| Privacy / terms | `privacy` / `terms` | text rendered in-app |
-
-Detail screens request `<detailBase>/<id>` (e.g. `brands/42`). If that request
-fails, the list record already in memory is shown instead, so navigation never
-dead-ends.
-
-Because the response schema is undocumented, `json_utils.dart` accepts:
-
-* a bare JSON list,
-* `{ "data": [ … ] }`,
-* `{ "data": { "data": [ … ], "current_page": …, "last_page": … } }`,
-* named lists such as `brands`, `generics`, `companies`, …
-
-Pagination metadata (`current_page`, `last_page`, `total`, `next_page_url`) is
-read opportunistically; when it is missing, the client falls back to
-"a full page means there may be more".
-
-### Authentication — read this first
-
-The API is **not anonymous**. A live request without a token returns HTTP 200
-with an application-level failure:
-
-```json
-{"success": false, "message": "Authentication token missing", "data": []}
-```
-
-The transport is a standard bearer header: sending
-`Authorization: Bearer <token>` changes the response to
-`{"success": false, "message": "Invalid token [IT900]", "data": []}` for a bad
-token, which confirms the header name. The original application obtains its
-token through its own account/OTP login flow; that flow is **not** implemented
-here and this project does **not** bypass it.
-
-So to use live data you must supply a token you are authorized to use:
-
-1. Open **Settings → Connection**.
-2. Paste the token (it is stored locally with `get_storage`).
-3. Tap **Test** — it should report `OK · N items`.
-4. Tap **Save**, then retry the catalogue screen.
-
-Without a token the app now shows the server's message plus a shortcut to the
-connection settings, instead of pretending the catalogue is empty. If you only
-want to explore the interface, enable **Offline demo data**; no request is made
-in that mode.
-
-The token is never logged, bundled, or written to the reverse-engineering
-reports.
-
-### Ignored integrations
-The original application also contained an ACI ordering flow over cleartext
-HTTP (`http://apps.acibd.com/apps/myaci/…`) and Firebase/AdMob keys. Those were
-**deliberately not implemented**: PharmaPath performs no authentication, no
-ordering, and ships no third-party keys.
-
----
-
-## 3. Screens
-
-* **Home** — search launcher, campaign rail, category grid, newly launched and
-  featured brand rails.
-* **Browse** — every recovered resource plus legal/about entries.
-* **Search** — debounced global search with type filter chips and recent
-  searches.
-* **Catalogue list** — paginated list, A–Z filter for brands/companies,
-  pull-to-refresh, infinite scroll with manual fallback.
-* **Detail** — hero image, mapped fields, HTML description, favourite toggle,
-  technical JSON panel in debug builds.
-* **Saved / History** — local-only lists with per-item and bulk clearing.
-* **Settings** — base URL, bearer token, connectivity probe, demo toggle, dark
-  theme, local data management.
-
-All list/detail/error states have explicit loading, empty, partial-failure and
-retry UI.
-
----
-
-## 4. Running
-
-```bash
-cd /home/sifat/Desktop/PharmaPath/pharmapath_app
-flutter pub get
-flutter run                 # pick a connected device
-flutter run -d chrome       # web
-```
-
-Useful overrides:
-
-```bash
-flutter run --dart-define=MEDEX_API_BASE=https://example.test/api/beta/ \
-            --dart-define=MEDEX_API_TOKEN=your-own-token
-```
-
-Demo mode (no network at all):
-
-```bash
-flutter run --dart-define=ENABLE_LIVE_API=false
-```
-
-Checks:
-
-```bash
-flutter analyze     # currently clean
-flutter test        # parser/model unit tests
-flutter build web   # verified
-```
-
----
-
-## 5. Legal / ethical note
-
-The endpoint list is documentation of what a shipped binary contains; it is not
-a grant of access. Point this client only at an API you operate or are
-explicitly authorized to use, respect its terms and rate limits, and do not use
-it to redistribute third-party catalogue data. No credentials, API keys or
-certificates recovered during the study are included in this repository.
-
-## Screenshots
-
-### Home
-![PharmaPath home screen](docs/app/screenshots/home.png)
-
-### Learning
-![PharmaPath learning screen](docs/app/screenshots/learning.png)
-
-### Settings
-![PharmaPath settings screen](docs/app/screenshots/settings.png)
+**প্ল্যাটফর্ম:** Android · **Application ID:** `com.pharmapath.pharmapath_app` · **লাইসেন্স:** repository-তে উল্লেখিত প্রকল্পের লাইসেন্স ও তৃতীয় পক্ষের ডেটা-লাইসেন্স যাচাই করুন।

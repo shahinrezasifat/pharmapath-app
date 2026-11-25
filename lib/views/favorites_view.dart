@@ -15,16 +15,6 @@ class FavoritesView extends StatelessWidget {
   Widget build(BuildContext context) {
     final controller = Get.find<FavoritesController>();
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('ফেভারিট'),
-        actions: [
-          IconButton(
-            tooltip: 'রিফ্রেশ',
-            onPressed: controller.load,
-            icon: const Icon(Icons.refresh),
-          ),
-        ],
-      ),
       body: Obx(() {
         if (controller.loading.value && controller.items.isEmpty) {
           return const Padding(

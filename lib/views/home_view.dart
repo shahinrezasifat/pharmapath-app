@@ -1,5 +1,3 @@
-import 'dart:math' as math;
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
@@ -8,7 +6,6 @@ import '../app/theme.dart';
 import '../controllers/home_controller.dart';
 import '../controllers/navigation_controller.dart';
 import '../controllers/settings_controller.dart';
-import '../core/app_config.dart';
 import '../core/medicine_form.dart';
 import '../core/navigation_mode.dart';
 import '../models/medicine.dart';
@@ -112,15 +109,12 @@ class HomeView extends StatelessWidget {
           child: ListView(
             padding: EdgeInsets.fromLTRB(
               16,
-              MediaQuery.paddingOf(context).top + 10,
+              10,
               16,
               GestureNavigation.shellContentBottomPadding(context),
             ),
             children: [
-              _Header(
-                onSearch: () => nav.goTo(1),
-                onScanPrescription: () => _scanPrescription(context),
-              ),
+              _HomeIntro(onScanPrescription: () => _scanPrescription(context)),
               const SizedBox(height: 12),
               _QuickTools(
                 syncing: home.syncing.value,
@@ -173,7 +167,7 @@ class HomeView extends StatelessWidget {
               const SafetyNotice(),
               const SizedBox(height: 10),
               Text(
-                '${AppConfig.appNameLatin} · সম্পূর্ণ অফলাইন · '
+                'PharmaPath · সম্পূর্ণ অফলাইন · '
                 'ইন্টারনেট শুধু ডেটা আপডেট ও AI মডেলের প্রথম ডাউনলোডে',
                 textAlign: TextAlign.center,
                 style: Theme.of(context).textTheme.labelSmall
@@ -192,113 +186,36 @@ class HomeView extends StatelessWidget {
 // ─────────────────────────────────────────────────────────────────────────────
 
 /// Gradient hero header with logo, greeting, and search launcher.
-class _Header extends StatefulWidget {
-  const _Header({required this.onSearch, required this.onScanPrescription});
+class _HomeIntro extends StatelessWidget {
+  const _HomeIntro({required this.onScanPrescription});
 
-  final VoidCallback onSearch;
   final VoidCallback onScanPrescription;
-
-  @override
-  State<_Header> createState() => _HeaderState();
-}
-
-class _HeaderState extends State<_Header> with SingleTickerProviderStateMixin {
-  late final AnimationController _ambient = AnimationController(
-    vsync: this,
-    duration: const Duration(seconds: 9),
-  )..repeat(reverse: true);
-
-  @override
-  void dispose() {
-    _ambient.dispose();
-    super.dispose();
-  }
 
   @override
   Widget build(BuildContext context) {
     final scheme = Theme.of(context).colorScheme;
     return Container(
       decoration: BoxDecoration(
-        gradient: AppTheme.heroGradient(context),
-        borderRadius: BorderRadius.circular(28),
-        boxShadow: [
-          BoxShadow(
-            color: scheme.primary.withValues(alpha: 0.2),
-            blurRadius: 24,
-            offset: const Offset(0, 8),
-          ),
-        ],
+        color: scheme.surfaceContainerHigh,
+        borderRadius: BorderRadius.circular(24),
+        border: Border.all(color: scheme.outlineVariant.withValues(alpha: .65)),
       ),
       clipBehavior: Clip.antiAlias,
       child: Stack(
         children: [
-          Positioned(
-            right: -44,
-            top: 72,
-            child: AnimatedBuilder(
-              animation: _ambient,
-              child: Container(
-                width: 156,
-                height: 156,
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  color: Colors.white.withValues(alpha: .07),
-                ),
-              ),
-              builder: (context, child) => Transform.translate(
-                offset: Offset(
-                  -10 * math.sin(_ambient.value * math.pi),
-                  12 * math.sin(_ambient.value * math.pi),
-                ),
-                child: child,
-              ),
-            ),
-          ),
-          Positioned(
-            right: 60,
-            top: -46,
-            child: AnimatedBuilder(
-              animation: _ambient,
-              child: Container(
-                width: 112,
-                height: 112,
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  color: Colors.white.withValues(alpha: .055),
-                ),
-              ),
-              builder: (context, child) => Transform.translate(
-                offset: Offset(
-                  12 * math.sin(_ambient.value * math.pi),
-                  -8 * math.sin(_ambient.value * math.pi),
-                ),
-                child: child,
-              ),
-            ),
-          ),
           Padding(
-            padding: const EdgeInsets.fromLTRB(18, 18, 18, 20),
+            padding: const EdgeInsets.fromLTRB(14, 12, 14, 12),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Row(
                   children: [
                     Container(
-                      width: 44,
-                      height: 44,
+                      width: 36,
+                      height: 36,
                       decoration: BoxDecoration(
+                        color: scheme.primaryContainer,
                         borderRadius: BorderRadius.circular(13),
-                        border: Border.all(
-                          color: Colors.white.withValues(alpha: 0.32),
-                          width: 1.5,
-                        ),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.black.withValues(alpha: 0.20),
-                            blurRadius: 8,
-                            offset: const Offset(0, 2),
-                          ),
-                        ],
                       ),
                       clipBehavior: Clip.antiAlias,
                       child: Image.asset('assets/LOGO.jpg', fit: BoxFit.cover),
@@ -309,21 +226,21 @@ class _HeaderState extends State<_Header> with SingleTickerProviderStateMixin {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            AppConfig.appName,
+                            'আজ কী জানতে চান?',
                             style: Theme.of(context).textTheme.titleLarge
                                 ?.copyWith(
                                   fontWeight: FontWeight.w800,
-                                  color: Colors.white,
+                                  color: scheme.onSurface,
                                   letterSpacing: -0.3,
                                   height: 1.1,
                                 ),
                           ),
                           const SizedBox(height: 1),
                           Text(
-                            AppConfig.tagline,
+                            'বাংলাদেশি ওষুধের তথ্য, সহজে ও অফলাইনে',
                             style: Theme.of(context).textTheme.labelSmall
                                 ?.copyWith(
-                                  color: Colors.white.withValues(alpha: 0.80),
+                                  color: scheme.onSurfaceVariant,
                                   letterSpacing: 0.1,
                                 ),
                           ),
@@ -336,25 +253,23 @@ class _HeaderState extends State<_Header> with SingleTickerProviderStateMixin {
                         vertical: 6,
                       ),
                       decoration: BoxDecoration(
-                        color: Colors.white.withValues(alpha: .15),
+                        color: scheme.primaryContainer,
                         borderRadius: BorderRadius.circular(20),
-                        border: Border.all(
-                          color: Colors.white.withValues(alpha: .22),
-                        ),
+                        border: Border.all(color: scheme.outlineVariant),
                       ),
-                      child: const Row(
+                      child: Row(
                         mainAxisSize: MainAxisSize.min,
                         children: [
                           Icon(
                             Icons.storage_rounded,
                             size: 13,
-                            color: Colors.white,
+                            color: scheme.primary,
                           ),
                           SizedBox(width: 4),
                           Text(
                             'স্থানীয় ডেটা',
                             style: TextStyle(
-                              color: Colors.white,
+                              color: scheme.onPrimaryContainer,
                               fontSize: 10,
                               fontWeight: FontWeight.w700,
                             ),
@@ -364,28 +279,10 @@ class _HeaderState extends State<_Header> with SingleTickerProviderStateMixin {
                     ),
                   ],
                 ),
-                const SizedBox(height: 22),
-                Text(
-                  'আজ কী জানতে চান?',
-                  style: Theme.of(context).textTheme.headlineSmall?.copyWith(
-                    fontWeight: FontWeight.w800,
-                    color: Colors.white,
-                    height: 1.15,
-                    letterSpacing: -0.3,
-                  ),
-                ),
-                const SizedBox(height: 4),
-                Text(
-                  'ওষুধের তথ্য, রোগের পাঠ ও কুইজ — ইন্টারনেট ছাড়াই।',
-                  style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                    color: Colors.white.withValues(alpha: 0.85),
-                    height: 1.4,
-                  ),
-                ),
-                const SizedBox(height: 16),
+                const SizedBox(height: 14),
                 _SearchPill(
-                  onTap: widget.onSearch,
-                  onScanPrescription: widget.onScanPrescription,
+                  onTap: () => Get.find<NavigationController>().goTo(1),
+                  onScanPrescription: onScanPrescription,
                 ),
               ],
             ),
@@ -415,7 +312,7 @@ class _SearchPill extends StatelessWidget {
               onTap: onTap,
               borderRadius: BorderRadius.circular(14),
               child: SizedBox(
-                height: 54,
+                height: 48,
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 12),
                   child: Row(
@@ -454,18 +351,16 @@ class _SearchPill extends StatelessWidget {
                 onTap: onScanPrescription,
                 borderRadius: BorderRadius.circular(18),
                 child: Ink(
-                  width: 54,
-                  height: 54,
+                  width: 48,
+                  height: 48,
                   decoration: BoxDecoration(
-                    color: Colors.white.withValues(alpha: .18),
-                    borderRadius: BorderRadius.circular(18),
-                    border: Border.all(
-                      color: Colors.white.withValues(alpha: .3),
-                    ),
+                    color: scheme.primaryContainer,
+                    borderRadius: BorderRadius.circular(16),
+                    border: Border.all(color: scheme.outlineVariant),
                   ),
-                  child: const Icon(
+                  child: Icon(
                     Icons.document_scanner_rounded,
-                    color: Colors.white,
+                    color: scheme.onPrimaryContainer,
                     size: 23,
                   ),
                 ),

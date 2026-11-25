@@ -52,17 +52,10 @@ class _SearchViewState extends State<SearchView> {
     final scheme = Theme.of(context).colorScheme;
     return Scaffold(
       backgroundColor: Colors.transparent,
-      appBar: AppBar(
-        title: const Text(
-          'ঔষধ খুঁজুন',
-          style: TextStyle(fontWeight: FontWeight.w700),
-        ),
-        centerTitle: false,
-      ),
       body: Column(
         children: [
           Padding(
-            padding: const EdgeInsets.fromLTRB(16, 4, 16, 10),
+            padding: const EdgeInsets.fromLTRB(16, 10, 16, 10),
             child: Container(
               decoration: BoxDecoration(
                 color: Theme.of(context).brightness == Brightness.dark

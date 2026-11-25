@@ -100,12 +100,10 @@ PharmaPath একটি বাংলা-প্রথম Android অ্যাপ�
 
 ```powershell
 flutter pub get
-flutter build apk --release `
-  --dart-define=GITHUB_REPOSITORY_OWNER=shahinrezasifat `
-  --dart-define=GITHUB_REPOSITORY_NAME=pharmapath-app
+flutter build apk --release
 ```
 
-APK তৈরি হবে `build/app/outputs/flutter-apk/app-release.apk`-এ। Android-এর ইন-প্লেস আপডেটের জন্য একই application ID এবং release signing key ধরে রাখুন। ভবিষ্যৎ GitHub Release-এ `pubspec.yaml`-এর version বাড়িয়ে APK যুক্ত করুন। স্বয়ংক্রিয় release workflow ব্যবহার করলে repository Actions-এ `ANDROID_KEYSTORE_BASE64` ও `ANDROID_KEY_PROPERTIES` secrets সেট করুন; signing key কখনো repository-তে commit করবেন না।
+APK তৈরি হবে `build/app/outputs/flutter-apk/app-release.apk`-এ। আপডেট চেকার ডিফল্টভাবে এই repository-র Release দেখে; fork করলে `GITHUB_REPOSITORY_OWNER` ও `GITHUB_REPOSITORY_NAME` dart-define দিয়ে বদলান। Android-এর ইন-প্লেস আপডেটের জন্য একই application ID এবং release signing key ধরে রাখুন। ভবিষ্যৎ GitHub Release-এ `pubspec.yaml`-এর version বাড়িয়ে APK যুক্ত করুন। স্বয়ংক্রিয় release workflow ব্যবহার করলে repository Actions-এ `ANDROID_KEYSTORE_BASE64` ও `ANDROID_KEY_PROPERTIES` secrets সেট করুন; signing key কখনো repository-তে commit করবেন না।
 
 **প্ল্যাটফর্ম:** Android · **Application ID:** `com.pharmapath.pharmapath_app` · **লাইসেন্স:** repository-তে উল্লেখিত প্রকল্পের লাইসেন্স ও তৃতীয় পক্ষের ডেটা-লাইসেন্স যাচাই করুন।
 

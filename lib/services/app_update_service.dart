@@ -8,6 +8,8 @@ import 'package:package_info_plus/package_info_plus.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import '../core/app_config.dart';
+
 class AppRelease {
   const AppRelease({
     required this.version,
@@ -49,10 +51,8 @@ class AppRelease {
 class AppUpdateService {
   AppUpdateService({http.Client? client}) : _client = client ?? http.Client();
 
-  static const _owner = String.fromEnvironment('GITHUB_REPOSITORY_OWNER');
-  static const _repository = String.fromEnvironment(
-    'GITHUB_REPOSITORY_NAME',
-  );
+  static const _owner = AppConfig.githubOwner;
+  static const _repository = AppConfig.githubRepository;
   static const _installer = MethodChannel('pharmapath/app_installer');
 
   final http.Client _client;

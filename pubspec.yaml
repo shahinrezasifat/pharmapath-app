@@ -1,7 +1,7 @@
 name: pharmapath_app
 description: "PharmaPath — বাংলাদেশি ওষুধের তথ্য ও শেখার অফলাইন-ফার্স্ট অ্যাপ।"
 publish_to: 'none'
-version: 2.0.1+3
+version: 2.0.2+4
 
 environment:
   sdk: ^3.13.5

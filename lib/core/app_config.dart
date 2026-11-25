@@ -5,14 +5,14 @@ abstract final class AppConfig {
   static const String appName = 'ফার্মাপাথ';
   static const String appNameLatin = 'PharmaPath';
   static const String tagline = 'ওষুধ জানুন। ভালো বুঝুন।';
-  static const String version = '2.0.1';
+  static const String version = '2.0.2';
   static const String githubOwner = String.fromEnvironment(
     'GITHUB_REPOSITORY_OWNER',
-    defaultValue: '',
+    defaultValue: 'shahinrezasifat',
   );
   static const String githubRepository = String.fromEnvironment(
     'GITHUB_REPOSITORY_NAME',
-    defaultValue: '',
+    defaultValue: 'pharmapath-app',
   );
 
   /// Not a hosted service: this is the FastAPI server from

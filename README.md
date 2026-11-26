@@ -85,7 +85,7 @@ PharmaPath একটি বাংলা-প্রথম Android অ্যাপ�
 
 ## ডাউনলোড ও আপডেট
 
-**বর্তমান সংস্করণ: 2.0.4** · [সর্বশেষ GitHub Release থেকে APK নিন](https://github.com/shahinrezasifat/pharmapath-app/releases/latest)
+**বর্তমান সংস্করণ: 2.0.5** · [সর্বশেষ GitHub Release থেকে APK নিন](https://github.com/shahinrezasifat/pharmapath-app/releases/latest)
 
 অ্যাপ চালু হলেই ইন্টারনেট দিয়ে GitHub-এর সর্বশেষ প্রকাশিত সংস্করণ যাচাই হয়। নতুন সংস্করণ থাকলে আপডেটের পর্দা আসবে এবং আপডেট ইনস্টল না করা পর্যন্ত অ্যাপের বাকি অংশে যাওয়া যাবে না। APK অ্যাপের ভেতর থেকেই ডাউনলোড হয়। প্রথমবার Android এই উৎস থেকে ইনস্টল করার অনুমতি চাইতে পারে; তারপর Android installer-এ Update নিশ্চিত করতে হবে। আপডেট যাচাই ও ডাউনলোডে ইন্টারনেট লাগে।
 
@@ -106,6 +106,7 @@ flutter build apk --release
 APK তৈরি হবে `build/app/outputs/flutter-apk/app-release.apk`-এ। আপডেট চেকার ডিফল্টভাবে এই repository-র Release দেখে; fork করলে `GITHUB_REPOSITORY_OWNER` ও `GITHUB_REPOSITORY_NAME` dart-define দিয়ে বদলান। Android-এর ইন-প্লেস আপডেটের জন্য একই application ID এবং release signing key ধরে রাখুন। ভবিষ্যৎ GitHub Release-এ `pubspec.yaml`-এর version বাড়িয়ে APK যুক্ত করুন। স্বয়ংক্রিয় release workflow ব্যবহার করলে repository Actions-এ `ANDROID_KEYSTORE_BASE64` ও `ANDROID_KEY_PROPERTIES` secrets সেট করুন; signing key কখনো repository-তে commit করবেন না।
 
 **প্ল্যাটফর্ম:** Android · **Application ID:** `com.pharmapath.pharmapath_app` · **লাইসেন্স:** repository-তে উল্লেখিত প্রকল্পের লাইসেন্স ও তৃতীয় পক্ষের ডেটা-লাইসেন্স যাচাই করুন।
+
 
 
 

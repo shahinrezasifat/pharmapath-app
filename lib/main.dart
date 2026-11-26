@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:get/get.dart';
 import 'package:ai_doctor_module/ai_doctor.dart';
 
@@ -173,73 +174,107 @@ class _UpdateAwareShell extends StatefulWidget {
   State<_UpdateAwareShell> createState() => _UpdateAwareShellState();
 }
 
-class _UpdateAwareShellState extends State<_UpdateAwareShell> {
-  bool _checking = kReleaseMode;
+class _UpdateAwareShellState extends State<_UpdateAwareShell>
+    with WidgetsBindingObserver {
+  StreamSubscription<List<ConnectivityResult>>? _connectivitySubscription;
+  Timer? _connectivityDebounce;
+  Timer? _retryTimer;
+  Timer? _failureRetryTimer;
   bool _updateRequired = false;
-  String? _checkError;
+  bool _checkInProgress = false;
+  DateTime? _lastCheckStartedAt;
+  Duration _failureRetryDelay = const Duration(minutes: 1);
 
   @override
   void initState() {
     super.initState();
+    WidgetsBinding.instance.addObserver(this);
     if (kReleaseMode) {
-      WidgetsBinding.instance.addPostFrameCallback((_) => _checkForUpdate());
+      WidgetsBinding.instance.addPostFrameCallback((_) => _startUpdateChecks());
     }
   }
 
-  Future<void> _checkForUpdate() async {
-    if (!kReleaseMode) {
-      if (mounted) {
-        setState(() {
-          _checking = false;
-          _updateRequired = false;
-          _checkError = null;
-        });
-      }
+  void _startUpdateChecks() {
+    _connectivitySubscription = Connectivity().onConnectivityChanged.listen(
+      (results) {
+        // Android routes HTTP over Wi-Fi, mobile data, or an active VPN. A
+        // short debounce lets those routes settle before calling GitHub.
+        if (results.any((result) => result != ConnectivityResult.none)) {
+          _connectivityDebounce?.cancel();
+          _connectivityDebounce = Timer(const Duration(seconds: 2), () {
+            _failureRetryTimer?.cancel();
+            _checkForUpdateInBackground(force: true);
+          });
+        }
+      },
+      onError: (Object error) =>
+          debugPrint('PharmaPath connectivity monitor failed: $error'),
+    );
+
+    // If GitHub was temporarily unreachable while the network stayed up,
+    // retry periodically while the app is open.
+    _retryTimer = Timer.periodic(
+      const Duration(minutes: 10),
+      (_) => _checkForUpdateInBackground(),
+    );
+    _checkForUpdateInBackground();
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    if (state == AppLifecycleState.resumed) {
+      _checkForUpdateInBackground();
+    }
+  }
+
+  Future<void> _checkForUpdateInBackground({bool force = false}) async {
+    if (!mounted || !kReleaseMode || _checkInProgress || _updateRequired) {
       return;
     }
-    final updater = Get.find<AppUpdateService>();
-    if (!updater.isConfigured) {
-      setState(() {
-        _checking = false;
-        _checkError = 'এই অ্যাপের GitHub repository কনফিগার করা নেই।';
-      });
+    final now = DateTime.now();
+    final lastStarted = _lastCheckStartedAt;
+    if (!force &&
+        lastStarted != null &&
+        now.difference(lastStarted) < const Duration(minutes: 1)) {
       return;
     }
+    _lastCheckStartedAt = now;
+    _checkInProgress = true;
     try {
-      final release = await updater.checkForUpdate();
-      if (!mounted) return;
-      setState(() {
-        _checking = false;
-        _updateRequired = release != null;
-        _checkError = null;
-      });
-    } catch (error) {
-      debugPrint('PharmaPath update check failed: $error');
-      if (mounted) {
-        setState(() {
-          _checking = false;
-          _checkError = 'আপডেট যাচাই করা যায়নি। ইন্টারনেট সংযোগ পরীক্ষা করে আবার চেষ্টা করুন।';
-        });
+      final release = await Get.find<AppUpdateService>().checkForUpdate();
+      _failureRetryTimer?.cancel();
+      _failureRetryDelay = const Duration(minutes: 1);
+      if (mounted && release != null) {
+        setState(() => _updateRequired = true);
       }
+    } catch (error) {
+      // An update check must never block app entry or show a network error.
+      debugPrint('PharmaPath update check failed: $error');
+      _failureRetryTimer?.cancel();
+      _failureRetryTimer = Timer(
+        _failureRetryDelay,
+        _checkForUpdateInBackground,
+      );
+      _failureRetryDelay = Duration(
+        minutes: (_failureRetryDelay.inMinutes * 2).clamp(1, 30).toInt(),
+      );
+    } finally {
+      _checkInProgress = false;
     }
   }
 
   @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    _connectivityDebounce?.cancel();
+    _retryTimer?.cancel();
+    _failureRetryTimer?.cancel();
+    _connectivitySubscription?.cancel();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    if (_checking) {
-      return const Scaffold(
-        body: Center(
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              CircularProgressIndicator(),
-              SizedBox(height: 16),
-              Text('আপডেট খোঁজা হচ্ছে…'),
-            ],
-          ),
-        ),
-      );
-    }
     if (_updateRequired) {
       return Scaffold(
         body: Center(
@@ -249,33 +284,6 @@ class _UpdateAwareShellState extends State<_UpdateAwareShell> {
             onInstalled: () {
               if (mounted) setState(() => _updateRequired = false);
             },
-          ),
-        ),
-      );
-    }
-    if (_checkError != null) {
-      return Scaffold(
-        body: Center(
-          child: Padding(
-            padding: const EdgeInsets.all(24),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                const Icon(Icons.cloud_off_rounded, size: 42),
-                const SizedBox(height: 16),
-                Text(_checkError!, textAlign: TextAlign.center),
-                const SizedBox(height: 16),
-                FilledButton.icon(
-                  onPressed: () => setState(() {
-                    _checking = true;
-                    _checkError = null;
-                    _checkForUpdate();
-                  }),
-                  icon: const Icon(Icons.refresh_rounded),
-                  label: const Text('আবার চেষ্টা করুন'),
-                ),
-              ],
-            ),
           ),
         ),
       );
@@ -320,7 +328,9 @@ class _UpdateDialogState extends State<_UpdateDialog> {
       if (mounted && !Platform.isAndroid) widget.onInstalled();
     } on MissingPluginException {
       if (mounted) {
-        setState(() => _error = 'এই Android সংস্করণে ইন-অ্যাপ ইনস্টল সমর্থিত নয়।');
+        setState(
+          () => _error = 'এই Android সংস্করণে ইন-অ্যাপ ইনস্টল সমর্থিত নয়।',
+        );
       }
     } on AppInstallPermissionRequired {
       if (mounted) setState(() => _permissionRequired = true);
@@ -333,7 +343,8 @@ class _UpdateDialogState extends State<_UpdateDialog> {
 
   @override
   Widget build(BuildContext context) {
-    final isAndroid = !kIsWeb && defaultTargetPlatform == TargetPlatform.android;
+    final isAndroid =
+        !kIsWeb && defaultTargetPlatform == TargetPlatform.android;
     final canInstall = isAndroid && widget.release.apkUrl != null;
     final notes = widget.release.notes;
     return AlertDialog(
@@ -363,7 +374,10 @@ class _UpdateDialogState extends State<_UpdateDialog> {
               ],
               if (_error != null) ...[
                 const SizedBox(height: 12),
-                Text(_error!, style: TextStyle(color: Theme.of(context).colorScheme.error)),
+                Text(
+                  _error!,
+                  style: TextStyle(color: Theme.of(context).colorScheme.error),
+                ),
               ],
             ],
           ),
